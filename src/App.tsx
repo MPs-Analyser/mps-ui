@@ -5,11 +5,11 @@ import './App.css'
 
 import ky from 'ky-universal';
 
-
 function App() {
 
   const [names, setNames] = useState([]);
   const [details, seDetails] = useState();
+  const [votingSimilarity, setVotingSimilarity] = useState();
 
   const getMpNames = async () => {
     console.log('get names');
@@ -70,6 +70,12 @@ function App() {
     )
   }
 
+  const onGetVotingSimilarity = async () => {
+    const result = await ky(`http://localhost:8000/votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
+    console.log('votingSimilarity ', result);
+    setVotingSimilarity(result);
+  }
+
   return (
 
     <main>
@@ -80,7 +86,7 @@ function App() {
         </button>
 
       </header>
-      <section>
+      <div className="autoComplete">
 
         <ReactSearchAutocomplete
           items={names}
@@ -92,10 +98,11 @@ function App() {
           formatResult={formatResult}
         />
 
-      </section>
+      </div>
+
       {details && (
         <section className="details">
-          
+
           <img src={`${details.value?.thumbnailUrl}`} />
 
           <div className="details__overview">
@@ -113,12 +120,30 @@ function App() {
             </table>
           </div>
 
-          <div className="details__options">
-            <button>Most Similar Voting Mps</button>
+          <div className="details__actions">
+            <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
             <button>Least Similar Voting Mps</button>
           </div>
 
         </section>
+      )}
+
+      {votingSimilarity && (
+        <table>
+          <tbody>
+            {
+              votingSimilarity.records.map((record, index) => (
+                <tr key={index}>
+                  <td>{index}</td>
+                  <td>{record._fields[0]}</td>
+                  <td>{record._fields[1]}</td>
+                  <td>{record._fields[2]}</td>
+                </tr>
+                ))
+            }
+          </tbody>
+        </table>
+
       )}
 
     </main>
