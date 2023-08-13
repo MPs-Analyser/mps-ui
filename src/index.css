@@ -100,6 +100,11 @@ article {
   padding: 2em;  
 }
 
+.table__similarity td, th {
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
 /* lg */
 @media (min-width: 1024px) {
   .details {    

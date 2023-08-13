@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
 
-import About from './About';
 import ky from 'ky-universal';
 
 function Mp() {
@@ -114,10 +113,16 @@ function Mp() {
       )}
 
       {votingSimilarity && (
-        <table>
+        <table className='table__similarity'>
           <tbody>
+            <tr>
+              <th>#</th>
+              <th>This Mp</th>
+              <th>Other Mp</th>
+              <th>Similarity</th>
+            </tr>
             {
-              votingSimilarity.records.map((record, index) => (
+              votingSimilarity.records.map((record, index) => (                
                 <tr key={index}>
                   <td>{index}</td>
                   <td>{record._fields[0]}</td>
