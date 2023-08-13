@@ -32,3 +32,27 @@ header {
   padding: 0;
   box-sizing: border-box;
 }
+
+.details {
+  display: grid;
+}
+
+.details__options {
+  display: flex;
+  gap: 1em;
+  padding: .5em;
+}
+
+img {
+  width: 100%;
+}
+
+button {
+  display: inline-block;  
+  cursor: pointer;
+  color: inherit;
+}
+
+th {
+  text-align: start;
+}

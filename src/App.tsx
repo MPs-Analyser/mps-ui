@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
@@ -9,12 +9,11 @@ import ky from 'ky-universal';
 function App() {
 
   const [names, setNames] = useState([]);
+  const [details, seDetails] = useState();
 
   const getMpNames = async () => {
-    console.log('get names');        
-    const result = await ky('http://localhost:8000/mpnames').json();    
-    console.log('result is ', result);
-    // @ts-ignore
+    console.log('get names');
+    const result = await ky('http://localhost:8000/mpnames').json();
     setNames(result);
   }
 
@@ -36,30 +35,32 @@ function App() {
     }
   };
 
-  // @ts-ignore
-  const handleOnSearch = (string: string, results) => {
+  const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     console.log(string, results)
   }
 
-  // @ts-ignore
   const handleOnHover = (result) => {
     // the item hovered
     console.log(result)
   }
 
-  // @ts-ignore
-  const handleOnSelect = (item) => {
+  const handleOnSelect = async (item) => {
     // the item selected
-    console.log(item)
+    console.log('select', item)
+
+    const result = await ky(`https://members-api.parliament.uk/api/Members/${item.id}`).json();
+
+    console.log('result ', result);
+    seDetails(result);
+
   }
 
   const handleOnFocus = () => {
     console.log('Focused')
   }
 
-  // @ts-ignore
   const formatResult = (item) => {
     return (
       <>
@@ -81,19 +82,45 @@ function App() {
       </header>
       <section>
 
-        
-          <ReactSearchAutocomplete
-            items={names}
-            onSearch={handleOnSearch}
-            onHover={handleOnHover}
-            onSelect={handleOnSelect}
-            onFocus={handleOnFocus}
-            autoFocus
-            formatResult={formatResult}
-          />
-        
+        <ReactSearchAutocomplete
+          items={names}
+          onSearch={handleOnSearch}
+          onHover={handleOnHover}
+          onSelect={handleOnSelect}
+          onFocus={handleOnFocus}
+          autoFocus
+          formatResult={formatResult}
+        />
 
       </section>
+      {details && (
+        <section className="details">
+          
+          <img src={`${details.value?.thumbnailUrl}`} />
+
+          <div className="details__overview">
+            <table>
+              <tbody>
+                <tr>
+                  <th>Party</th>
+                  <td>{details.value.latestParty?.name}</td>
+                </tr>
+                <tr>
+                  <th>Constituency</th>
+                  <td>{details.value.latestHouseMembership?.membershipFrom}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="details__options">
+            <button>Most Similar Voting Mps</button>
+            <button>Least Similar Voting Mps</button>
+          </div>
+
+        </section>
+      )}
+
     </main>
   )
 }
