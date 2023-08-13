@@ -1,16 +1,13 @@
 // @ts-nocheck
 import { useState, useEffect } from 'react'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
 
-import About  from './About';
+import Mp from './Mp';
+import About from './About';
 import ky from 'ky-universal';
 
 function App() {
 
-  const [names, setNames] = useState([]);
-  const [details, seDetails] = useState();
-  const [votingSimilarity, setVotingSimilarity] = useState();
   const [page, setPage] = useState('home');
 
   const getMpNames = async () => {
@@ -37,47 +34,6 @@ function App() {
     }
   };
 
-  const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results)
-  }
-
-  const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result)
-  }
-
-  const handleOnSelect = async (item) => {
-    // the item selected
-    console.log('select', item)
-
-    const result = await ky(`https://members-api.parliament.uk/api/Members/${item.id}`).json();
-
-    console.log('result ', result);
-    seDetails(result);
-
-  }
-
-  const handleOnFocus = () => {
-    console.log('Focused')
-  }
-
-  const formatResult = (item) => {
-    return (
-      <>
-        <span style={{ display: 'block', textAlign: 'left' }}>id: {item.id}</span>
-        <span style={{ display: 'block', textAlign: 'left' }}>name: {item.name}</span>
-      </>
-    )
-  }
-
-  const onGetVotingSimilarity = async () => {
-    const result = await ky(`http://localhost:8000/votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
-    console.log('votingSimilarity ', result);
-    setVotingSimilarity(result);
-  }
-
   return (
 
     <main>
@@ -88,7 +44,7 @@ function App() {
         <div className='buttons'>
 
           <button className="header__button" onClick={() => setPage('home')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h18v-10h3zm-5 8h-14v-10.26l7-6.912 7 6.99v10.182zm-5-1h-4v-6h4v6z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h18v-10h3zm-5 8h-14v-10.26l7-6.912 7 6.99v10.182zm-5-1h-4v-6h4v6z" /></svg>
           </button>
 
           <button className="header__button" onClick={() => setPage('about')}>
@@ -102,72 +58,10 @@ function App() {
       </header>
 
       {page === 'home' && (
-        <>
-          <div className="autoComplete">
-
-            <ReactSearchAutocomplete
-              items={names}
-              onSearch={handleOnSearch}
-              onHover={handleOnHover}
-              onSelect={handleOnSelect}
-              onFocus={handleOnFocus}
-              autoFocus
-              formatResult={formatResult}
-              placeholder='Start typing to select an MP'
-            />
-
-          </div>
-
-          {details && (
-
-            <section className="details">
-
-              <img src={`${details.value?.thumbnailUrl}`} />
-
-              <div className="details__overview">
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Party</th>
-                      <td>{details.value.latestParty?.name}</td>
-                    </tr>
-                    <tr>
-                      <th>Constituency</th>
-                      <td>{details.value.latestHouseMembership?.membershipFrom}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="details__actions">
-                <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
-                <button>Least Similar Voting Mps</button>
-              </div>
-
-            </section>
-          )}
-
-          {votingSimilarity && (
-            <table>
-              <tbody>
-                {
-                  votingSimilarity.records.map((record, index) => (
-                    <tr key={index}>
-                      <td>{index}</td>
-                      <td>{record._fields[0]}</td>
-                      <td>{record._fields[1]}</td>
-                      <td>{record._fields[2]}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-
-          )}
-        </>
+        <Mp />
       )}
 
-    {page === 'about' && <About />}
+      {page === 'about' && <About />}
 
     </main>
   )
