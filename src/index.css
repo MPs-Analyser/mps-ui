@@ -23,8 +23,13 @@ body {
 header {
   border: 1px solid;  
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;   
+  padding: .5em .5em .5em 1em;
+}
 
+header h3 {
+  /* margin-left:1em;
+  display: inline-block; */
 }
 
 * { 
@@ -55,6 +60,8 @@ button {
   cursor: pointer;
   color: inherit;
   padding: .5em;  
+  color: var(--clr-dark);  
+  background-color: var(--clr-light);  
 }
 
 th,
@@ -75,6 +82,22 @@ th {
   display: flex;
   flex-direction: column;
   gap: .5em;
+}
+
+.header__button {
+  background-color: white;
+  padding: .1em;
+  border-radius: 50%;
+  border: none;
+}
+
+.buttons {
+  display: flex;
+  gap: .5em;
+}
+
+article {
+  padding: 2em;  
 }
 
 /* lg */
