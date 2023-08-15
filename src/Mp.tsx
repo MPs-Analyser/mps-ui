@@ -3,14 +3,14 @@ import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
 
-import VotingHistoryTable from './VotingHistoryTable';
+import VotingHistory from './VotingHistory';
 
 import ky from 'ky-universal';
 
 function Mp() {
 
   const [names, setNames] = useState([]);
-  const [details, seDetails] = useState();
+  const [details, seDetails] = useState({});
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
 
@@ -21,9 +21,6 @@ function Mp() {
   }
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    theme && document.body.classList.add(theme);
-    console.log('theme is ', theme);
     getMpNames();
   }, []);
 
@@ -40,6 +37,7 @@ function Mp() {
 
   const handleOnSelect = async (item) => {
     // the item selected
+    seDetails(undefined);
     console.log('select', item)
 
     const result = await ky(`https://members-api.parliament.uk/api/Members/${item.id}`).json();
@@ -69,6 +67,8 @@ function Mp() {
   }
 
   const onGetVotingHistory = async () => {
+
+    setVotingHistory({ isInProgress: true })
 
 
     const allResults = [];
@@ -111,8 +111,14 @@ function Mp() {
 
       </div>
 
+      {!details && (
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '2em' }}>
+          <progress value={null} />
+        </div>
+      )}
 
-      {details && (
+
+      {details && details.value && (
 
         <section className="details">
 
@@ -186,15 +192,24 @@ function Mp() {
 
       )}
 
-      {votingHistory && (
-        <>
-          <div>
+      {votingHistory && votingHistory.isInProgress && (
+        <div className="votingHistoryProgress">
+          <progress value={null} />
+          <p>Analysing voting history...</p>
+        </div>
+      )}
+
+
+      {votingHistory && !votingHistory.isInProgress && (
+        <div className='votingHistoryWrapper'>
+          
+          <div className='votingHistoryWrapper__summarise' >
             <button>Summarise Voting History</button>
             <span>Send table data to AI to sumarise</span>
           </div>
-          
-          <VotingHistoryTable votingHistory={votingHistory} />
-        </>
+
+          <VotingHistory votingHistory={votingHistory} />
+        </div>
 
       )}
     </>

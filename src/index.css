@@ -105,6 +105,26 @@ article {
   padding-right: .5em;
 }
 
+.votingHistoryProgress {
+  width: 100%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.votingHistoryWrapper {
+  padding: 1em;
+}
+
+.votingHistoryWrapper__summarise {
+  margin-bottom: .3em;
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
+
 /* lg */
 @media (min-width: 1024px) {
   .details {    

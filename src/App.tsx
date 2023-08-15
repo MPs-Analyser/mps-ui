@@ -4,23 +4,14 @@ import './App.css'
 
 import Mp from './Mp';
 import About from './About';
-import ky from 'ky-universal';
 
 function App() {
 
   const [page, setPage] = useState('home');
 
-  const getMpNames = async () => {
-    console.log('get names');
-    const result = await ky('http://localhost:8000/mpnames').json();
-    setNames(result);
-  }
-
   useEffect(() => {
     const theme = localStorage.getItem('theme');
-    theme && document.body.classList.add(theme);
-    console.log('theme is ', theme);
-    getMpNames();
+    theme && document.body.classList.add(theme);    
   }, []);
 
   const handleThemeToggle = () => {
