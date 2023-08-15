@@ -53,14 +53,17 @@ const columns = [
   columnHelper.accessor('PublishedDivision.Title', {
     cell: info => info.getValue(),
     footer: info => info.column.id,
+    header: 'Vote Title'
   }),
   columnHelper.accessor('PublishedDivision.Date', {
     cell: info => info.getValue(),
     footer: info => info.column.id,
+    header: 'Date'
   }),
   columnHelper.accessor('MemberVotedAye', {
     cell: info => JSON.stringify(info.getValue()),
     footer: info => info.column.id,
+    header: 'Voted for'
   }),
 
 

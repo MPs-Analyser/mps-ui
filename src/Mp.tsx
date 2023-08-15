@@ -186,37 +186,15 @@ function Mp() {
 
       )}
 
-
-
       {votingHistory && (
-
-        <VotingHistoryTable votingHistory={votingHistory} />
-
-        // <table className='table__voting-history'>
-        //   <tbody>
-        //     <tr>
-        //       <th>#</th>
-        //       <th>MemberVotedAye</th>
-        //       <th>Date</th>
-        //       <th>Title</th>
-        //       <th colSpan={3}>Actions</th>
-        //     </tr>
-        //     {
-        //       votingHistory.map((record, index) => (
-        //         <tr key={index}>
-        //           <td>{index}</td>
-        //           <td>{JSON.stringify(record.MemberVotedAye)}</td>
-        //           <td>{record.PublishedDivision.Date}</td>
-        //           <td>{record.PublishedDivision.Title}</td>
-        //           <td><button>Division Details</button></td>
-        //           <td><button>MPs who voted AYE</button></td>
-        //           <td><button>MPs who voted NO</button></td>
-
-        //         </tr>
-        //       ))
-        //     }
-        //   </tbody>
-        // </table>
+        <>
+          <div>
+            <button>Summarise Voting History</button>
+            <span>Send table data to AI to sumarise</span>
+          </div>
+          
+          <VotingHistoryTable votingHistory={votingHistory} />
+        </>
 
       )}
     </>
