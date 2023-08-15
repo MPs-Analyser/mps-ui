@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
 
+import VotingHistoryTable from './VotingHistoryTable';
+
 import ky from 'ky-universal';
 
 function Mp() {
 
   const [names, setNames] = useState([]);
   const [details, seDetails] = useState();
-  const [votingSimilarity, setVotingSimilarity] = useState();  
+  const [votingSimilarity, setVotingSimilarity] = useState();
+  const [votingHistory, setVotingHistory] = useState();
 
   const getMpNames = async () => {
     console.log('get names');
@@ -65,6 +68,30 @@ function Mp() {
     setVotingSimilarity(result);
   }
 
+  const onGetVotingHistory = async () => {
+
+
+    const allResults = [];
+    let moreResultsAvailable = true;
+    let skip = 0;
+
+    while (moreResultsAvailable) {
+
+      const result = await ky(`https://commonsvotes-api.parliament.uk/data/divisions.json/membervoting?queryParameters.memberId=${details?.value?.id}&queryParameters.skip=${skip}&queryParameters.take=25`).json();
+      console.log('votinghistory ', result);
+      if (result && result.length) {
+        allResults.push(...result);
+        skip = skip + 25;
+      } else {
+        moreResultsAvailable = false;
+      }
+
+    }
+
+    console.log('allResults ', allResults);
+    setVotingHistory(allResults);
+  }
+
   return (
 
     <>
@@ -82,6 +109,7 @@ function Mp() {
         />
 
       </div>
+      
 
       {details && (
 
@@ -93,12 +121,32 @@ function Mp() {
             <table>
               <tbody>
                 <tr>
+                  <th>ID</th>
+                  <td>{details.value.id}</td>
+                </tr>
+                <tr>
                   <th>Party</th>
                   <td>{details.value.latestParty?.name}</td>
                 </tr>
                 <tr>
                   <th>Constituency</th>
                   <td>{details.value.latestHouseMembership?.membershipFrom}</td>
+                </tr>
+                <tr>
+                  <th>House</th>
+                  <td>{details.value.latestHouseMembership?.house === 1 ? 'Commons' : 'Lords'}</td>
+                </tr>
+                <tr>
+                  <th>Member Since</th>
+                  <td>{details.value.latestHouseMembership?.membershipStartDate}</td>
+                </tr>
+                <tr>
+                  <th>Status</th>
+                  <td>{details.value.latestHouseMembership?.membershipStatus ? `Active` : `Inactive`}</td>
+                </tr>
+                <tr>
+                  <th>Status Description</th>
+                  <td>{details.value.latestHouseMembership?.membershipStatus.statusDescription}</td>
                 </tr>
               </tbody>
             </table>
@@ -107,6 +155,7 @@ function Mp() {
           <div className="details__actions">
             <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
             <button>Least Similar Voting Mps</button>
+            <button onClick={onGetVotingHistory}>Voting History</button>
           </div>
 
         </section>
@@ -122,12 +171,44 @@ function Mp() {
               <th>Similarity</th>
             </tr>
             {
-              votingSimilarity.records.map((record, index) => (                
+              votingSimilarity.records.map((record, index) => (
                 <tr key={index}>
                   <td>{index}</td>
                   <td>{record._fields[0]}</td>
                   <td>{record._fields[1]}</td>
                   <td>{record._fields[2]}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+      )}
+
+      <VotingHistoryTable />
+
+      {votingHistory && (
+
+        <table className='table__voting-history'>
+          <tbody>
+            <tr>
+              <th>#</th>
+              <th>MemberVotedAye</th>
+              <th>Date</th>
+              <th>Title</th>
+              <th colSpan={3}>Actions</th>
+            </tr>
+            {
+              votingHistory.map((record, index) => (
+                <tr key={index}>
+                  <td>{index}</td>
+                  <td>{JSON.stringify(record.MemberVotedAye)}</td>
+                  <td>{record.PublishedDivision.Date}</td>
+                  <td>{record.PublishedDivision.Title}</td>
+                  <td><button>Division Details</button></td>
+                  <td><button>MPs who voted AYE</button></td>
+                  <td><button>MPs who voted NO</button></td>
+
                 </tr>
               ))
             }
