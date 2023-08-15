@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as React from 'react'
 
 import './index.css'
@@ -49,33 +48,39 @@ const defaultData: Person[] = [
 const columnHelper = createColumnHelper<Person>()
 
 const columns = [
-
-  columnHelper.accessor('PublishedDivision.Title', {
+  columnHelper.accessor('firstName', {
     cell: info => info.getValue(),
     footer: info => info.column.id,
   }),
-  columnHelper.accessor('PublishedDivision.Date', {
-    cell: info => info.getValue(),
+  columnHelper.accessor(row => row.lastName, {
+    id: 'lastName',
+    cell: info => <i>{info.getValue()}</i>,
+    header: () => <span>Last Name</span>,
     footer: info => info.column.id,
   }),
-  columnHelper.accessor('MemberVotedAye', {
-    cell: info => JSON.stringify(info.getValue()),
+  columnHelper.accessor('age', {
+    header: () => 'Age',
+    cell: info => info.renderValue(),
     footer: info => info.column.id,
   }),
-
-
+  columnHelper.accessor('visits', {
+    header: () => <span>Visits</span>,
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('status', {
+    header: 'Status',
+    footer: info => info.column.id,
+  }),
+  columnHelper.accessor('progress', {
+    header: 'Profile Progress',
+    footer: info => info.column.id,
+  }),
 ]
 
 
-function VotingHistoryTable({ votingHistory }) {
+function VotingHistoryTable() {
 
-  React.useEffect(() => {
-
-    setData(votingHistory)
-
-  }, [votingHistory]);
-
-  const [data, setData] = React.useState(() => [[]])
+  const [data, ] = React.useState(() => [...defaultData])
   const rerender = React.useReducer(() => ({}), {})[1]
 
   const table = useReactTable({
@@ -85,7 +90,7 @@ function VotingHistoryTable({ votingHistory }) {
   })
 
   return (
-    <div className="p-2">
+    <div className="p-2">      
       <table>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -95,9 +100,9 @@ function VotingHistoryTable({ votingHistory }) {
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                 </th>
               ))}
             </tr>
@@ -122,9 +127,9 @@ function VotingHistoryTable({ votingHistory }) {
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    )}
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
                 </th>
               ))}
             </tr>

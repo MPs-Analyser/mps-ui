@@ -79,6 +79,7 @@ function Mp() {
 
       const result = await ky(`https://commonsvotes-api.parliament.uk/data/divisions.json/membervoting?queryParameters.memberId=${details?.value?.id}&queryParameters.skip=${skip}&queryParameters.take=25`).json();
       console.log('votinghistory ', result);
+
       if (result && result.length) {
         allResults.push(...result);
         skip = skip + 25;
@@ -109,7 +110,7 @@ function Mp() {
         />
 
       </div>
-      
+
 
       {details && (
 
@@ -185,35 +186,37 @@ function Mp() {
 
       )}
 
-      <VotingHistoryTable />
+
 
       {votingHistory && (
 
-        <table className='table__voting-history'>
-          <tbody>
-            <tr>
-              <th>#</th>
-              <th>MemberVotedAye</th>
-              <th>Date</th>
-              <th>Title</th>
-              <th colSpan={3}>Actions</th>
-            </tr>
-            {
-              votingHistory.map((record, index) => (
-                <tr key={index}>
-                  <td>{index}</td>
-                  <td>{JSON.stringify(record.MemberVotedAye)}</td>
-                  <td>{record.PublishedDivision.Date}</td>
-                  <td>{record.PublishedDivision.Title}</td>
-                  <td><button>Division Details</button></td>
-                  <td><button>MPs who voted AYE</button></td>
-                  <td><button>MPs who voted NO</button></td>
+        <VotingHistoryTable votingHistory={votingHistory} />
 
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        // <table className='table__voting-history'>
+        //   <tbody>
+        //     <tr>
+        //       <th>#</th>
+        //       <th>MemberVotedAye</th>
+        //       <th>Date</th>
+        //       <th>Title</th>
+        //       <th colSpan={3}>Actions</th>
+        //     </tr>
+        //     {
+        //       votingHistory.map((record, index) => (
+        //         <tr key={index}>
+        //           <td>{index}</td>
+        //           <td>{JSON.stringify(record.MemberVotedAye)}</td>
+        //           <td>{record.PublishedDivision.Date}</td>
+        //           <td>{record.PublishedDivision.Title}</td>
+        //           <td><button>Division Details</button></td>
+        //           <td><button>MPs who voted AYE</button></td>
+        //           <td><button>MPs who voted NO</button></td>
+
+        //         </tr>
+        //       ))
+        //     }
+        //   </tbody>
+        // </table>
 
       )}
     </>
