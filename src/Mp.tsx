@@ -17,6 +17,7 @@ function Mp() {
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
   const [barChartData, setBarChartData] = useState();
+  const [votingSummary, setVotingSummary] = useState();
 
   const getMpNames = async () => {
     console.log('get names');
@@ -48,6 +49,8 @@ function Mp() {
 
     console.log('result ', result);
     seDetails(result);
+
+    onGetVotingSummary();
 
   }
 
@@ -85,11 +88,11 @@ function Mp() {
     }
 
     result.records.forEach(element => {
-      console.log(element);      
+      console.log(element);
       chartData.labels.push(element._fields[1])
       chartData.datasets[0].data.push(element._fields[2])
     });
-    
+
 
     setBarChartData(chartData);
 
@@ -100,7 +103,7 @@ function Mp() {
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
     setBarChartData(undefined);
-    
+
     setVotingHistory({ isInProgress: true })
 
 
@@ -124,6 +127,11 @@ function Mp() {
 
     console.log('allResults ', allResults);
     setVotingHistory(allResults);
+  }
+
+  const onGetVotingSummary = async () => {
+    const result = await ky(`http://localhost:8000/votingSummary?name=${details?.value?.nameDisplayAs}`).json();
+    setVotingSummary(result);
   }
 
   return (
@@ -190,6 +198,26 @@ function Mp() {
                 </tr>
               </tbody>
             </table>
+
+            <div className="votingSummary">
+              <h3>Voting Summary</h3>
+              <table>
+                <tr>
+                  <th>Total Votes</th>
+                  <td>{votingSummary.votingSummary.total}</td>
+                </tr>
+                <tr>
+                  <th>Voted Aye</th>
+                  <td>{votingSummary.votingSummary.votedAye}</td>
+                </tr>
+                <tr>
+                  <th>Voted No</th>
+                  <td>{votingSummary.votingSummary.votedNo}</td>
+                </tr>
+              </table>
+            </div>
+
+
           </div>
 
           <div className="details__actions">
@@ -201,11 +229,7 @@ function Mp() {
         </section>
       )}
 
-
-
-
       {votingSimilarity && (
-
         <>
           <BarChart barChartData={barChartData} />
 

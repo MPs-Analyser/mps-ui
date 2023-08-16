@@ -125,6 +125,10 @@ article {
   gap: .5em;
 }
 
+.votingSummary {
+  margin-top: 1em;;
+}
+
 /* lg */
 @media (min-width: 1024px) {
   .details {    
