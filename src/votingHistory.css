@@ -2,7 +2,7 @@ li {
     list-style: none;
 }
 
-.votingHistory {    
+.votingHistory {
     display: flex;
     overflow-x: auto;
     border: 1px solid;
@@ -15,4 +15,8 @@ votingHistory__table {
 
 votingHistory__division {
     flex: 1;
+}
+
+.cursor-pointer:hover {
+    cursor: pointer;
 }

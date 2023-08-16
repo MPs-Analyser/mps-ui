@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.9.3",
+    "chart.js": "^4.3.3",
     "ky": "^0.33.3",
     "ky-universal": "^0.12.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-search-autocomplete": "^8.5.2"
   },

@@ -6,6 +6,9 @@ import './App.css'
 import VotingHistory from './VotingHistory';
 
 import ky from 'ky-universal';
+import BarChart from './BarChart';
+
+
 
 function Mp() {
 
@@ -13,6 +16,7 @@ function Mp() {
   const [details, seDetails] = useState({});
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
+  const [barChartData, setBarChartData] = useState();
 
   const getMpNames = async () => {
     console.log('get names');
@@ -61,13 +65,42 @@ function Mp() {
   }
 
   const onGetVotingSimilarity = async () => {
+    //clear voting history to make space for similarity
+    setVotingHistory(undefined);
     const result = await ky(`http://localhost:8000/votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
     console.log('votingSimilarity ', result);
     setVotingSimilarity(result);
+
+    const chartData = {
+      labels: [],
+      datasets: [
+        {
+          label: 'Voting Similarity',
+          backgroundColor: 'rgba(75,192,192,1)',
+          borderColor: 'rgba(0,0,0,1)',
+          borderWidth: 2,
+          data: []
+        }
+      ]
+    }
+
+    result.records.forEach(element => {
+      console.log(element);      
+      chartData.labels.push(element._fields[1])
+      chartData.datasets[0].data.push(element._fields[2])
+    });
+    
+
+    setBarChartData(chartData);
+
   }
 
   const onGetVotingHistory = async () => {
 
+    //clear similarity to make space for voting history
+    setVotingSimilarity(undefined);
+    setBarChartData(undefined);
+    
     setVotingHistory({ isInProgress: true })
 
 
@@ -168,28 +201,35 @@ function Mp() {
         </section>
       )}
 
-      {votingSimilarity && (
-        <table className='table__similarity'>
-          <tbody>
-            <tr>
-              <th>#</th>
-              <th>This Mp</th>
-              <th>Other Mp</th>
-              <th>Similarity</th>
-            </tr>
-            {
-              votingSimilarity.records.map((record, index) => (
-                <tr key={index}>
-                  <td>{index}</td>
-                  <td>{record._fields[0]}</td>
-                  <td>{record._fields[1]}</td>
-                  <td>{record._fields[2]}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
 
+
+
+      {votingSimilarity && (
+
+        <>
+          <BarChart barChartData={barChartData} />
+
+          <table className='table__similarity'>
+            <tbody>
+              <tr>
+                <th>#</th>
+                <th>This Mp</th>
+                <th>Other Mp</th>
+                <th>Similarity</th>
+              </tr>
+              {
+                votingSimilarity.records.map((record, index) => (
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{record._fields[0]}</td>
+                    <td>{record._fields[1]}</td>
+                    <td>{record._fields[2]}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </>
       )}
 
       {votingHistory && votingHistory.isInProgress && (
@@ -202,7 +242,7 @@ function Mp() {
 
       {votingHistory && !votingHistory.isInProgress && (
         <div className='votingHistoryWrapper'>
-          
+
           <div className='votingHistoryWrapper__summarise' >
             <button>Summarise Voting History</button>
             <span>Send table data to AI to sumarise</span>

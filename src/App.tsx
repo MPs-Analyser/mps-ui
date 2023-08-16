@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     const theme = localStorage.getItem('theme');
-    theme && document.body.classList.add(theme);    
+    theme && document.body.classList.add(theme);
   }, []);
 
   const handleThemeToggle = () => {
@@ -48,6 +48,7 @@ function App() {
         </div>
       </header>
 
+    
       {page === 'home' && (
         <Mp />
       )}
