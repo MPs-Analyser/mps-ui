@@ -50,7 +50,7 @@ function Mp() {
     console.log('result ', result);
     seDetails(result);
 
-    onGetVotingSummary();
+    onGetVotingSummary(result?.value?.nameDisplayAs);
 
   }
 
@@ -98,39 +98,57 @@ function Mp() {
 
   }
 
-  const onGetVotingHistory = async () => {
+  const onGetVotingHistory = async (type: string) => {
 
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
     setBarChartData(undefined);
-
     setVotingHistory({ isInProgress: true })
 
+    const response = await ky(`http://localhost:8000/votingDetails?name=${details?.value?.nameDisplayAs}&type=${type}`).json();
 
-    const allResults = [];
-    let moreResultsAvailable = true;
-    let skip = 0;
+    const formattedResults = [];
 
-    while (moreResultsAvailable) {
+    console.log('result ', response);
+    
+    response.records.forEach(i => {
+      console.log('field ', i._fields);
+      const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : i._fields[3];
 
-      const result = await ky(`https://commonsvotes-api.parliament.uk/data/divisions.json/membervoting?queryParameters.memberId=${details?.value?.id}&queryParameters.skip=${skip}&queryParameters.take=25`).json();
-      console.log('votinghistory ', result);
+      formattedResults.push({
+        divisionId: i._fields[0],
+        title: i._fields[1],
+        date: i._fields[2], 
+        memberVotedAye
+      })
+    });
+    
 
-      if (result && result.length) {
-        allResults.push(...result);
-        skip = skip + 25;
-      } else {
-        moreResultsAvailable = false;
-      }
 
-    }
+    // const allResults = [];
+    // let moreResultsAvailable = true;
+    // let skip = 0;
 
-    console.log('allResults ', allResults);
-    setVotingHistory(allResults);
+    // while (moreResultsAvailable) {
+
+    //   const result = await ky(`https://commonsvotes-api.parliament.uk/data/divisions.json/membervoting?queryParameters.memberId=${details?.value?.id}&queryParameters.skip=${skip}&queryParameters.take=25`).json();
+    //   console.log('votinghistory ', result);
+
+    //   if (result && result.length) {
+    //     allResults.push(...result);
+    //     skip = skip + 25;
+    //   } else {
+    //     moreResultsAvailable = false;
+    //   }
+
+    // }
+
+    // console.log('allResults ', allResults);
+    setVotingHistory(formattedResults);
   }
 
-  const onGetVotingSummary = async () => {
-    const result = await ky(`http://localhost:8000/votingSummary?name=${details?.value?.nameDisplayAs}`).json();
+  const onGetVotingSummary = async (name) => {
+    const result = await ky(`http://localhost:8000/votingSummary?name=${name}`).json();
     setVotingSummary(result);
   }
 
@@ -204,15 +222,18 @@ function Mp() {
               <table>
                 <tr>
                   <th>Total Votes</th>
-                  <td>{votingSummary.votingSummary.total}</td>
+                  <td>{votingSummary?.total}</td>
+                  <td><button onClick={() => onGetVotingHistory('all')}>View</button></td>
                 </tr>
                 <tr>
                   <th>Voted Aye</th>
-                  <td>{votingSummary.votingSummary.votedAye}</td>
+                  <td>{votingSummary?.votedAye}</td>
+                  <td><button onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
                 </tr>
                 <tr>
                   <th>Voted No</th>
-                  <td>{votingSummary.votingSummary.votedNo}</td>
+                  <td>{votingSummary?.votedNo}</td>
+                  <td><button onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
                 </tr>
               </table>
             </div>

@@ -31,17 +31,17 @@ function VotingHistory({ votingHistory }) {
 
   const columns = [
 
-    columnHelper.accessor('PublishedDivision.Title', {
+    columnHelper.accessor('title', {
       cell: info => info.getValue(),
       footer: info => info.column.id,
       header: 'Vote Title'
     }),
-    columnHelper.accessor('PublishedDivision.Date', {
+    columnHelper.accessor('date', {
       cell: info => info.getValue(),
       footer: info => info.column.id,
       header: 'Date'
     }),
-    columnHelper.accessor('MemberVotedAye', {
+    columnHelper.accessor('memberVotedAye', {
       cell: info => JSON.stringify(info.getValue()),
       footer: info => info.column.id,
       header: 'Voted for'
@@ -52,8 +52,9 @@ function VotingHistory({ votingHistory }) {
       cell: ({ row }) => (
         <button
           onClick={async () => {
-            console.log(`Get details for  ${row.original.PublishedDivision.DivisionId}`);
-            const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${row.original.PublishedDivision.DivisionId}.json`).json();
+            const id = row.original.divisionId.low;
+            console.log(`Get details for  ${id}`);
+            const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
             console.log('division ', response);
             setDivision(response);
 
