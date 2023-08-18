@@ -56,19 +56,36 @@ function Mp() {
   }
 
   const onQueryMp = async (id) => {
-   
-      // the item selected
-      seDetails(undefined);
-      console.log('select', id);
-  
-      const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-  
-      console.log('result ', result);
-      seDetails(result);
-  
-      onGetVotingSummary(result?.value?.nameDisplayAs);
+
+    // the item selected
+    seDetails(undefined);
+    console.log('select', id);
+
+    const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
+
+    console.log('result ', result);
+    seDetails(result);
+
+    onGetVotingSummary(result?.value?.nameDisplayAs);
 
   }
+
+  const onQueryMpByName = async (name) => {
+
+    // the item selected
+    seDetails(undefined);
+    console.log('select', name);
+
+    const result = await ky(`https://members-api.parliament.uk/api/Members/Search?Name=${name}`).json();
+
+    if (result && result.items && result.items[0]) {
+      console.log('result ', result);
+      seDetails(result.items[0]);
+      onGetVotingSummary(result.items[0]?.value?.nameDisplayAs);
+    }
+  }
+
+
 
   const handleOnFocus = () => {
     console.log('Focused')
@@ -193,7 +210,7 @@ function Mp() {
                 <tr>
                   <th>Name</th>
                   <td>{details.value.nameDisplayAs}</td>
-                </tr>                
+                </tr>
                 <tr>
                   <th>Party</th>
                   <td>{details.value.latestParty?.name}</td>
@@ -256,7 +273,7 @@ function Mp() {
 
       {votingSimilarity && (
         <>
-          <BarChart barChartData={barChartData} />
+          <BarChart barChartData={barChartData} onQueryMpByName={onQueryMpByName} />
 
           <table className='table__similarity'>
             <tbody>
