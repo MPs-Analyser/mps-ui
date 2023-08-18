@@ -120,6 +120,7 @@ article {
 
 .votingHistoryWrapper__summarise {
   margin-bottom: .3em;
+  padding-left: 1em;
   display: flex;
   align-items: center;
   gap: .5em;

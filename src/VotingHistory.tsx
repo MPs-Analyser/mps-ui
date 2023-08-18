@@ -156,15 +156,15 @@ function VotingHistory({ votingHistory }) {
           <section>
             <h4>Members who voted Aye</h4>            
             <ul>              
-            <li>{division.AyeTellers[0]?.Name}</li>
-            <li>{division.AyeTellers[1]?.Name}</li>  
+            <li>{division.Ayes[0]?.Name}</li>
+            <li>{division.Ayes[1]?.Name}</li>  
               <li>.....</li>
             </ul>
 
             <h4>Members who voted No</h4>
             <ul>
-              <li>{division.NoTellers[0]?.Name}</li>
-              <li>{division.NoTellers[1]?.Name}</li>              
+              <li>{division.Noes[0]?.Name}</li>
+              <li>{division.Noes[1]?.Name}</li>              
               <li>.....</li>
             </ul>
           </section>

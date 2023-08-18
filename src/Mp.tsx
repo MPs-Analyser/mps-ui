@@ -18,6 +18,7 @@ function Mp() {
   const [votingHistory, setVotingHistory] = useState();
   const [barChartData, setBarChartData] = useState();
   const [votingSummary, setVotingSummary] = useState();
+  const [votingAnalysis, setVotingAnalysis] = useState();
 
   const getMpNames = async () => {
     console.log('get names');
@@ -110,7 +111,7 @@ function Mp() {
     const formattedResults = [];
 
     console.log('result ', response);
-    
+
     response.records.forEach(i => {
       console.log('field ', i._fields);
       const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : i._fields[3];
@@ -118,11 +119,11 @@ function Mp() {
       formattedResults.push({
         divisionId: i._fields[0],
         title: i._fields[1],
-        date: i._fields[2], 
+        date: i._fields[2],
         memberVotedAye
       })
     });
-    
+
 
 
     // const allResults = [];
@@ -150,6 +151,10 @@ function Mp() {
   const onGetVotingSummary = async (name) => {
     const result = await ky(`http://localhost:8000/votingSummary?name=${name}`).json();
     setVotingSummary(result);
+  }
+
+  const analyseVoting = () => {
+    setVotingAnalysis({ hello: true });
   }
 
   return (
@@ -277,26 +282,49 @@ function Mp() {
         </>
       )}
 
-      {votingHistory && votingHistory.isInProgress && (
-        <div className="votingHistoryProgress">
-          <progress value={null} />
-          <p>Analysing voting history...</p>
+      {votingHistory && !votingHistory.isInProgress && (
+        <div className='votingHistoryWrapper__summarise' >
+          <button onClick={analyseVoting}>Summarise Voting History</button>
+          <span>Send table data to AI to sumarise</span>
         </div>
       )}
 
-
-      {votingHistory && !votingHistory.isInProgress && (
+      {votingAnalysis && (
         <div className='votingHistoryWrapper'>
+          <table>
+            <tr>
+              <td>Stance towards EU</td>
+              <td>Pro EU</td>
+              <td>Based on this voting pattern, the MP seems to have generally supported the Brexit process and the withdrawal of the United Kingdom from the European Union. They voted in favor of the Withdrawal Agreement Bill, government motions related to the EU withdrawal, and other bills related to the transition. However, their stance might be more nuanced and context-specific than what can be derived solely from this voting record.</td>
 
-          <div className='votingHistoryWrapper__summarise' >
-            <button>Summarise Voting History</button>
-            <span>Send table data to AI to sumarise</span>
+            </tr>
+            <tr>
+              <td>Position on Immigration</td>
+              <td>Anti Immigration</td>
+              <td>Based on this voting pattern, the MP seems to have voted against various immigration-related measures, including those related to the Immigration and Social Security Co-ordination Bill. However, they voted in favor of a motion related to migration and Scotland. It's important to note that this voting record might not fully capture the intricacies of the MP's overall stance on immigration and related policies, as individual votes may be influenced by various factors and nuances.</td>
+
+            </tr>
+          </table>
+        </div>
+
+      )}
+
+      {votingHistory && votingHistory.isInProgress && (
+        <>
+          <div className="votingHistoryProgress">
+            <progress value={null} />
+            <p>Analysing voting history...</p>
           </div>
 
-          <VotingHistory votingHistory={votingHistory} />
-        </div>
+        </>
 
       )}
+
+      {votingHistory && !votingHistory.isInProgress && (
+        <VotingHistory votingHistory={votingHistory} />
+      )}
+
+
     </>
 
   )

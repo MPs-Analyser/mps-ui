@@ -1,25 +1,79 @@
-<table className='table__voting-history'>
-<tbody>
-     <tr>
-       <th>#</th>              
-       <th>MemberVotedAye</th>              
-       <th>Date</th>              
-       <th>Title</th>              
-       <th colSpan={3}>Actions</th>              
-     </tr>
-     {
-       votingHistory.map((record, index) => (
-         <tr key={index}>
-           <td>{index}</td>                  
-           <td>{JSON.stringify(record.MemberVotedAye)}</td>                  
-           <td>{record.PublishedDivision.Date}</td>                  
-           <td>{record.PublishedDivision.Title}</td>                  
-           <td><button>Division Details</button></td>                  
-           <td><button>MPs who voted AYE</button></td>                  
-           <td><button>MPs who voted NO</button></td>                  
-
-         </tr>
-       ))
-     }
-   </tbody>
-</table> 
+{
+  "totalVotesResponse": {
+    "records": [
+      {
+        "keys": [
+          "COUNT(d)"
+        ],
+        "length": 1,
+        "_fields": [
+          {
+            "low": 1079,
+            "high": 0
+          }
+        ],
+        "_fieldLookup": {
+          "COUNT(d)": 0
+        }
+      }
+    ],
+    "summary": {
+      "query": {
+        "text": "MATCH (s:Mp)-[r:VOTED_FOR]-(d) WHERE (s.nameDisplayAs = \"Ms Diane Abbott\") RETURN COUNT(d)",
+        "parameters": {}
+      },
+      "queryType": "r",
+      "counters": {
+        "_stats": {
+          "nodesCreated": 0,
+          "nodesDeleted": 0,
+          "relationshipsCreated": 0,
+          "relationshipsDeleted": 0,
+          "propertiesSet": 0,
+          "labelsAdded": 0,
+          "labelsRemoved": 0,
+          "indexesAdded": 0,
+          "indexesRemoved": 0,
+          "constraintsAdded": 0,
+          "constraintsRemoved": 0
+        },
+        "_systemUpdates": 0
+      },
+      "updateStatistics": {
+        "_stats": {
+          "nodesCreated": 0,
+          "nodesDeleted": 0,
+          "relationshipsCreated": 0,
+          "relationshipsDeleted": 0,
+          "propertiesSet": 0,
+          "labelsAdded": 0,
+          "labelsRemoved": 0,
+          "indexesAdded": 0,
+          "indexesRemoved": 0,
+          "constraintsAdded": 0,
+          "constraintsRemoved": 0
+        },
+        "_systemUpdates": 0
+      },
+      "plan": false,
+      "profile": false,
+      "notifications": [],
+      "server": {
+        "address": "localhost:7687",
+        "agent": "Neo4j/5.6.0",
+        "protocolVersion": 5.1
+      },
+      "resultConsumedAfter": {
+        "low": 0,
+        "high": 0
+      },
+      "resultAvailableAfter": {
+        "low": 3,
+        "high": 0
+      },
+      "database": {
+        "name": "neo4j"
+      }
+    }
+  }
+}
