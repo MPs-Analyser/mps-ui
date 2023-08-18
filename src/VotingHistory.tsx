@@ -5,6 +5,10 @@ import './votingHistory.css';
 
 import ky from 'ky-universal';
 
+import DivisionDetails from './DivisionDetails';
+import DivisionSummary from './DivisionSummary';
+
+
 import {
   createColumnHelper,
   flexRender,
@@ -132,62 +136,8 @@ function VotingHistory({ votingHistory, onQueryMp }) {
           </tfoot>
         </table>
       </div>
-
-      {division && (
-        <div className="votingHistory__division">
-          <h3>Divison Details</h3>
-
-
-          <ul>
-            <li>{division.Title}</li>
-            <li>{division.Date}</li>
-            <li>AyeCount: {division.AyeCount}</li>
-            <li>NoCount: {division.NoCount}</li>
-          </ul>
-
-          <section>
-            <h4>Members who voted Aye</h4>
-            <ul>
-              <li>
-                <button
-                  className='button-link'
-                  onClick={() => onQueryMp(division.Ayes[0]?.MemberId)}>
-                  {division.Ayes[0]?.Name}
-                </button>
-              </li>
-              <li>
-                <button
-                  className='button-link'
-                  onClick={() => onQueryMp(division.Ayes[1]?.MemberId)}>
-                  {division.Ayes[1]?.Name}
-                </button>
-              </li>
-              <li>.....</li>
-            </ul>
-
-            <h4>Members who voted No</h4>
-            <ul>
-              <li>
-                <button
-                  className='button-link'
-                  onClick={() => onQueryMp(division.Noes[0]?.MemberId)}>
-                  {division.Noes[0]?.Name}
-                </button>
-              </li>
-              <li>
-                <button
-                  className='button-link'
-                  onClick={() => onQueryMp(division.Noes[1]?.MemberId)}>
-                  {division.Noes[1]?.Name}
-                </button>
-              </li>
-              <li>.....</li>
-            </ul>
-          </section>
-
-        </div>
-      )}
-
+      
+      {division && <DivisionSummary onQueryMp={onQueryMp} division={division} /> }
 
     </div>
   )

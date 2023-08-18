@@ -27,9 +27,9 @@ header {
   padding: .5em .5em .5em 1em;
 }
 
-header h3 {
-  /* margin-left:1em;
-  display: inline-block; */
+.header__nav {
+  display: flex;
+  gap: 1em;
 }
 
 * { 

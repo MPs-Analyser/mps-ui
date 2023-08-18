@@ -30,7 +30,12 @@ function App() {
     <main>
 
       <header>
-        <h3>MP Analiser</h3>
+        <nav>
+          <ul className="header__nav">
+            <li> <a href='#'>Details</a></li>
+            <li><a href='#'>Insights</a> </li>
+          </ul>
+        </nav>
 
         <div className='buttons'>
 
@@ -48,7 +53,7 @@ function App() {
         </div>
       </header>
 
-    
+
       {page === 'home' && (
         <Mp />
       )}

@@ -182,7 +182,7 @@ function Mp() {
           onFocus={handleOnFocus}
           autoFocus
           formatResult={formatResult}
-          placeholder='Start typing to select an MP'
+          placeholder='Search MP or Division'
         />
 
       </div>
