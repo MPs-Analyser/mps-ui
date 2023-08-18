@@ -149,18 +149,16 @@ function VotingHistory({ votingHistory, onQueryMp }) {
             <h4>Members who voted Aye</h4>
             <ul>
               <li>
-                <button 
+                <button
                   className='button-link'
-                  onClick={async () => onQueryMp(division.Ayes[0]?.MemberId)}>
+                  onClick={() => onQueryMp(division.Ayes[0]?.MemberId)}>
                   {division.Ayes[0]?.Name}
                 </button>
               </li>
               <li>
-                <button className='button-link'
-                  onClick={async () => {
-                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Ayes[1]?.MemberId}`).json();
-                    console.log('response ', response);
-                  }}>
+                <button
+                  className='button-link'
+                  onClick={() => onQueryMp(division.Ayes[1]?.MemberId)}>
                   {division.Ayes[1]?.Name}
                 </button>
               </li>
@@ -170,20 +168,16 @@ function VotingHistory({ votingHistory, onQueryMp }) {
             <h4>Members who voted No</h4>
             <ul>
               <li>
-                <button className='button-link'
-                  onClick={async () => {
-                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Noes[0]?.MemberId}`).json();
-                    console.log('response ', response);
-                  }}>
+                <button
+                  className='button-link'
+                  onClick={() => onQueryMp(division.Noes[0]?.MemberId)}>
                   {division.Noes[0]?.Name}
                 </button>
               </li>
               <li>
-                <button className='button-link'
-                  onClick={async () => {
-                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Noes[1]?.MemberId}`).json();
-                    console.log('response ', response);
-                  }}>
+                <button
+                  className='button-link'
+                  onClick={() => onQueryMp(division.Noes[1]?.MemberId)}>
                   {division.Noes[1]?.Name}
                 </button>
               </li>

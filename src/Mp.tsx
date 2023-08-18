@@ -191,6 +191,10 @@ function Mp() {
                   <td>{details.value.id}</td>
                 </tr>
                 <tr>
+                  <th>Name</th>
+                  <td>{details.value.nameDisplayAs}</td>
+                </tr>                
+                <tr>
                   <th>Party</th>
                   <td>{details.value.latestParty?.name}</td>
                 </tr>
