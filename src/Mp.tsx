@@ -55,6 +55,21 @@ function Mp() {
 
   }
 
+  const onQueryMp = async (id) => {
+   
+      // the item selected
+      seDetails(undefined);
+      console.log('select', id);
+  
+      const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
+  
+      console.log('result ', result);
+      seDetails(result);
+  
+      onGetVotingSummary(result?.value?.nameDisplayAs);
+
+  }
+
   const handleOnFocus = () => {
     console.log('Focused')
   }
@@ -125,26 +140,6 @@ function Mp() {
     });
 
 
-
-    // const allResults = [];
-    // let moreResultsAvailable = true;
-    // let skip = 0;
-
-    // while (moreResultsAvailable) {
-
-    //   const result = await ky(`https://commonsvotes-api.parliament.uk/data/divisions.json/membervoting?queryParameters.memberId=${details?.value?.id}&queryParameters.skip=${skip}&queryParameters.take=25`).json();
-    //   console.log('votinghistory ', result);
-
-    //   if (result && result.length) {
-    //     allResults.push(...result);
-    //     skip = skip + 25;
-    //   } else {
-    //     moreResultsAvailable = false;
-    //   }
-
-    // }
-
-    // console.log('allResults ', allResults);
     setVotingHistory(formattedResults);
   }
 
@@ -217,7 +212,7 @@ function Mp() {
                 </tr>
                 <tr>
                   <th>Status Description</th>
-                  <td>{details.value.latestHouseMembership?.membershipStatus.statusDescription}</td>
+                  <td>{details.value.latestHouseMembership?.membershipStatus?.statusDescription}</td>
                 </tr>
               </tbody>
             </table>
@@ -321,7 +316,7 @@ function Mp() {
       )}
 
       {votingHistory && !votingHistory.isInProgress && (
-        <VotingHistory votingHistory={votingHistory} />
+        <VotingHistory votingHistory={votingHistory} onQueryMp={onQueryMp} />
       )}
 
 

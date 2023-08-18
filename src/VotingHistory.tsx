@@ -17,12 +17,10 @@ import {
 const columnHelper = createColumnHelper<Person>()
 
 
-function VotingHistory({ votingHistory }) {
+function VotingHistory({ votingHistory, onQueryMp }) {
 
   React.useEffect(() => {
-
     setData(votingHistory)
-
   }, [votingHistory]);
 
   const [data, setData] = React.useState(() => [[]])
@@ -32,8 +30,19 @@ function VotingHistory({ votingHistory }) {
   const columns = [
 
     columnHelper.accessor('title', {
-      cell: info => info.getValue(),
-      footer: info => info.column.id,
+      cell: info => <button className='button-link'
+        onClick={async () => {
+          const id = info.row.original.divisionId.low;
+          console.log(`Get details for  ${id}`);
+          const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
+          console.log('division ', response);
+          setDivision(response);
+
+        }}>
+        {info.getValue()}
+      </button>,
+      footer: info =>
+        info.column.id,
       header: 'Vote Title'
     }),
     columnHelper.accessor('date', {
@@ -45,25 +54,7 @@ function VotingHistory({ votingHistory }) {
       cell: info => JSON.stringify(info.getValue()),
       footer: info => info.column.id,
       header: 'Voted for'
-    }),
-    {
-      id: "Actions",
-      header: "Actions",
-      cell: ({ row }) => (
-        <button
-          onClick={async () => {
-            const id = row.original.divisionId.low;
-            console.log(`Get details for  ${id}`);
-            const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-            console.log('division ', response);
-            setDivision(response);
-
-          }}>
-          Details
-        </button>
-      )
-    }
-
+    })
   ]
 
 
@@ -146,6 +137,7 @@ function VotingHistory({ votingHistory }) {
         <div className="votingHistory__division">
           <h3>Divison Details</h3>
 
+
           <ul>
             <li>{division.Title}</li>
             <li>{division.Date}</li>
@@ -154,21 +146,50 @@ function VotingHistory({ votingHistory }) {
           </ul>
 
           <section>
-            <h4>Members who voted Aye</h4>            
-            <ul>              
-            <li>{division.Ayes[0]?.Name}</li>
-            <li>{division.Ayes[1]?.Name}</li>  
+            <h4>Members who voted Aye</h4>
+            <ul>
+              <li>
+                <button 
+                  className='button-link'
+                  onClick={async () => onQueryMp(division.Ayes[0]?.MemberId)}>
+                  {division.Ayes[0]?.Name}
+                </button>
+              </li>
+              <li>
+                <button className='button-link'
+                  onClick={async () => {
+                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Ayes[1]?.MemberId}`).json();
+                    console.log('response ', response);
+                  }}>
+                  {division.Ayes[1]?.Name}
+                </button>
+              </li>
               <li>.....</li>
             </ul>
 
             <h4>Members who voted No</h4>
             <ul>
-              <li>{division.Noes[0]?.Name}</li>
-              <li>{division.Noes[1]?.Name}</li>              
+              <li>
+                <button className='button-link'
+                  onClick={async () => {
+                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Noes[0]?.MemberId}`).json();
+                    console.log('response ', response);
+                  }}>
+                  {division.Noes[0]?.Name}
+                </button>
+              </li>
+              <li>
+                <button className='button-link'
+                  onClick={async () => {
+                    const response = await ky(`https://members-api.parliament.uk/api/Members/${division.Noes[1]?.MemberId}`).json();
+                    console.log('response ', response);
+                  }}>
+                  {division.Noes[1]?.Name}
+                </button>
+              </li>
               <li>.....</li>
             </ul>
           </section>
-
 
         </div>
       )}
