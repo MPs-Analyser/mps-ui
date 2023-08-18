@@ -1,13 +1,10 @@
-// @ts-nocheck
 import * as React from 'react'
 
 import './votingHistory.css';
 
 import ky from 'ky-universal';
 
-import DivisionDetails from './DivisionDetails';
 import DivisionSummary from './DivisionSummary';
-
 
 import {
   createColumnHelper,
@@ -15,10 +12,9 @@ import {
   getCoreRowModel,
   useReactTable,
   getSortedRowModel,
-  SortingState,
 } from '@tanstack/react-table'
 
-const columnHelper = createColumnHelper<Person>()
+const columnHelper = createColumnHelper();
 
 
 function VotingHistory({ votingHistory, onQueryMp }) {
@@ -28,8 +24,8 @@ function VotingHistory({ votingHistory, onQueryMp }) {
   }, [votingHistory]);
 
   const [data, setData] = React.useState(() => [[]])
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [division, setDivision] = React.useState<SortingState>()
+  const [sorting, setSorting] = React.useState([])
+  const [division, setDivision] = React.useState()
 
   const columns = [
 
@@ -99,7 +95,7 @@ function VotingHistory({ votingHistory, onQueryMp }) {
                         {{
                           asc: ' 🔼',
                           desc: ' 🔽',
-                        }[header.column.getIsSorted() as string] ?? null}
+                        }[header.column.getIsSorted()] ?? null}
                       </div>
                     )}
                   </th>

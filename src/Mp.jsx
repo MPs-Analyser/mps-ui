@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import './App.css'
@@ -131,7 +130,7 @@ function Mp() {
 
   }
 
-  const onGetVotingHistory = async (type: string) => {
+  const onGetVotingHistory = async (type) => {
 
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
