@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-import Mp from './Mp';
+import DivisionDetails from './DivisionDetails';
 import About from './About';
+import Search from './Search';
 
 function App() {
 
@@ -54,7 +55,11 @@ function App() {
 
 
       {page === 'home' && (
-        <Mp />
+        <Search />
+      )}
+
+      {page === 'divison' && (
+        <DivisionDetails />
       )}
 
       {page === 'about' && <About />}
