@@ -51,8 +51,13 @@ header {
   padding: .5em;
 }
 
-img {
+.mpImage {
   width: 100%;
+}
+
+.logoImage{
+  width: 50px;
+  height: 50px;
 }
 
 button {

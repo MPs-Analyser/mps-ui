@@ -13,7 +13,8 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp }) => {
   const [barChartData, setBarChartData] = useState();
   const [votingAnalysis, setVotingAnalysis] = useState();
 
-  useEffect(() => {    
+  useEffect(() => {
+    console.log('details ', details);
   }, []);
 
   const onGetVotingSimilarity = async () => {
@@ -85,23 +86,31 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp }) => {
     <>
       <section className="details">
 
-        <img src={`${details.value?.thumbnailUrl}`} />
+        <div className="mpTitleWrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
+          <div              
+              style={{
+                width: 40,
+                height: 40,
+                background: `#${details?.value?.latestParty?.backgroundColour}`,
+                color: `#${details?.value?.latestParty?.foregroundColour}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%'
+              }}>
+              <svg fill={`#${details?.value?.latestParty?.foregroundColour}`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c2.757 0 5 2.243 5 5.001 0 2.756-2.243 5-5 5s-5-2.244-5-5c0-2.758 2.243-5.001 5-5.001zm0-2c-3.866 0-7 3.134-7 7.001 0 3.865 3.134 7 7 7s7-3.135 7-7c0-3.867-3.134-7.001-7-7.001zm6.369 13.353c-.497.498-1.057.931-1.658 1.302 2.872 1.874 4.378 5.083 4.972 7.346h-19.387c.572-2.29 2.058-5.503 4.973-7.358-.603-.374-1.162-.811-1.658-1.312-4.258 3.072-5.611 8.506-5.611 10.669h24c0-2.142-1.44-7.557-5.631-10.647z" /></svg>
+            </div>
+            <h4>{details.value.nameDisplayAs}</h4>
+          </div>
+          
+        </div>
+
+        <img className='mpImage' src={`${details.value?.thumbnailUrl}`} />
 
         <div className="details__overview">
           <table>
             <tbody>
-              <tr>
-                <th>ID</th>
-                <td>{details.value.id}</td>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <td>{details.value.nameDisplayAs}</td>
-              </tr>
-              <tr>
-                <th>Party</th>
-                <td>{details.value.latestParty?.name}</td>
-              </tr>
               <tr>
                 <th>Constituency</th>
                 <td>{details.value.latestHouseMembership?.membershipFrom}</td>
