@@ -8,7 +8,7 @@ import PartyLogo from './PartyLogo';
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
-const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp }) => {
+const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision }) => {
 
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
@@ -227,7 +227,7 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp }) => {
       )}
 
       {votingHistory && !votingHistory.isInProgress && (
-        <VotingHistory votingHistory={votingHistory} onQueryMp={onQueryMp} />
+        <VotingHistory votingHistory={votingHistory} onQueryMp={onQueryMp} onQueryDivision={onQueryDivision} />
       )}
 
     </>

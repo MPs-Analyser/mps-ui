@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import './votingHistory.css';
 
-import ky from 'ky-universal';
+// import ky from 'ky-universal';
 
 import DivisionSummary from './DivisionSummary';
 
@@ -16,8 +16,7 @@ import {
 
 const columnHelper = createColumnHelper();
 
-
-function VotingHistory({ votingHistory, onQueryMp }) {
+function VotingHistory({ votingHistory, onQueryMp, onQueryDivision }) {
 
   React.useEffect(() => {
     setData(votingHistory)
@@ -25,7 +24,7 @@ function VotingHistory({ votingHistory, onQueryMp }) {
 
   const [data, setData] = React.useState(() => [[]])
   const [sorting, setSorting] = React.useState([])
-  const [division, setDivision] = React.useState()
+  // const [division, setDivision] = React.useState()
 
   const columns = [
 
@@ -34,9 +33,10 @@ function VotingHistory({ votingHistory, onQueryMp }) {
         onClick={async () => {
           const id = info.row.original.divisionId.low;
           console.log(`Get details for  ${id}`);
-          const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-          console.log('division ', response);
-          setDivision(response);
+          onQueryDivision(id);
+          // const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
+          // console.log('division ', response);
+          // setDivision(response);
 
         }}>
         {info.getValue()}
@@ -133,7 +133,7 @@ function VotingHistory({ votingHistory, onQueryMp }) {
         </table>
       </div>
       
-      {division && <DivisionSummary onQueryMp={onQueryMp} division={division} /> }
+      {/* {division && <DivisionSummary onQueryMp={onQueryMp} division={division} /> } */}
 
     </div>
   )

@@ -121,6 +121,15 @@ const Search = () => {
     onGetVotingSummary(result?.value?.nameDisplayAs);
 
   }
+  
+  const onQueryDivision = async (id) => {
+    setMpDetails(undefined);
+    setDivisionDetails(undefined);
+
+    const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();      
+
+    setDivisionDetails(result)
+  }
 
   return (
     <div className="search">
@@ -153,6 +162,7 @@ const Search = () => {
           onQueryMpByName={onQueryMpByName} 
           details={mpDetails} 
           onQueryMp={onQueryMp} 
+          onQueryDivision={onQueryDivision}
         />
       )}
 
