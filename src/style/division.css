@@ -1,0 +1,8 @@
+.divisionDetails {
+    height: calc(100vh - 300px);
+}
+
+divisionDetails__title {
+    flex: 1;    
+    padding: 1em;            
+}
