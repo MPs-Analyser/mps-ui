@@ -13,8 +13,9 @@ votingHistory__table {
     flex: 2;
 }
 
-votingHistory__division {
-    flex: 1;
+.votingHistory__division {
+    flex: 1;    
+    padding: 1em;
 }
 
 .cursor-pointer:hover {
