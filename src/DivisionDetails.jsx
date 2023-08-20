@@ -13,7 +13,9 @@ const DivisionDetails = ({ onQueryMp, division }) => {
   const AyeRow = ({ index, style }) => (
     <li style={style}>
       <a href='#' onClick={() => onQueryMp(votedAye[index].id)}>
-        <span>{votedAye[index].name}</span>
+        <span>{votedAye[index].name}</span> 
+        &nbsp;       
+        <span>{votedAye[index].party}</span>
       </a>
     </li>
   );
@@ -22,6 +24,8 @@ const DivisionDetails = ({ onQueryMp, division }) => {
     <li style={style}>
       <a href='#' onClick={() => onQueryMp(votedAye[index].id)}>
         <span>{votedNo[index].name}</span>
+        &nbsp;       
+        <span>{votedAye[index].party}</span>
       </a>
     </li>
   );
@@ -30,6 +34,8 @@ const DivisionDetails = ({ onQueryMp, division }) => {
     <li style={style}>
       <a href='#' onClick={() => onQueryMp(votedAye[index].id)}>
         <span>{absent[index].name}</span>
+        &nbsp;       
+        <span>{votedAye[index].party}</span>
       </a>
     </li>
   );
@@ -39,15 +45,15 @@ const DivisionDetails = ({ onQueryMp, division }) => {
     console.log('division ', division);
 
     const ayesList = [];
-    division.Ayes.forEach(i => ayesList.push({ id: i.MemberId, name: i.Name }));
+    division.Ayes.forEach(i => ayesList.push({ id: i.MemberId, name: i.Name, party: i.Party }));
     setVotedAye(ayesList);
 
     const noList = [];
-    division.Noes.forEach(i => noList.push({ id: i.MemberId, name: i.Name }));
+    division.Noes.forEach(i => noList.push({ id: i.MemberId, name: i.Name, party: i.Party }));
     setVotedNo(noList);
 
     const absentList = [];
-    division.NoVoteRecorded.forEach(i => absentList.push({ id: i.MemberId, name: i.Name }));
+    division.NoVoteRecorded.forEach(i => absentList.push({ id: i.MemberId, name: i.Name, party: i.Party }));
     setAbsent(absentList);
 
 
