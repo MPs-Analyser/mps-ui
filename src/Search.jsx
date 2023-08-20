@@ -128,6 +128,7 @@ const Search = () => {
       <div className="autoComplete">
         <ReactSearchAutocomplete
           items={mpNames.concat(divisionNames)}
+          styling={{ zIndex: 1 }}
           onSearch={handleOnSearch}
           onHover={handleOnHover}
           onSelect={handleOnSelect}

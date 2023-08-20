@@ -26,7 +26,7 @@ const DivisionDetails = ({ onQueryMp, division }) => {
   const NoRow = ({ index, style }) => (
     <li style={{ ...style, display: 'flex', alignItems: 'center', gap: 8 }}>
       <PartyLogo
-        partyName={votedAye[index]?.party}
+        partyName={votedNo[index]?.party}
       />
       <a href='#' onClick={() => onQueryMp(votedAye[index].id)}>
         <span>{votedNo[index].name}</span>        
@@ -37,7 +37,7 @@ const DivisionDetails = ({ onQueryMp, division }) => {
   const AbsentRow = ({ index, style }) => (
     <li style={{ ...style, display: 'flex', alignItems: 'center', gap: 8 }}>
       <PartyLogo
-        partyName={votedAye[index]?.party}
+        partyName={absent[index]?.party}
       />
       <a href='#' onClick={() => onQueryMp(votedAye[index].id)}>
         <span>{absent[index].name}</span>        
