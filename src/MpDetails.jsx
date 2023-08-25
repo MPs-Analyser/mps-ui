@@ -24,7 +24,7 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
     setVotingHistory(undefined);
     const result = await ky(`http://localhost:8000/votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
     console.log('votingSimilarity ', result);
-    setVotingSimilarity(result);
+    setVotingSimilarity(result.similarity);
 
     const chartData = {
       labels: [],
@@ -39,10 +39,10 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
       ]
     }
 
-    result.records.forEach(element => {
+    result.similarity.forEach(element => {
       console.log(element);
-      chartData.labels.push(element._fields[1])
-      chartData.datasets[0].data.push(element._fields[2])
+      chartData.labels.push(element.name)
+      chartData.datasets[0].data.push(element.score)
     });
 
 
@@ -168,18 +168,16 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
           <table className='table__similarity'>
             <tbody>
               <tr>
-                <th>#</th>
-                <th>This Mp</th>
+                <th>#</th>                
                 <th>Other Mp</th>
                 <th>Similarity</th>
               </tr>
               {
-                votingSimilarity.records.map((record, index) => (
+                votingSimilarity.map((record, index) => (
                   <tr key={index}>
-                    <td>{index}</td>
-                    <td>{record._fields[0]}</td>
-                    <td>{record._fields[1]}</td>
-                    <td>{record._fields[2]}</td>
+                    <td>{index}</td>                    
+                    <td>{record.name}</td>
+                    <td>{record.score}</td>
                   </tr>
                 ))
               }
