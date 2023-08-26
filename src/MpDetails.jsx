@@ -8,7 +8,7 @@ import PartyLogo from './PartyLogo';
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
-const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision }) => {
+const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision }) => {
 
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
@@ -57,21 +57,21 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
     setBarChartData(undefined);
     setVotingHistory({ isInProgress: true })
 
-    const response = await ky(`http://localhost:8000/votingDetails?name=${details?.value?.nameDisplayAs}&type=${type}`).json();
+    const response = await ky(`http://localhost:8000/votingDetails?id=${details?.value?.id}&type=${type}`).json();
 
     const formattedResults = [];
 
     console.log('result ', response);
 
-    response.records.forEach(i => {
+    response.forEach(i => {
       console.log('field ', i._fields);
-      const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : i._fields[3];
+      // const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : 'dont know';
 
       formattedResults.push({
-        divisionId: i._fields[0],
-        title: i._fields[1],
-        date: i._fields[2],
-        memberVotedAye
+        divisionId: i.DivisionId,
+        title: i.Title,
+        date: i.Date,
+        memberVotedAye: i.memberVotedAye
       })
     });
 
@@ -90,14 +90,14 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
 
         <div className="mpTitleWrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
-            <PartyLogo 
-              backgroundColour={`#${details?.value?.latestParty?.backgroundColour}`} 
-              foregroundColour={`#${details?.value?.latestParty?.foregroundColour}`} 
-              partyName={details?.value?.latestParty?.name} 
-            />          
+            <PartyLogo
+              backgroundColour={`#${details?.value?.latestParty?.backgroundColour}`}
+              foregroundColour={`#${details?.value?.latestParty?.foregroundColour}`}
+              partyName={details?.value?.latestParty?.name}
+            />
             <h4>{details.value.nameDisplayAs}</h4>
           </div>
-          
+
         </div>
 
         <img className='mpImage' src={`${details.value?.thumbnailUrl}`} />
@@ -128,26 +128,29 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
             </tbody>
           </table>
 
-          <div className="votingSummary">
-            <h3>Voting Summary</h3>
-            <table>
-              <tr>
-                <th>Total Votes</th>
-                <td>{votingSummary?.total}</td>
-                <td><button onClick={() => onGetVotingHistory('all')}>View</button></td>
-              </tr>
-              <tr>
-                <th>Voted Aye</th>
-                <td>{votingSummary?.votedAye}</td>
-                <td><button onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
-              </tr>
-              <tr>
-                <th>Voted No</th>
-                <td>{votingSummary?.votedNo}</td>
-                <td><button onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
-              </tr>
-            </table>
-          </div>
+          {votingSummary &&  (
+            <div className="votingSummary">
+              <h3>Voting Summary</h3>
+              <table>
+                <tr>
+                  <th>Total Votes</th>
+                  <td>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</td>
+                  <td><button onClick={() => onGetVotingHistory('all')}>View</button></td>
+                </tr>
+                <tr>
+                  <th>Voted Aye</th>
+                  <td>{votingSummary?.votedAye?.length || 0}</td>
+                  <td><button onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
+                </tr>
+                <tr>
+                  <th>Voted No</th>
+                  <td>{votingSummary?.votedNo?.length || 0}</td>
+                  <td><button onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
+                </tr>
+              </table>
+            </div>
+
+          )}
 
 
         </div>
@@ -155,7 +158,7 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
         <div className="details__actions">
           <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
           <button>Least Similar Voting Mps</button>
-          <button onClick={onGetVotingHistory}>Voting History</button>
+          <button onClick={() => onGetVotingHistory('all')}>Voting History</button>
         </div>
 
       </section>
@@ -168,14 +171,14 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
           <table className='table__similarity'>
             <tbody>
               <tr>
-                <th>#</th>                
+                <th>#</th>
                 <th>Other Mp</th>
                 <th>Similarity</th>
               </tr>
               {
                 votingSimilarity.map((record, index) => (
                   <tr key={index}>
-                    <td>{index}</td>                    
+                    <td>{index}</td>
                     <td>{record.name}</td>
                     <td>{record.score}</td>
                   </tr>
@@ -233,4 +236,4 @@ const Mp = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivisio
   )
 }
 
-export default Mp;
+export default MpDetails;

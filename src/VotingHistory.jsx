@@ -4,7 +4,6 @@ import './votingHistory.css';
 
 // import ky from 'ky-universal';
 
-import DivisionSummary from './DivisionSummary';
 
 import {
   createColumnHelper,

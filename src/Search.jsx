@@ -60,6 +60,7 @@ const Search = () => {
 
     if (result) {
       if (result?.value?.gender) {
+        console.log('result ', result);
         setMpDetails(result);
       } else {
         setDivisionDetails(result)
@@ -67,7 +68,7 @@ const Search = () => {
     }
 
 
-    onGetVotingSummary(result?.value?.nameDisplayAs);
+    onGetVotingSummary(result?.value?.id);
 
   }
 
@@ -85,8 +86,9 @@ const Search = () => {
     )
   }
 
-  const onGetVotingSummary = async (name) => {
-    const result = await ky(`http://localhost:8000/votingSummary?name=${name}`).json();
+  const onGetVotingSummary = async (id) => {
+    const result = await ky(`http://localhost:8000/votingSummary?id=${id}`).json();
+    console.log('votingsummary ', result);
     setVotingSummary(result);
   }
 
@@ -102,7 +104,7 @@ const Search = () => {
     if (result && result.items && result.items[0]) {
       console.log('result ', result);
       setMpDetails(result.items[0]);
-      onGetVotingSummary(result.items[0]?.value?.nameDisplayAs);
+      onGetVotingSummary(result.items[0]?.value?.id);
     }
   }
 
@@ -118,7 +120,7 @@ const Search = () => {
     console.log('result ', result);
     setMpDetails(result);
 
-    onGetVotingSummary(result?.value?.nameDisplayAs);
+    onGetVotingSummary(result?.value?.id);
 
   }
   
