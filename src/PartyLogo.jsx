@@ -1,4 +1,4 @@
-import './logo.css'
+import './styles/logo.css'
 
 
 const colourLookup = {

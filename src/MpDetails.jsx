@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 
 import VotingHistory from './VotingHistory';
 
@@ -8,7 +7,7 @@ import PartyLogo from './PartyLogo';
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
-const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision }) => {
+const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision, setGlobalMessage }) => {
 
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
@@ -57,26 +56,31 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
     setBarChartData(undefined);
     setVotingHistory({ isInProgress: true })
 
-    const response = await ky(`http://localhost:8000/votingDetails?id=${details?.value?.id}&type=${type}`).json();
+    try {
+      const response = await ky(`http://localhost:8000/votingDetails?id=${details?.value?.id}&type=${type}`).json();
+      const formattedResults = [];
 
-    const formattedResults = [];
+      console.log('result ', response);
 
-    console.log('result ', response);
+      response.forEach(i => {
+        console.log('field ', i._fields);
+        // const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : 'dont know';
 
-    response.forEach(i => {
-      console.log('field ', i._fields);
-      // const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : 'dont know';
+        formattedResults.push({
+          divisionId: i.DivisionId,
+          title: i.Title,
+          date: i.Date,
+          memberVotedAye: i.memberVotedAye
+        })
+      });
 
-      formattedResults.push({
-        divisionId: i.DivisionId,
-        title: i.Title,
-        date: i.Date,
-        memberVotedAye: i.memberVotedAye
-      })
-    });
+      setVotingHistory(formattedResults);
+    } catch (error) {      
+      console.error(error);
+      setVotingHistory(undefined);
+      setGlobalMessage({ type: 'error', text: error.message });
+    }
 
-
-    setVotingHistory(formattedResults);
   }
 
   const analyseVoting = () => {
@@ -128,7 +132,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
             </tbody>
           </table>
 
-          {votingSummary &&  (
+          {votingSummary && (
             <div className="votingSummary">
               <h3>Voting Summary</h3>
               <table>

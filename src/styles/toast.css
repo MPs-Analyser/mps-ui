@@ -1,0 +1,29 @@
+.toast {
+    position: sticky;
+    bottom: 2px;
+    background-color: var(--clr-dark);
+    text-align: center;
+    padding: 1em;
+    width: 96%;
+    margin: auto;
+    border-radius: 10px;
+    animation: hide 1s linear 5s 1 forwards;
+}
+
+.toast.error {
+    color: red;
+}
+
+.toast.warn {
+    color: orange;
+}
+
+.toast.success {
+    color: green;
+}
+
+@keyframes hide {
+    to {
+        opacity: 0;
+    }
+}

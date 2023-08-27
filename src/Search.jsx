@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import './App.css'
 
 import MpDetails from './MpDetails';
 import DivisionDetails from './DivisionDetails';
 
+import "./styles/search.css";
+
 import ky from 'ky-universal';
 
-const Search = () => {
+const Search = ({ setGlobalMessage }) => {
 
   const [mpNames, setMpNames] = useState([]);
   const [divisionNames, setDivisionNames] = useState([]);
@@ -53,9 +54,9 @@ const Search = () => {
     if (item.type === 'mp') {
       result = await ky(`https://members-api.parliament.uk/api/Members/${item.id}`).json();
     } else {
-      result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${item.id}.json`).json();      
+      result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${item.id}.json`).json();
     }
-  
+
     console.log('result ', result);
 
     if (result) {
@@ -93,7 +94,7 @@ const Search = () => {
   }
 
   const onQueryMpByName = async (name) => {
-    
+
     setMpDetails(undefined);
     setDivisionDetails(undefined);
 
@@ -109,26 +110,26 @@ const Search = () => {
   }
 
   const onQueryMp = async (id) => {
-
+    
     setMpDetails(undefined);
     setDivisionDetails(undefined);
 
-    console.log('select', id);
+
 
     const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-
-    console.log('result ', result);
+    
     setMpDetails(result);
 
     onGetVotingSummary(result?.value?.id);
 
   }
-  
+
   const onQueryDivision = async (id) => {
+    console.log('step 1 ', id);
     setMpDetails(undefined);
     setDivisionDetails(undefined);
 
-    const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();      
+    const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
 
     setDivisionDetails(result)
   }
@@ -159,21 +160,22 @@ const Search = () => {
       )}
 
       {mpDetails && mpDetails.value && (
-        <MpDetails 
-          votingSummary={votingSummary} 
-          onQueryMpByName={onQueryMpByName} 
-          details={mpDetails} 
-          onQueryMp={onQueryMp} 
+        <MpDetails
+          votingSummary={votingSummary}
+          onQueryMpByName={onQueryMpByName}
+          details={mpDetails}
+          onQueryMp={onQueryMp}
           onQueryDivision={onQueryDivision}
+          setGlobalMessage={setGlobalMessage}
         />
       )}
 
       {divisionDetails && Boolean(Object.keys(divisionDetails).length) && (
-        <DivisionDetails 
-          votingSummary={votingSummary} 
-          onQueryMpByName={onQueryMpByName} 
-          division={divisionDetails} 
-          onQueryMp={onQueryMp} 
+        <DivisionDetails
+          votingSummary={votingSummary}
+          onQueryMpByName={onQueryMpByName}
+          division={divisionDetails}
+          onQueryMp={onQueryMp}
         />
       )}
 

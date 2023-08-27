@@ -1,0 +1,23 @@
+header {
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    padding: .5em .5em .5em 1em;
+}
+
+.header__nav {
+    display: flex;
+    gap: 1em;
+}
+
+.header__button {
+    background-color: white;
+    padding: .1em;
+    border-radius: 50%;
+    border: none;
+}
+
+.header__buttons {
+    display: flex;
+    gap: .5em;
+  }

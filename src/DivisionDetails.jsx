@@ -4,8 +4,8 @@ import AutoSizer from "react-virtualized-auto-sizer";
 
 import PartyLogo from './PartyLogo';
 
-import './votingHistory.css';
-import './style/division.css';
+import './styles/votingHistory.css';
+import './styles/division.css';
 
 const DivisionDetails = ({ onQueryMp, division }) => {
 

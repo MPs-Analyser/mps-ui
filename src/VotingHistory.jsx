@@ -1,9 +1,6 @@
 import * as React from 'react'
 
-import './votingHistory.css';
-
-// import ky from 'ky-universal';
-
+import './styles/votingHistory.css';
 
 import {
   createColumnHelper,
@@ -15,7 +12,7 @@ import {
 
 const columnHelper = createColumnHelper();
 
-function VotingHistory({ votingHistory, onQueryMp, onQueryDivision }) {
+function VotingHistory({ votingHistory, onQueryDivision }) {
 
   React.useEffect(() => {
     setData(votingHistory)
@@ -29,14 +26,10 @@ function VotingHistory({ votingHistory, onQueryMp, onQueryDivision }) {
 
     columnHelper.accessor('title', {
       cell: info => <button className='button-link'
-        onClick={async () => {
-          const id = info.row.original.divisionId.low;
+        onClick={async () => {          
+          const id = info.row.original.divisionId;
           console.log(`Get details for  ${id}`);
           onQueryDivision(id);
-          // const response = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-          // console.log('division ', response);
-          // setDivision(response);
-
         }}>
         {info.getValue()}
       </button>,
@@ -132,8 +125,6 @@ function VotingHistory({ votingHistory, onQueryMp, onQueryDivision }) {
         </table>
       </div>
       
-      {/* {division && <DivisionSummary onQueryMp={onQueryMp} division={division} /> } */}
-
     </div>
   )
 }
