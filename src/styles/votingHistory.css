@@ -9,9 +9,14 @@ li {
     gap: 1em;
 }
 
-votingHistory__table {
+.votingHistory__table {
     flex: 2;
-}
+};
+
+/* .votingHistory__table th > div {
+    white-space: nowrap !important;
+    background: red;
+} */
 
 .divisionDetails__title {
     flex: 1;    
