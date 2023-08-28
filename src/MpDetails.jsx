@@ -193,13 +193,6 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
         </>
       )}
 
-      {votingHistory && !votingHistory.isInProgress && (
-        <div className='votingHistoryWrapper__summarise' >
-          <button onClick={analyseVoting}>Summarise Voting History</button>
-          <span>Send table data to AI to sumarise</span>
-        </div>
-      )}
-
       {votingAnalysis && (
         <div className='votingHistoryWrapper'>
           <table>

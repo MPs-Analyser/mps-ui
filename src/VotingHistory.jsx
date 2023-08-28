@@ -32,19 +32,15 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
           onQueryDivision(id);
         }}>
         {info.getValue()}
-      </button>,
-      footer: info =>
-        info.column.id,
+      </button>,            
       header: 'Vote Title'
     }),
     columnHelper.accessor('date', {
-      cell: info => info.getValue(),
-      footer: info => info.column.id,
-      header: 'Date'
+      cell: info => info.getValue() ? <span style={{}}>{info.getValue().substring(0,10)}</span> : '',      
+      header: 'Date',      
     }),
     columnHelper.accessor('memberVotedAye', {
-      cell: info => JSON.stringify(info.getValue()),
-      footer: info => info.column.id,
+      cell: info => JSON.stringify(info.getValue()),      
       header: 'Voted for'
     })
   ]
