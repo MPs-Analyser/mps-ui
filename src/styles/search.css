@@ -39,8 +39,10 @@
   }
   
   .autoComplete {
-    padding: .5em; 
-    border: 1px solid;
+    padding: 4px;
+    /* padding-top: 8px; */
+    background-color: var(--clr-light-other);     
+    border-radius: 4px;;
   }
   
   .details__actions {
@@ -94,4 +96,8 @@
     .details {    
       grid-template-columns: 1fr 1fr 1fr;
     }
+
+    .autoComplete {
+      margin-top: var(--height-nav);
+    }    
   }

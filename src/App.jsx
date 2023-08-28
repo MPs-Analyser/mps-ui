@@ -35,21 +35,24 @@ const App = () => {
 
   return (
 
-    <main>      
+    <main>
 
       <NavBar setPage={setPage} handleThemeToggle={handleThemeToggle} />
 
-      {page === 'home' && (
-        <Search setGlobalMessage={setGlobalMessage}/>
-      )}
+      <div className="container">
+        {page === 'home' && (
+          <Search setGlobalMessage={setGlobalMessage} />
+        )}
 
-      {page === 'divison' && (
-        <DivisionDetails onHandleError={onHandleError} />
-      )}
+        {page === 'divison' && (
+          <DivisionDetails onHandleError={onHandleError} />
+        )}
 
-      {page === 'about' && <About />}
+        {page === 'about' && <About />}
 
-      {globalMessage.type && <Toast message={globalMessage} />}
+        {globalMessage.type && <Toast message={globalMessage} />}
+      </div>
+
 
     </main>
   )
