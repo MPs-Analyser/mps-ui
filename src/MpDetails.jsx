@@ -4,6 +4,8 @@ import VotingHistory from './VotingHistory';
 
 import PartyLogo from './PartyLogo';
 
+import "./styles/mpDetails.css";
+
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
@@ -12,7 +14,6 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
   const [votingSimilarity, setVotingSimilarity] = useState();
   const [votingHistory, setVotingHistory] = useState();
   const [barChartData, setBarChartData] = useState();
-  const [votingAnalysis, setVotingAnalysis] = useState();
 
   useEffect(() => {
     console.log('details ', details);
@@ -75,7 +76,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       });
 
       setVotingHistory(formattedResults);
-    } catch (error) {      
+    } catch (error) {
       console.error(error);
       setVotingHistory(undefined);
       setGlobalMessage({ type: 'error', text: error.message });
@@ -83,30 +84,38 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   }
 
-  const analyseVoting = () => {
-    setVotingAnalysis({ hello: true });
-  }
 
   return (
 
     <>
-      <section className="details">
+      <section className="mpDetails">
 
-        <div className="mpTitleWrapper" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
-            <PartyLogo
-              backgroundColour={`#${details?.value?.latestParty?.backgroundColour}`}
-              foregroundColour={`#${details?.value?.latestParty?.foregroundColour}`}
-              partyName={details?.value?.latestParty?.name}
-            />
-            <h4>{details.value.nameDisplayAs}</h4>
+        <div className="mpDetails_image_title">
+
+          <img className='mpDetails__image' src={`${details.value?.thumbnailUrl}`} />
+
+          <div className="mpDetails__titleWrapper">
+            <div className="mpDetails_logo_title">
+              <PartyLogo
+                backgroundColour={`#${details?.value?.latestParty?.backgroundColour}`}
+                foregroundColour={`#${details?.value?.latestParty?.foregroundColour}`}
+                partyName={details?.value?.latestParty?.name}
+              />
+              <span>
+                <h4>{details.value.nameDisplayAs}</h4>
+              </span>
+              
+            </div>
+
+            <img className='mpDetails__house' src='./src/assets/commons.png' />
           </div>
+
+
 
         </div>
 
-        <img className='mpImage' src={`${details.value?.thumbnailUrl}`} />
 
-        <div className="details__overview">
+        <div className="mpDetails__overview">
           <table>
             <tbody>
               <tr>
@@ -119,7 +128,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
               </tr>
               <tr>
                 <th>Member Since</th>
-                <td>{details.value.latestHouseMembership?.membershipStartDate}</td>
+                <td>{details.value.latestHouseMembership && details.value.latestHouseMembership?.membershipStartDate.substring(0, 10)}</td>
               </tr>
               <tr>
                 <th>Status</th>
@@ -159,7 +168,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
         </div>
 
-        <div className="details__actions">
+        <div className="mpDetails__actions">
           <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
           <button>Least Similar Voting Mps</button>
           <button onClick={() => onGetVotingHistory('all')}>Voting History</button>
@@ -191,26 +200,6 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
             </tbody>
           </table>
         </>
-      )}
-
-      {votingAnalysis && (
-        <div className='votingHistoryWrapper'>
-          <table>
-            <tr>
-              <td>Stance towards EU</td>
-              <td>Pro EU</td>
-              <td>Based on this voting pattern, the MP seems to have generally supported the Brexit process and the withdrawal of the United Kingdom from the European Union. They voted in favor of the Withdrawal Agreement Bill, government motions related to the EU withdrawal, and other bills related to the transition. However, their stance might be more nuanced and context-specific than what can be derived solely from this voting record.</td>
-
-            </tr>
-            <tr>
-              <td>Position on Immigration</td>
-              <td>Anti Immigration</td>
-              <td>Based on this voting pattern, the MP seems to have voted against various immigration-related measures, including those related to the Immigration and Social Security Co-ordination Bill. However, they voted in favor of a motion related to migration and Scotland. It's important to note that this voting record might not fully capture the intricacies of the MP's overall stance on immigration and related policies, as individual votes may be influenced by various factors and nuances.</td>
-
-            </tr>
-          </table>
-        </div>
-
       )}
 
       {votingHistory && votingHistory.isInProgress && (
