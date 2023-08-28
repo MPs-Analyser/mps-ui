@@ -24,6 +24,7 @@
   width: 100%;
   padding: .5em;
   color: white;  
+  background-color: rgb(255 255 255 / 50%)
 }
 
 .mpDetails__titleWrapper span {
