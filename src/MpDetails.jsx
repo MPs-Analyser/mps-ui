@@ -9,6 +9,8 @@ import "./styles/mpDetails.css";
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
+import { config } from '../src/app.config';
+
 const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision, setGlobalMessage }) => {
 
   const [votingSimilarity, setVotingSimilarity] = useState();
@@ -21,8 +23,8 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   const onGetVotingSimilarity = async () => {
     //clear voting history to make space for similarity
-    setVotingHistory(undefined);
-    const result = await ky(`http://localhost:8000/votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
+    setVotingHistory(undefined);    
+    const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
     console.log('votingSimilarity ', result);
     setVotingSimilarity(result.similarity);
 
@@ -58,7 +60,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
     setVotingHistory({ isInProgress: true })
 
     try {
-      const response = await ky(`http://localhost:8000/votingDetails?id=${details?.value?.id}&type=${type}`).json();
+      const response = await ky(`${config.mpsApiUrl}votingDetails?id=${details?.value?.id}&type=${type}`).json();
       const formattedResults = [];
 
       console.log('result ', response);
@@ -104,10 +106,16 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
               <span>
                 <h4>{details.value.nameDisplayAs}</h4>
               </span>
-              
+
             </div>
 
-            <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? './src/assets/commons.png' : './src/assets/lords.png' } />
+            <div className="house__tooltop">
+              {details.value.latestHouseMembership?.house === 1 ? 'House of Commons' : 'House of Lords'}
+            </div>
+            <div className="house__wrapper">
+              <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? './src/assets/commons.png' : './src/assets/lords.png'} />
+            </div>
+
           </div>
 
 

@@ -39,6 +39,31 @@
 
 .mpDetails__house {
   height: 34px;  
+  z-index: 5;
+}
+
+.house__tooltop {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  right: 50px;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  top: -5px;  
+  z-index: 1;
+}
+
+.house__wrapper:hover .house__tooltop {
+  visibility: visible;
+  color: red;
+}
+
+.house__wrapper:visited .house__tooltop {  
+  color: green;
 }
 
 .mpDetails__options {

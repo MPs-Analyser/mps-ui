@@ -18,8 +18,6 @@
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     top: -5px;
     left: 105%;

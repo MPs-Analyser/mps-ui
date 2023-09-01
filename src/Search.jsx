@@ -6,6 +6,8 @@ import DivisionDetails from './DivisionDetails';
 
 import "./styles/search.css";
 
+import { config } from '../src/app.config';
+
 import ky from 'ky-universal';
 
 const Search = ({ setGlobalMessage }) => {
@@ -18,13 +20,13 @@ const Search = ({ setGlobalMessage }) => {
 
   const getMpNames = async () => {
     console.log('get names');
-    const result = await ky('http://localhost:8000/mpnames').json();
+    const result = await ky(`${config.mpsApiUrl}mpnames`).json();
     setMpNames(result);
   }
 
   const getDivisionNames = async () => {
     console.log('getDivisionNames');
-    const result = await ky('http://localhost:8000/divisionnames').json();
+    const result = await ky(`${config.mpsApiUrl}divisionnames`).json();    
     setDivisionNames(result);
   }
 
@@ -87,8 +89,8 @@ const Search = ({ setGlobalMessage }) => {
     )
   }
 
-  const onGetVotingSummary = async (id) => {
-    const result = await ky(`http://localhost:8000/votingSummary?id=${id}`).json();
+  const onGetVotingSummary = async (id) => {    
+    const result = await ky(`${config.mpsApiUrl}votingSummary?id=${id}`).json();    
     console.log('votingsummary ', result);
     setVotingSummary(result);
   }
