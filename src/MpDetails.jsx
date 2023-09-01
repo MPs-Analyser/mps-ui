@@ -23,7 +23,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   const onGetVotingSimilarity = async () => {
     //clear voting history to make space for similarity
-    setVotingHistory(undefined);    
+    setVotingHistory(undefined);
     const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
     console.log('votingSimilarity ', result);
     setVotingSimilarity(result.similarity);
@@ -186,28 +186,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
 
       {votingSimilarity && (
-        <>
-          <BarChart barChartData={barChartData} onQueryMpByName={onQueryMpByName} />
-
-          <table className='table__similarity'>
-            <tbody>
-              <tr>
-                <th>#</th>
-                <th>Other Mp</th>
-                <th>Similarity</th>
-              </tr>
-              {
-                votingSimilarity.map((record, index) => (
-                  <tr key={index}>
-                    <td>{index}</td>
-                    <td>{record.name}</td>
-                    <td>{record.score}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </>
+        <BarChart barChartData={barChartData} onQueryMpByName={onQueryMpByName} />
       )}
 
       {votingHistory && votingHistory.isInProgress && (
