@@ -159,17 +159,17 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
                 <tr>
                   <th>Total Votes</th>
                   <td>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</td>
-                  <td><button onClick={() => onGetVotingHistory('all')}>View</button></td>
+                  <td><button className="button" onClick={() => onGetVotingHistory('all')}>View</button></td>
                 </tr>
                 <tr>
                   <th>Voted Aye</th>
                   <td>{votingSummary?.votedAye?.length || 0}</td>
-                  <td><button onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
+                  <td><button className="button" onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
                 </tr>
                 <tr>
                   <th>Voted No</th>
                   <td>{votingSummary?.votedNo?.length || 0}</td>
-                  <td><button onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
+                  <td><button className="button" onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
                 </tr>
               </table>
             </div>
@@ -180,9 +180,9 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
         </div>
 
         <div className="mpDetails__actions">
-          <button onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
-          <button>Least Similar Voting Mps</button>
-          <button onClick={() => onGetVotingHistory('all')}>Voting History</button>
+          <button className="button" onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
+          <button className="button">Least Similar Voting Mps</button>
+          <button className="button" onClick={() => onGetVotingHistory('all')}>Voting History</button>
         </div>
 
       </section>

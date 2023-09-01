@@ -7,6 +7,7 @@ import Search from './Search';
 import Toast from './Toast';
 
 import "./styles/index.css";
+import "./styles/utils.css";
 
 const App = () => {
 

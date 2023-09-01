@@ -8,6 +8,8 @@
   --clr-dark-other: #262a32;
   --clr-light-other: #d5e3f0;
 
+  --clr-accent: #980c4c;
+
   --clr-success: rgb(34 197 94);
   --clr-info: rgb(59 130 246);
   --clr-wan: rgb(249 115 22);
@@ -20,6 +22,7 @@
 .light-mode {
   --clr-light: #070a13;
   --clr-dark: #f1f5f9;
+  --clr-accent: #a972cb;
   --clr-light-other: #262a32;
   --clr-dark-other: #d5e3f0;
   --clr-slate400: #1e293b;
