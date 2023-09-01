@@ -6,9 +6,6 @@ import About from './About';
 import Search from './Search';
 import Toast from './Toast';
 
-import "./assets/commons.png";
-import "./assets/lords.png";
-
 import "./styles/index.css";
 
 const App = () => {

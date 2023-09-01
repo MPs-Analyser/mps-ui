@@ -9,6 +9,9 @@ import "./styles/mpDetails.css";
 import ky from 'ky-universal';
 import BarChart from './BarChart';
 
+import commonsImage from "./assets/commons.png";
+import lordsImage from "./assets/lords.png";
+
 import { config } from '../src/app.config';
 
 const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQueryDivision, setGlobalMessage }) => {
@@ -113,7 +116,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
               {details.value.latestHouseMembership?.house === 1 ? 'House of Commons' : 'House of Lords'}
             </div>
             <div className="house__wrapper">
-              <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? './src/assets/commons.png' : './src/assets/lords.png'} />
+              <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? `${commonsImage}` : `${commonsImage}`} />
             </div>
 
           </div>
