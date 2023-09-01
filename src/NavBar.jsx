@@ -1,19 +1,17 @@
 import "./styles/index.css";
 import "./styles/navbar.css";
 
-const NavBar = ({ setPage, handleThemeToggle }) => {
+const NavBar = ({ setPage, handleThemeToggle, onToggleSearchBar }) => {
 
   return (
 
     <nav className="navbar">
 
-      {/* <ul className="navbar__nav">
-        <li> <a href='#'>Details</a></li>
-        <li><a href='#'>Insights</a> </li>
-      </ul> */}
-
-
       <div className='navbar__buttons'>
+
+        <button className="navbar__button" onClick={onToggleSearchBar}>
+          <svg width="24" height="24" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m15.97 17.031c-1.479 1.238-3.384 1.985-5.461 1.985-4.697 0-8.509-3.812-8.509-8.508s3.812-8.508 8.509-8.508c4.695 0 8.508 3.812 8.508 8.508 0 2.078-.747 3.984-1.985 5.461l4.749 4.75c.146.146.219.338.219.531 0 .587-.537.75-.75.75-.192 0-.384-.073-.531-.22zm-5.461-13.53c-3.868 0-7.007 3.14-7.007 7.007s3.139 7.007 7.007 7.007c3.866 0 7.007-3.14 7.007-7.007s-3.141-7.007-7.007-7.007z" fill-rule="nonzero"/></svg>        
+        </button>
 
         <button className="navbar__button" onClick={() => setPage('home')}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h18v-10h3zm-5 8h-14v-10.26l7-6.912 7 6.99v10.182zm-5-1h-4v-6h4v6z" /></svg>

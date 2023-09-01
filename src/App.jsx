@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef  } from 'react'
 
 import NavBar from './NavBar';
 import DivisionDetails from './DivisionDetails';
@@ -10,8 +10,10 @@ import "./styles/index.css";
 
 const App = () => {
 
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState('home');  
   const [globalMessage, setGlobalMessage] = useState({ text: undefined, type: undefined });
+
+  const container = useRef(null);
 
   useEffect(() => {
     const theme = localStorage.getItem('theme');
@@ -33,15 +35,20 @@ const App = () => {
     setGlobalMessage(message)
   }
 
+  const onToggleSearchBar = () => {      
+    container.current.scrollTo(0, 0);    
+    document.querySelector('.wrapper input').focus();
+  }
+
   return (
 
     <main>
 
-      <NavBar setPage={setPage} handleThemeToggle={handleThemeToggle} />
+      <NavBar setPage={setPage} handleThemeToggle={handleThemeToggle} onToggleSearchBar={onToggleSearchBar} />
 
-      <div className="container">
+      <div className="container" ref={container}>
         {page === 'home' && (
-          <Search setGlobalMessage={setGlobalMessage} />
+          <Search setGlobalMessage={setGlobalMessage}/>
         )}
 
         {page === 'divison' && (

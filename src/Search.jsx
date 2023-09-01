@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { useState, useEffect } from 'react';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 
 import MpDetails from './MpDetails';
 import DivisionDetails from './DivisionDetails';
@@ -26,7 +26,7 @@ const Search = ({ setGlobalMessage }) => {
 
   const getDivisionNames = async () => {
     console.log('getDivisionNames');
-    const result = await ky(`${config.mpsApiUrl}divisionnames`).json();    
+    const result = await ky(`${config.mpsApiUrl}divisionnames`).json();
     setDivisionNames(result);
   }
 
@@ -89,8 +89,8 @@ const Search = ({ setGlobalMessage }) => {
     )
   }
 
-  const onGetVotingSummary = async (id) => {    
-    const result = await ky(`${config.mpsApiUrl}votingSummary?id=${id}`).json();    
+  const onGetVotingSummary = async (id) => {
+    const result = await ky(`${config.mpsApiUrl}votingSummary?id=${id}`).json();
     console.log('votingsummary ', result);
     setVotingSummary(result);
   }
@@ -112,14 +112,14 @@ const Search = ({ setGlobalMessage }) => {
   }
 
   const onQueryMp = async (id) => {
-    
+
     setMpDetails(undefined);
     setDivisionDetails(undefined);
 
 
 
     const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-    
+
     setMpDetails(result);
 
     onGetVotingSummary(result?.value?.id);
