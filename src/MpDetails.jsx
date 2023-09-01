@@ -116,7 +116,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
               {details.value.latestHouseMembership?.house === 1 ? 'House of Commons' : 'House of Lords'}
             </div>
             <div className="house__wrapper">
-              <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? `${commonsImage}` : `${commonsImage}`} />
+              <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? `${commonsImage}` : `${lordsImage}`} />
             </div>
 
           </div>
