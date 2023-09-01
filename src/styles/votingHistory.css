@@ -11,12 +11,11 @@ li {
 
 .votingHistory__table {
     flex: 2;
-};
+}
 
-/* .votingHistory__table th > div {
-    white-space: nowrap !important;
-    background: red;
-} */
+.votingHistory__table__row {
+    cursor: pointer;
+}
 
 .divisionDetails__title {
     flex: 1;    

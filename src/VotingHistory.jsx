@@ -95,7 +95,7 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
           </thead>
           <tbody>
             {table.getRowModel().rows.map(row => (
-              <tr key={row.id}>
+              <tr className='votingHistory__table__row' key={row.id}>
                 {row.getVisibleCells().map(cell => (
                   <td key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
