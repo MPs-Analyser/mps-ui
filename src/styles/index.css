@@ -45,7 +45,3 @@ body {
   height: calc(100dvh - var(--height-nav));
   overflow-y: scroll;  
 }
-
-svg {
-  fill: var(--clr-dark);
-}

@@ -35,7 +35,7 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
           <span style={{ marginLeft: 8 }}>{info.getValue().substring(0, 10)}</span>
         </span>
       ) : '',
-      header: <span style={{ position: 'relative', left: 0, marginRight: 12 }}>Date</span>
+      header: <span style={{ position: 'relative', left: 0, marginRight: 4 }}>Date</span>
     }),
     columnHelper.accessor('title', {
       cell: info => <span
@@ -45,11 +45,11 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
         }}>
         {info.getValue()}
       </span>,
-      header: 'Vote'
+      header: <span style={{ position: 'relative', left: -8 }}>Vote</span>
     }),
     columnHelper.accessor('memberVotedAye', {
       cell: info => <span onClick={() => onQueryDivision(info.row.original.divisionId)}>{info.getValue() ? 'Aye' : 'No'}</span>,
-      header: <span style={{ position: 'relative', left: -8, marginRight: 12 }}>Voted</span>
+      header: <span style={{ position: 'relative', left: -8 }}>Voted</span>
     })
   ]
 
@@ -82,14 +82,15 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
                             : '',
                           onClick: header.column.getToggleSortingHandler(),
                         }}
+                        style={{ whiteSpace: 'nowrap' }}
                       >
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
                         {{
-                          asc: ' 🔼',
-                          desc: ' 🔽',
+                          asc: <svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 21l12-18 12 18z"/></svg>,
+                          desc:<svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3l-12 18-12-18z"/></svg>,
                         }[header.column.getIsSorted()] ?? null}
                       </div>
                     )}
