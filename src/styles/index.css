@@ -42,6 +42,7 @@ body {
 }
 
 .container {  
-  height: calc(100vh - var(--height-nav));
+  height: calc(100dvh - var(--height-nav));
   overflow-y: scroll;
+  border: solid;
 }
