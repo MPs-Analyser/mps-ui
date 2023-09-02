@@ -27,6 +27,24 @@
   background-color: rgb(255 255 255 / 50%)
 }
 
+.votingSummary__buttons {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .1em;
+  justify-items: center;
+  align-items: center;
+}
+
+.votingSummary__buttons > button {  
+  width: 100%;
+}
+
+.votingSummary h4 {
+  text-align: center;
+}
+
+
 .mpDetails__titleWrapper span {
   background: rgba(12, 12, 12, 0.5);    
   padding: .4em;

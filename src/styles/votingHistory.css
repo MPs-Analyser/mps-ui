@@ -4,9 +4,9 @@ li {
 
 .votingHistory {
     display: flex;
-    overflow-x: auto;
-    border: 1px solid;
-    gap: 1em;
+    overflow-x: auto;    
+    padding-left: 4px;    
+    gap: 1em;    
 }
 
 .votingHistory__table {

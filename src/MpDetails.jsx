@@ -57,6 +57,8 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   const onGetVotingHistory = async (type) => {
 
+    document.getElementsByClassName('container')[0].scrollTo(0, 0);    
+
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
     setBarChartData(undefined);
@@ -118,11 +120,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
             <div className="house__wrapper">
               <img className='mpDetails__house' src={details.value.latestHouseMembership?.house === 1 ? `${commonsImage}` : `${lordsImage}`} />
             </div>
-
           </div>
-
-
-
         </div>
 
 
@@ -151,32 +149,6 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
               </tr>
             </tbody>
           </table>
-
-          {votingSummary && (
-            <div className="votingSummary">
-              <h3>Voting Summary</h3>
-              <table>
-                <tr>
-                  <th>Total Votes</th>
-                  <td>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</td>
-                  <td><button className="button" onClick={() => onGetVotingHistory('all')}>View</button></td>
-                </tr>
-                <tr>
-                  <th>Voted Aye</th>
-                  <td>{votingSummary?.votedAye?.length || 0}</td>
-                  <td><button className="button" onClick={() => onGetVotingHistory('votedAye')}>View</button></td>
-                </tr>
-                <tr>
-                  <th>Voted No</th>
-                  <td>{votingSummary?.votedNo?.length || 0}</td>
-                  <td><button className="button" onClick={() => onGetVotingHistory('votedNo')}>View</button></td>
-                </tr>
-              </table>
-            </div>
-
-          )}
-
-
         </div>
 
         <div className="mpDetails__actions">
@@ -184,6 +156,26 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
           <button className="button">Least Similar Voting Mps</button>
           <button className="button" onClick={() => onGetVotingHistory('all')}>Voting History</button>
         </div>
+
+
+        {votingSummary && (
+          <div className="votingSummary">
+            <h4>How {details.value.nameDisplayAs.split(' ')[0]} voted</h4>
+            <div className="votingSummary__buttons">
+            
+                <button className="button votingButton" onClick={() => onGetVotingHistory('all')}>Total</button>
+                <button className="button" onClick={() => onGetVotingHistory('votedAye')}>Aye</button>
+                <button className="button" onClick={() => onGetVotingHistory('votedNo')}>No</button>
+
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</span>
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length || 0}</span>
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedNo?.length || 0}</span>
+              
+            </div>
+
+          </div>
+        )}
+
 
       </section>
 
