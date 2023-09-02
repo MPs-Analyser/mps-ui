@@ -13,10 +13,14 @@ nav.navbar {
 }
 
 .navbar__button {
-    background-color: var(--clr-light)
+    background-color: var(--clr-light-other);
     padding: .1em;
     border-radius: 50%;
     border: none;
+}
+
+.navbar__icon {
+    fill: var(--clr-dark);
 }
 
 .navbar__buttons {

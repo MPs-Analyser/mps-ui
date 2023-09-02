@@ -25,6 +25,9 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
   }, []);
 
   const onGetVotingSimilarity = async () => {
+
+    document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight);    
+
     //clear voting history to make space for similarity
     setVotingHistory(undefined);
     const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
@@ -57,7 +60,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   const onGetVotingHistory = async (type) => {
 
-    document.getElementsByClassName('container')[0].scrollTo(0, 0);    
+    document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight);    
 
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
@@ -153,7 +156,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
         <div className="mpDetails__actions">
           <button className="button" onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
-          <button className="button">Least Similar Voting Mps</button>
+          {/* <button className="button">Least Similar Voting Mps</button> */}
           <button className="button" onClick={() => onGetVotingHistory('all')}>Voting History</button>
         </div>
 
