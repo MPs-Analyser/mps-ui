@@ -27,8 +27,11 @@ li {
 }
 
 .votingHistory__table__sort {
-    fill: var(--clr-accent);
-    /* margin-left: 4;  */
+    fill: var(--clr-accent);    
     position: relative; 
     top: 2px;
+}
+
+.votingHistory__table-svg {
+    fill: var(--clr-dark);    
 }
