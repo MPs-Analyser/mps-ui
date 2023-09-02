@@ -91,9 +91,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       setVotingHistory(undefined);
       setGlobalMessage({ type: 'error', text: error.message });
     }
-
   }
-
 
   return (
 
