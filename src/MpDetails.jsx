@@ -28,8 +28,8 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
     //clear voting history to make space for similarity
     setVotingHistory(undefined);
-
-    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 1);    
+    
+    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 100);    
         
     const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
     
