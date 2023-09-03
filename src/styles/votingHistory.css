@@ -35,3 +35,14 @@ li {
 .votingHistory__table-svg {
     fill: var(--clr-dark);    
 }
+
+.votingHistory__table__header {
+    white-space: nowrap;
+    border: 1px solid var(--clr-light-other);    
+    position: relative;
+    right: 10px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 4px;
+    min-width: 75px;
+}

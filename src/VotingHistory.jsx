@@ -36,7 +36,7 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
           <span style={{ marginLeft: 8 }}>{info.getValue().substring(0, 10)}</span>
         </span>
       ) : '',
-      header: <span style={{ position: 'relative', left: 0, marginRight: 4 }}>Date</span>
+      header: <span style={{ marginRight: 4 }}>Date</span>
     }),
     columnHelper.accessor('title', {
       cell: info => <span
@@ -46,11 +46,11 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
         }}>
         {info.getValue()}
       </span>,
-      header: <span style={{ position: 'relative', left: -8 }}>Vote</span>
+      header: <span style={{ marginRight: 4 }}>Vote</span>
     }),
     columnHelper.accessor('memberVotedAye', {
       cell: info => <span onClick={() => onQueryDivision(info.row.original.divisionId)}>{info.getValue() ? 'Aye' : 'No'}</span>,
-      header: <span style={{ position: 'relative', left: -8 }}>Voted</span>
+      header: <span style={{ marginRight: 4 }}>Voted</span>
     })
   ]
 
@@ -79,8 +79,8 @@ function VotingHistory({ votingHistory, onQueryDivision }) {
                       <div
                         {...{
                           className: header.column.getCanSort()
-                            ? 'cursor-pointer select-none'
-                            : '',
+                          ? 'cursor-pointer select-none votingHistory__table__header'
+                          : 'votingHistory__table__header',
                           onClick: header.column.getToggleSortingHandler(),
                         }}
                         style={{ whiteSpace: 'nowrap' }}
