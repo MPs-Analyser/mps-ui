@@ -7,7 +7,6 @@ Chart.register(CategoryScale);
 
 function BarChart({ barChartData, onQueryMpByName }) {
 
-
   const barChart = React.useRef(null);
 
   const getMp = (evt) => {
@@ -27,28 +26,18 @@ function BarChart({ barChartData, onQueryMpByName }) {
     console.log('You clicked on ' + barChart.current.data.labels[res[0].index]);
     console.log('You clicked on ' + JSON.stringify(barChart.current.data));
 
-    onQueryMpByName(barChart.current.data.labels[res[0].index]);
+    onQueryMpByName(barChart.current.data.labels[res[0].index]);    
   }
 
-  return (
-    <div>
+  return (    
       <Bar
         ref={barChart}
         data={barChartData}
         onClick={getMp}
-        options={{
-          title: {
-            display: true,
-            text: 'Average Rainfall per month',
-            fontSize: 20
-          },
-          legend: {
-            display: true,
-            position: 'right'
-          }
+        options={{          
+          aspectRatio: 1.5,
         }}
-      />
-    </div>
+      />    
   );
 }
 

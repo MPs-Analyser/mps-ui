@@ -45,11 +45,11 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       datasets: [
         {
           label: 'Voting Similarity',
-          backgroundColor: window.localStorage.getItem("theme") === 'light-mode' ? '#a972cb' : '#980c4c',
+          backgroundColor: window.localStorage.getItem("theme") === 'light-mode' ? '#a972cb' : '#980c4c',          
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
-          indexAxis: 'y',          
-          data: []
+          indexAxis: 'y',                              
+          data: [],          
         }
       ]
     }
