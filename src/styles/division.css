@@ -1,16 +1,39 @@
-.divisionDetails {    
-    height: 100%;    
+.divisionDetails {
+    height: 100%;
 }
+
+
 
 .divisionDetails__title {
     padding: .5em;
-    height: 4.5em;    
+    height: 4.5em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.divisionDetails__title-wrapper {    
+.divisionDetails__title-wrapper {
     display: flex;
     gap: 1em;
+}
+
+.divisionDetails__list__wrapper {
+    height: 100%;
+    overflow-x: auto;
+    display: flex;
+    padding: 1em;    
+}
+
+.divisionDetails__list {    
+    flex: 1;
+    min-width: 180px;
+    overflow: hidden;
+}
+
+.divisionDetails__options {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1em;
+    padding: .5em;
 }
