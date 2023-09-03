@@ -2,11 +2,8 @@
     height: 100%;
 }
 
-
-
 .divisionDetails__title {
-    padding: .5em;
-    height: 4.5em;
+    padding: .5em;    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -15,6 +12,10 @@
 .divisionDetails__title-wrapper {
     display: flex;
     gap: 1em;
+}
+
+.divisionDetails__title__date {
+    margin-top: 8px;;
 }
 
 .divisionDetails__list__wrapper {
@@ -37,3 +38,10 @@
     gap: 1em;
     padding: .5em;
 }
+
+/* lg */
+@media (min-width: 1024px) {
+    .list {
+      margin-left: 20px;      
+    }
+  }

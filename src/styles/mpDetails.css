@@ -101,11 +101,16 @@
   gap: .5em;
 }
 
+.divisionDetails__list-li {
+  display: flex;
+  align-items: center;
+  gap: 8;
+}
 
 /* lg */
 @media (min-width: 1024px) {
-  .mpDetails {
-    grid-template-columns: 1fr 1fr 1fr;
+  .divisionDetails__list  {   
+    margin-right: 12px;
   }
 }
 
