@@ -111,19 +111,19 @@ const DivisionDetails = ({ onQueryMp, division }) => {
 
       <div className="divisionDetails__options">
         <label className="toggle">
-          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('aye')} />
+          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('aye')} checked={showAye}/>
           <div className="toggle__switch"></div>
           <span className="toggle__label">Aye</span>
         </label>
 
         <label className="toggle">
-          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('no')} />
+          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('no')} checked={showNo} />
           <div className="toggle__switch"></div>
           <span className="toggle__label">No</span>
         </label>
 
         <label className="toggle">
-          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('absent')} />
+          <input className="toggle__checkbox" type="checkbox" onChange={() => onToggleCheckbox('absent')} checked={showAbsent}/>
           <div className="toggle__switch"></div>
           <span className="toggle__label">Absent</span>
         </label>
