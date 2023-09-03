@@ -26,12 +26,13 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
   const onGetVotingSimilarity = async () => {
 
-    document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight);    
-
     //clear voting history to make space for similarity
     setVotingHistory(undefined);
+
+    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 1);    
+        
     const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
-    console.log('votingSimilarity ', result);
+    
     setVotingSimilarity(result.similarity);
 
     const chartData = {
@@ -42,6 +43,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
           backgroundColor: 'rgba(75,192,192,1)',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
+          indexAxis: 'y',
           data: []
         }
       ]
@@ -59,13 +61,13 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
   }
 
   const onGetVotingHistory = async (type) => {
-
-    document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight);    
-
+        
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
     setBarChartData(undefined);
-    setVotingHistory({ isInProgress: true })
+    setVotingHistory({ isInProgress: true });
+
+    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 1);
 
     try {
       const response = await ky(`${config.mpsApiUrl}votingDetails?id=${details?.value?.id}&type=${type}`).json();
@@ -181,7 +183,7 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       </section>
 
 
-      {votingSimilarity && (
+      {votingSimilarity &&(
         <BarChart barChartData={barChartData} onQueryMpByName={onQueryMpByName} />
       )}
 
