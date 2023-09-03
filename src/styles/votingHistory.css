@@ -4,9 +4,11 @@ li {
 
 .votingHistory {
     display: flex;
-    overflow-x: auto;    
-    padding-left: 4px;    
-    gap: 1em;    
+    overflow-x: auto;
+    padding-left: 4px;
+    padding-right: 4px;
+    gap: 1em;
+    overflow-x: auto;
 }
 
 .votingHistory__table {
@@ -18,8 +20,8 @@ li {
 }
 
 .divisionDetails__title {
-    flex: 1;    
-    padding: 1em;            
+    flex: 1;
+    padding: 1em;
 }
 
 .cursor-pointer:hover {
@@ -27,22 +29,21 @@ li {
 }
 
 .votingHistory__table__sort {
-    fill: var(--clr-accent);    
-    position: relative; 
+    fill: var(--clr-accent);
+    position: relative;
     top: 2px;
 }
 
 .votingHistory__table-svg {
-    fill: var(--clr-dark);    
+    fill: var(--clr-dark);
 }
 
 .votingHistory__table__header {
     white-space: nowrap;
-    border: 1px solid var(--clr-light-other);    
+    border: 1px solid var(--clr-light-other);
     position: relative;
     right: 10px;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 4px;    
     border-radius: 4px;
     min-width: 75px;
 }
