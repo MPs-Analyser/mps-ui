@@ -17,9 +17,7 @@ const DivisionDetails = ({ onQueryMp, division }) => {
   const [showNo, setShowNo] = React.useState(false);
   const [showAbsent, setShowAbsent] = React.useState(false);
 
-  const onToggleCheckbox = (type) => {
-    console.log('go ', type);
-
+  const onToggleCheckbox = (type) => {    
     switch (type) {
       case 'aye':
         setShowAye(!showAye);
@@ -32,7 +30,6 @@ const DivisionDetails = ({ onQueryMp, division }) => {
         break;
       default: 
       //wtf?
-
     }
   }
 
@@ -83,6 +80,8 @@ const DivisionDetails = ({ onQueryMp, division }) => {
     const absentList = [];
     division.NoVoteRecorded.forEach(i => absentList.push({ id: i.MemberId, name: i.Name, party: i.Party }));
     setAbsent(absentList);
+
+    console.log(division);
 
   }, [division]);
 

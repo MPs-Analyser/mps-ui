@@ -45,11 +45,11 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       datasets: [
         {
           label: 'Voting Similarity',
-          backgroundColor: window.localStorage.getItem("theme") === 'light-mode' ? '#a972cb' : '#980c4c',          
+          backgroundColor: window.localStorage.getItem("theme") === 'light-mode' ? '#a972cb' : '#980c4c',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
-          indexAxis: 'y',                              
-          data: [],          
+          indexAxis: 'y',
+          data: [],
         }
       ]
     }
@@ -167,26 +167,28 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
           <button className="button" onClick={onGetVotingSimilarity}>Most Similar Voting Mps</button>
           {/* <button className="button">Least Similar Voting Mps</button> */}
           <button className="button" onClick={() => onGetVotingHistory('all')}>Voting History</button>
+
+          {votingSummary && (
+            <div className="votingSummary">
+              <h4>How {details.value.nameDisplayAs.split(' ')[0]} voted</h4>
+              <div className="votingSummary__buttons">
+
+                <button className="button votingButton" onClick={() => onGetVotingHistory('all')}>Total</button>
+                <button className="button" onClick={() => onGetVotingHistory('votedAye')}>Aye</button>
+                <button className="button" onClick={() => onGetVotingHistory('votedNo')}>No</button>
+
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</span>
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length || 0}</span>
+                <span className='votingSummary__buttons__count'>{votingSummary?.votedNo?.length || 0}</span>
+
+              </div>
+
+            </div>
+          )}
         </div>
 
 
-        {votingSummary && (
-          <div className="votingSummary">
-            <h4>How {details.value.nameDisplayAs.split(' ')[0]} voted</h4>
-            <div className="votingSummary__buttons">
 
-              <button className="button votingButton" onClick={() => onGetVotingHistory('all')}>Total</button>
-              <button className="button" onClick={() => onGetVotingHistory('votedAye')}>Aye</button>
-              <button className="button" onClick={() => onGetVotingHistory('votedNo')}>No</button>
-
-              <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</span>
-              <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length || 0}</span>
-              <span className='votingSummary__buttons__count'>{votingSummary?.votedNo?.length || 0}</span>
-
-            </div>
-
-          </div>
-        )}
 
 
       </section>

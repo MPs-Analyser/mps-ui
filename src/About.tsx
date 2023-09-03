@@ -1,42 +1,36 @@
+import "./styles/about.css";
+
 function About() {
 
   return (
 
-    <article>
+    <article className="about">
 
       <section className="description">
         <h2>Description:</h2>
         <p>MP Analiser is a comprehensive and user-friendly application designed to analyze the voting records of different members of the UK Parliament...</p>
+        <p>This is a very early prototype which much more to come</p>
       </section>
 
       <section className="features">
-        <h2>Key Features:</h2>
+        <h2>Upcoming Features:</h2>
         <ul>
-          <li>Voting Analysis</li>
+          <li>Voting Analysis using graph based data science algorithms</li>
           <li>Search and Filter</li>
-          <li>Visual Insights</li>
-          <li>Comparative Analysis</li>
-          <li>Historical Context</li>
-          <li>Notifications</li>
-          <li>Data Transparency</li>
-          <li>User-Friendly Interface</li>
-          <li>Custom Reports</li>
-          <li>Secure and Private</li>
+          <li>Visual Insights</li>                                                  
         </ul>
       </section>
 
-      <section className="how-to-use">
-        <h2>How to Use:</h2>
-        <ol>
-          <li>Search for Members</li>
-          <li>Filter and Analyze</li>
-          <li>Compare and Contrast</li>
-          <li>Set Notifications</li>
-          <li>Generate Reports</li>
-        </ol>
+      <section className="contact">
+        <h2>Get involved:</h2>
+        <ul>
+          <li>Help with development</li>                    
+          <li>Help with hosting</li>                    
+          <li>Help with storage</li>                    
+          <li>Help with funding</li>                    
+        </ul>
       </section>
-
-
+      
     </article>
   )
 }
