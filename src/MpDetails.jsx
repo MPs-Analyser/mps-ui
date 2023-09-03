@@ -20,30 +20,35 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
   const [votingHistory, setVotingHistory] = useState();
   const [barChartData, setBarChartData] = useState();
 
+  const [progress, setProgress] = useState();
+
   useEffect(() => {
     console.log('details ', details);
+    console.log('chips  ', window.getComputedStyle(document.documentElement).getPropertyValue('--clr-accent'));
   }, []);
 
   const onGetVotingSimilarity = async () => {
 
+    setProgress('Getting voting similarity...')
     //clear voting history to make space for similarity
     setVotingHistory(undefined);
-    
-    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 100);    
-        
+
+    setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 100);
+
     const result = await ky(`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`).json();
-    
+
     setVotingSimilarity(result.similarity);
 
+    //TODO something not working getting the css variable for bar colour so using localstorage direct. fix this
     const chartData = {
       labels: [],
       datasets: [
         {
           label: 'Voting Similarity',
-          backgroundColor: 'rgba(75,192,192,1)',
+          backgroundColor: window.localStorage.getItem("theme") === 'light-mode' ? '#a972cb' : '#980c4c',
           borderColor: 'rgba(0,0,0,1)',
           borderWidth: 2,
-          indexAxis: 'y',
+          indexAxis: 'y',          
           data: []
         }
       ]
@@ -57,23 +62,25 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
 
 
     setBarChartData(chartData);
+    setProgress(undefined);
 
   }
 
   const onGetVotingHistory = async (type) => {
-        
+
+    setProgress('Analysing voting history...')
+
     //clear similarity to make space for voting history
     setVotingSimilarity(undefined);
     setBarChartData(undefined);
-    setVotingHistory({ isInProgress: true });
+    setVotingHistory(undefined);
 
+    //TODO scroll to bottom probably should be for mobile only
     setTimeout(() => document.getElementsByClassName('container')[0].scrollTo(0, document.body.scrollHeight), 1);
 
     try {
       const response = await ky(`${config.mpsApiUrl}votingDetails?id=${details?.value?.id}&type=${type}`).json();
       const formattedResults = [];
-
-      console.log('result ', response);
 
       response.forEach(i => {
         console.log('field ', i._fields);
@@ -88,7 +95,9 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       });
 
       setVotingHistory(formattedResults);
+      setProgress(undefined);
     } catch (error) {
+      setProgress(undefined);
       console.error(error);
       setVotingHistory(undefined);
       setGlobalMessage({ type: 'error', text: error.message });
@@ -165,15 +174,15 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
           <div className="votingSummary">
             <h4>How {details.value.nameDisplayAs.split(' ')[0]} voted</h4>
             <div className="votingSummary__buttons">
-            
-                <button className="button votingButton" onClick={() => onGetVotingHistory('all')}>Total</button>
-                <button className="button" onClick={() => onGetVotingHistory('votedAye')}>Aye</button>
-                <button className="button" onClick={() => onGetVotingHistory('votedNo')}>No</button>
 
-                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</span>
-                <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length || 0}</span>
-                <span className='votingSummary__buttons__count'>{votingSummary?.votedNo?.length || 0}</span>
-              
+              <button className="button votingButton" onClick={() => onGetVotingHistory('all')}>Total</button>
+              <button className="button" onClick={() => onGetVotingHistory('votedAye')}>Aye</button>
+              <button className="button" onClick={() => onGetVotingHistory('votedNo')}>No</button>
+
+              <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length + votingSummary?.votedNo?.length}</span>
+              <span className='votingSummary__buttons__count'>{votingSummary?.votedAye?.length || 0}</span>
+              <span className='votingSummary__buttons__count'>{votingSummary?.votedNo?.length || 0}</span>
+
             </div>
 
           </div>
@@ -183,22 +192,20 @@ const MpDetails = ({ votingSummary, details, onQueryMpByName, onQueryMp, onQuery
       </section>
 
 
-      {votingSimilarity &&(
+      {votingSimilarity && (
         <BarChart barChartData={barChartData} onQueryMpByName={onQueryMpByName} />
       )}
 
-      {votingHistory && votingHistory.isInProgress && (
+      {progress && (
         <>
           <div className="votingHistoryProgress">
             <progress value={null} />
-            <p>Analysing voting history...</p>
+            <p>{progress}</p>
           </div>
-
         </>
-
       )}
 
-      {votingHistory && !votingHistory.isInProgress && (
+      {votingHistory && (
         <VotingHistory votingHistory={votingHistory} onQueryMp={onQueryMp} onQueryDivision={onQueryDivision} />
       )}
 
