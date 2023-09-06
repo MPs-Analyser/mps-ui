@@ -1,72 +1,71 @@
 .search {
-  height: 100%;
+	height: 100%;
 }
 
 button {
-  display: inline-block;
-  cursor: pointer;
-  color: inherit;
-  padding: .5em;
-  color: var(--clr-dark);
-  background-color: var(--clr-light);
+	display: inline-block;
+	cursor: pointer;
+	color: inherit;
+	padding: 0.5em;
+	color: var(--clr-dark);
+	background-color: var(--clr-light);
 }
 
 th,
 td {
-  padding: .1em;
+	padding: 0.1em;
 }
 
 th {
-  text-align: start;
+	text-align: start;
 }
 
 .autoComplete {
-  padding: 4px;
-  padding-top: 8px;
-  background-color: var(--clr-light-other);
-  border-radius: 4px;
-  ;
+	padding: 6px;
+	background-color: var(--clr-light-other);
+	border-radius: 4px;
 }
 
 article {
-  padding: 2em;
+	padding: 2em;
 }
 
-.table__similarity td, th {
-  padding-left: .5em;
-  padding-right: .5em;
+.table__similarity td,
+th {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 .votingHistoryProgress {
-  width: 100%;
-  padding: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	width: 100%;
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .votingHistoryWrapper {
-  padding: 1em;
+	padding: 1em;
 }
 
 .votingHistoryWrapper__summarise {
-  margin-bottom: .3em;
-  padding-left: 1em;
-  display: flex;
-  align-items: center;
-  gap: .5em;
+	margin-bottom: 0.3em;
+	padding-left: 1em;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 }
 
 .button-link {
-  border: none;
-  text-decoration: underline;
-  text-align: start;
+	border: none;
+	text-decoration: underline;
+	text-align: start;
 }
 
 /* lg */
 @media (min-width: 1024px) {
-  .autoComplete {
-    margin-top: var(--height-nav);
-  }
+	.autoComplete {
+		margin-top: var(--height-nav);
+	}
 }
