@@ -5,7 +5,7 @@ import DivisionDetails from "./DivisionDetails";
 import About from "./About";
 import Search from "./Search";
 import Toast from "./Toast";
-import Splash from "./Splash";
+// import Splash from "./Splash";
 
 import "./styles/index.css";
 import "./styles/utils.css";
@@ -55,7 +55,7 @@ const App = () => {
 				{page === "home" && (
 					<>
 						<Search setGlobalMessage={setGlobalMessage} />
-						<Splash />
+						{/* <Splash /> */}
 					</>
 				)}
 
