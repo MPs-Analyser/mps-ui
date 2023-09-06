@@ -1,7 +1,6 @@
-section {
-    margin-bottom: 1em;
-}
 
-.about {
-    margin-top: 40px;
+@media screen and (min-width: 780px) {
+	.about {
+		margin-top: 40px;
+	}
 }

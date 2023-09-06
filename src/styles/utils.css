@@ -1,77 +1,77 @@
 .button:hover,
 .button:focus {
-    box-shadow: inset 0 0 0 2em adjust-hue(var(--clr-accent), 45deg);
-    border-color: adjust-hue(var(--clr-accent), 45deg); 
+	box-shadow: inset 0 0 0 2em adjust-hue(var(--clr-accent), 45deg);
+	border-color: adjust-hue(var(--clr-accent), 45deg);
 }
 
 .button {
-    color: var(--clr-accent);
-    transition: 0.25s;
-    background: none;
-    border: 2px solid;
-    font: inherit;
-    line-height: 1;    
-    padding: .5em 1em;
-    border-radius: 4px;
+	transition: 0.25s;
+	background: none;
+	border: 2px solid;
+	font: inherit;
+	line-height: 1;
+	padding: 0.5em 1em;
+	border-radius: 4px;
 }
 
 .standalone-svg {
-    fill: var(--clr-dark)
+	fill: var(--clr-dark);
 }
 
 .plaintext {
-    text-decoration: none;
-    color: var(--clr-dark);
+	text-decoration: none;
+	color: var(--clr-dark);
 }
 
 .toggle {
-  cursor: pointer;
-  display: inline-block;
+	cursor: pointer;
+	display: inline-block;
 }
 
 .toggle__switch {
-  display: inline-block;
-  background: #ccc;
-  border-radius: 16px;
-  width: 58px;
-  height: 32px;
-  position: relative;
-  vertical-align: middle;
-  transition: background 0.25s;
+	display: inline-block;
+	background: #ccc;
+	border-radius: 16px;
+	width: 58px;
+	height: 32px;
+	position: relative;
+	vertical-align: middle;
+	transition: background 0.25s;
 }
-.toggle__switch:before, .toggle__switch:after {
-  content: "";
+.toggle__switch:before,
+.toggle__switch:after {
+	content: "";
 }
 .toggle__switch:before {
-  display: block;
-  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  transition: left 0.25s;
+	display: block;
+	background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	transition: left 0.25s;
 }
 .toggle:hover .toggle__switch:before {
-  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+	background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 .toggle__checkbox:checked + .toggle__switch {
-  background: var(--clr-accent)
+	background: var(--clr-accent);
 }
 .toggle__checkbox:checked + .toggle__switch:before {
-  left: 30px;
+	left: 30px;
 }
 
 .toggle__checkbox {
-  position: absolute;
-  visibility: hidden;
+	position: absolute;
+	visibility: hidden;
 }
 
 .toggle__label {
-  margin-left: 5px;
-  position: relative;
-  top: 2px;
+	margin-left: 5px;
+	position: relative;
+	top: 2px;
 }
