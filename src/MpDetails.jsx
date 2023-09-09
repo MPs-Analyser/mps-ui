@@ -91,7 +91,6 @@ const MpDetails = ({
 	};
 
 	const partyColor = getColour(details.value.latestParty.name);
-	console.log("partyColor", partyColor); // Should print the color of 'The Reclaim Party'
 
 	const onGetVotingSimilarity = async () => {
 		setProgress("Getting voting similarity...");
@@ -294,9 +293,6 @@ const MpDetails = ({
 				<div className='mpDetails__actions'>
 					<button
 						className='button'
-						style={{
-							borderColor: `${partyColor}`,
-						}}
 						onClick={onGetVotingSimilarity}
 					>
 						Most Similar Voting Mps
@@ -304,9 +300,6 @@ const MpDetails = ({
 					{/* <button className="button">Least Similar Voting Mps</button> */}
 					<button
 						className='button'
-						style={{
-							borderColor: `${partyColor}`,
-						}}
 						onClick={() => onGetVotingHistory("all")}
 					>
 						Voting History
@@ -326,9 +319,6 @@ const MpDetails = ({
 							<div className='votingSummary__buttons'>
 								<button
 									className='button votingButton'
-									style={{
-										borderColor: `${partyColor}`,
-									}}
 									onClick={() =>
 										onGetVotingHistory("all")
 									}
@@ -337,9 +327,6 @@ const MpDetails = ({
 								</button>
 								<button
 									className='button'
-									style={{
-										borderColor: `${partyColor}`,
-									}}
 									onClick={() =>
 										onGetVotingHistory("votedAye")
 									}
@@ -347,9 +334,6 @@ const MpDetails = ({
 									Aye
 								</button>
 								<button
-									style={{
-										borderColor: `${partyColor}`,
-									}}
 									className='button'
 									onClick={() =>
 										onGetVotingHistory("votedNo")
