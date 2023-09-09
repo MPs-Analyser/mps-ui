@@ -5,6 +5,7 @@
 }
 
 .button {
+	color: var(--clr-accent);
 	transition: 0.25s;
 	background: none;
 	border: 2px solid;
