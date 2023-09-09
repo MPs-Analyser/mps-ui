@@ -122,3 +122,13 @@
 		margin-right: 12px;
 	}
 }
+@media (min-width: 700px) {
+	.mpDetails {
+		display: flex;
+		justify-content: space-between;
+	}
+	.mpDetails__image,
+	.mpDetails__titleWrapper {
+		max-width: 500px;
+	}
+}
