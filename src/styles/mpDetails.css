@@ -123,10 +123,9 @@
 	}
 }
 @media (min-width: 700px) {
-	.mpDetails {
-		display: flex;
-		justify-content: space-between;
-	}
+  .mpDetails {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 	.mpDetails__image,
 	.mpDetails__titleWrapper {
 		max-width: 500px;

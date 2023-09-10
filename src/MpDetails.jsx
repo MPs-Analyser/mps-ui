@@ -190,10 +190,7 @@ const MpDetails = ({
 			<section className='mpDetails'>
 				<div className='mpDetails_image_title'>
 					<img
-						className='mpDetails__image'
-						style={{
-							border: `3px solid ${partyColor}`,
-						}}
+						className='mpDetails__image'	
 						src={`${details.value?.thumbnailUrl}`}
 					/>
 
