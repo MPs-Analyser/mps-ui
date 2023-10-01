@@ -12,6 +12,7 @@ import BarChart from "./BarChart";
 import commonsImage from "./assets/commons.png";
 import lordsImage from "./assets/lords.png";
 
+import Switch from "./shared/Switch";
 import { config } from "./app.config";
 
 const MpDetails = ({
@@ -26,17 +27,22 @@ const MpDetails = ({
 	const [votingHistory, setVotingHistory] = useState();
 	const [barChartData, setBarChartData] = useState();
 
+	//similarity params
+	const [isExcludingParties, setIsExcludingParties] = useState(true);
+	const [isIncludingParties, setIsIncludingParties] = useState(false);
+	const [excludeParties, setExcludeParties] = useState("");
+	const [includeParties, setIncludeParties] = useState("");
+
 	const [progress, setProgress] = useState();
 
 	useEffect(() => {
-		console.log("details ", details);
-		console.log(
-			"chips  ",
-			window
-				.getComputedStyle(document.documentElement)
-				.getPropertyValue("--clr-accent")
-		);
-	}, []);
+		setExcludeParties(details?.value?.latestParty?.name);
+	}, [details]);
+
+	const onToggleExcludeInclude = () => {
+		setIsExcludingParties(!isExcludingParties)
+		setIsIncludingParties(!isIncludingParties)
+	}
 
 	const Party = {
 		CONSERVATIVE: "Conservative",
@@ -55,6 +61,7 @@ const MpDetails = ({
 	};
 
 	const getColour = (partyName) => {
+
 		if (!Object.values(Party).includes(partyName)) {
 			partyName = Party.UNKNOWN;
 		}
@@ -85,6 +92,7 @@ const MpDetails = ({
 			case Party.RECLAIM:
 				return "#14172d";
 			case Party.UNKNOWN:
+				return "black"
 			default:
 				throw new Error("Unknown party");
 		}
@@ -105,11 +113,19 @@ const MpDetails = ({
 			100
 		);
 
-		const result = await ky(
-			`${config.mpsApiUrl}votingSimilarity?name=${details?.value?.nameDisplayAs}`
-		).json();
+		let queryParams = '';
 
-		setVotingSimilarity(result.similarity);
+		if (isExcludingParties && excludeParties) {
+			queryParams = `&partyExcludes=${excludeParties}`;
+		} else if (isIncludingParties && includeParties) {
+			queryParams = `&partyIncludes=${includeParties}`;
+		}
+
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?name=${details?.value?.nameDisplayAs}${queryParams}`;
+		
+		const result = await ky(url).json();
+
+		setVotingSimilarity(result);
 
 		//TODO something not working getting the css variable for bar colour so using localstorage direct. fix this
 		const chartData = {
@@ -119,7 +135,7 @@ const MpDetails = ({
 					label: "Voting Similarity",
 					backgroundColor:
 						window.localStorage.getItem("theme") ===
-						"light-mode"
+							"light-mode"
 							? "#a972cb"
 							: "#980c4c",
 					borderColor: "rgba(0,0,0,1)",
@@ -130,8 +146,7 @@ const MpDetails = ({
 			],
 		};
 
-		result.similarity.forEach((element) => {
-			console.log(element);
+		result.forEach((element) => {
 			chartData.labels.push(element.name);
 			chartData.datasets[0].data.push(element.score);
 		});
@@ -158,21 +173,20 @@ const MpDetails = ({
 		);
 
 		try {
+
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetails?id=${details?.value?.id}&type=${type}`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}`
 			).json();
+
 			const formattedResults = [];
-
-			response.forEach((i) => {
-				console.log("field ", i._fields);
-				// const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : 'dont know';
-
+			response.records.forEach(i => {
+				const memberVotedAye = type === "votedAye" ? true : type === "votedNo" ? false : i._fields[3];
 				formattedResults.push({
-					divisionId: i.DivisionId,
-					title: i.Title,
-					date: i.Date,
-					memberVotedAye: i.memberVotedAye,
-				});
+					divisionId: i._fields[0].low,
+					title: i._fields[1],
+					date: i._fields[2],
+					memberVotedAye
+				})
 			});
 
 			setVotingHistory(formattedResults);
@@ -190,7 +204,7 @@ const MpDetails = ({
 			<section className='mpDetails'>
 				<div className='mpDetails_image_title'>
 					<img
-						className='mpDetails__image'	
+						className='mpDetails__image'
 						src={`${details.value?.thumbnailUrl}`}
 					/>
 
@@ -294,6 +308,24 @@ const MpDetails = ({
 					>
 						Most Similar Voting Mps
 					</button>
+
+					<div className="mpDetails__toggle-wrapper">
+						<div>
+							<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
+							<label>Exclude</label>
+						</div>
+						<input className="mpDetails__input" value={excludeParties} disabled={!isExcludingParties} onChange={(e) => setExcludeParties(e.target.value) }></input>
+					</div>
+
+					<div className="mpDetails__toggle-wrapper">
+						<div>
+							<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
+							<label>Include</label>
+						</div>
+						<input className="mpDetails__input" value={includeParties} disabled={!isIncludingParties} onChange={(e) => setIncludeParties(e.target.value) } ></input>
+					</div>
+
+
 					{/* <button className="button">Least Similar Voting Mps</button> */}
 					<button
 						className='button'
@@ -340,17 +372,13 @@ const MpDetails = ({
 								</button>
 
 								<span className='votingSummary__buttons__count'>
-									{votingSummary?.votedAye?.length +
-										votingSummary?.votedNo
-											?.length}
+									{votingSummary?.total}
 								</span>
 								<span className='votingSummary__buttons__count'>
-									{votingSummary?.votedAye?.length ||
-										0}
+									{votingSummary?.votedAye || 0}
 								</span>
 								<span className='votingSummary__buttons__count'>
-									{votingSummary?.votedNo?.length ||
-										0}
+									{votingSummary?.votedNo || 0}
 								</span>
 							</div>
 						</div>

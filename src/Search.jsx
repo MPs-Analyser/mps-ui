@@ -70,9 +70,10 @@ const Search = ({ setGlobalMessage }) => {
       }
     }
 
-
-    onGetVotingSummary(result?.value?.id);
-
+    if (item.type === 'mp') {
+      onGetVotingSummary(result?.value?.id);
+    }
+    
   }
 
   const handleOnFocus = () => {
@@ -90,8 +91,10 @@ const Search = ({ setGlobalMessage }) => {
   }
 
   const onGetVotingSummary = async (id) => {
-    const result = await ky(`${config.mpsApiUrl}votingSummary?id=${id}`).json();
-    console.log('votingsummary ', result);
+
+    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}`).json();
+    console.log('votingsummaryneo ', result);
+
     setVotingSummary(result);
   }
 
@@ -115,8 +118,6 @@ const Search = ({ setGlobalMessage }) => {
 
     setMpDetails(undefined);
     setDivisionDetails(undefined);
-
-
 
     const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
 
@@ -173,8 +174,7 @@ const Search = ({ setGlobalMessage }) => {
       )}
 
       {divisionDetails && Boolean(Object.keys(divisionDetails).length) && (
-        <DivisionDetails
-          votingSummary={votingSummary}
+        <DivisionDetails        
           onQueryMpByName={onQueryMpByName}
           division={divisionDetails}
           onQueryMp={onQueryMp}

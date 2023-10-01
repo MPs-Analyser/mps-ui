@@ -116,6 +116,17 @@
 	gap: 8px;
 }
 
+.mpDetails__toggle-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.mpDetails__input {
+	flex: 1;
+	margin-left: 1em;
+}
+
 /* lg */
 @media (min-width: 1024px) {
 	.divisionDetails__list {
