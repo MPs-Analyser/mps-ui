@@ -304,148 +304,145 @@ const MpDetails = ({
 					</table>
 				</div>
 
+				<div className="fieldsetsWrapper">
 
-				<fieldset>
-					<legend>Voting analysis</legend>
-					<div className='mpDetails__actions'>
-						<button
-							className='button'
-							onClick={() => onGetVotingSimilarity('DESCENDING')}
-						>
-							Most Similar Voting Mps
-						</button>
+					<fieldset>
+						<legend>Voting analysis</legend>
+						<div className='mpDetails__actions'>						
 
-						<button
-							className='button'
-							onClick={() => onGetVotingSimilarity('ASCENDING')}
-						>
-							Least Similar Voting Mps
-						</button>
-
-						<div className="mpDetails__toggle-wrapper">
-							<div>
-								<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
-								<label>Exclude</label>
-							</div>
-
-							<select
-								className="mpDetails__select"
-								name="partiesToExclude"
-								onChange={(e) => setExcludeParties(e.target.value)}
-								value={excludeParties}
-								disabled={!isExcludingParties}
-							>
-								{Object.keys(Party).map(i => (
-									<option
-										value={Party[i]}
-										key={Party[i]}
-									>
-										{Party[i]}
-									</option>
-								))}
-							</select>							
-						</div>
-
-						<div className="mpDetails__toggle-wrapper">
-							<div>
-								<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
-								<label>Include</label>
-							</div>
-
-							<select
-								className="mpDetails__select"
-								name="partiesToExclude"
-								onChange={(e) => setIncludeParties(e.target.value)}
-								value={includeParties}
-								disabled={!isIncludingParties}
-							>
-								{Object.keys(Party).map(i => (
-									<option
-										value={Party[i]}
-										key={Party[i]}
-									>
-										{Party[i]}
-									</option>
-								))}
-							</select>
-							
-						</div>
-
-						<div className="mpDetails__toggle-wrapper">
-							<label>Limit</label>
-							<input
-								className="mpDetails__input"
-								value={limit}
-								onChange={(e) => setLimit(e.target.value)}
-								type="number">
-							</input>
-						</div>
-					</div>
-
-				</fieldset>
-
-				<fieldset>
-					<legend>Voting details</legend>
-					<div className='mpDetails__actions'>
-
-						<button
-							className='button'
-							onClick={() => onGetVotingHistory("all")}
-						>
-							Voting History
-						</button>
-
-						{votingSummary && (
-							<div className='votingSummary'>
-								<h4>
-									How{" "}
-									{
-										details.value.nameDisplayAs.split(
-											" "
-										)[0]
-									}{" "}
-									voted
-								</h4>
-								<div className='votingSummary__buttons'>
-									<button
-										className='button votingButton'
-										onClick={() =>
-											onGetVotingHistory("all")
-										}
-									>
-										Total
-									</button>
-									<button
-										className='button'
-										onClick={() =>
-											onGetVotingHistory("votedAye")
-										}
-									>
-										Aye
-									</button>
-									<button
-										className='button'
-										onClick={() =>
-											onGetVotingHistory("votedNo")
-										}
-									>
-										No
-									</button>
-
-									<span className='votingSummary__buttons__count'>
-										{votingSummary?.total}
-									</span>
-									<span className='votingSummary__buttons__count'>
-										{votingSummary?.votedAye || 0}
-									</span>
-									<span className='votingSummary__buttons__count'>
-										{votingSummary?.votedNo || 0}
-									</span>
+							<div className="mpDetails__toggle-wrapper">
+								<div>
+									<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
+									<label>Exclude</label>
 								</div>
+
+								<select
+									className="mpDetails__select"
+									name="partiesToExclude"
+									onChange={(e) => setExcludeParties(e.target.value)}
+									value={excludeParties}
+									disabled={!isExcludingParties}
+								>
+									{Object.keys(Party).map(i => (
+										<option
+											value={Party[i]}
+											key={Party[i]}
+										>
+											{Party[i]}
+										</option>
+									))}
+								</select>
 							</div>
-						)}
-					</div>
-				</fieldset>
+
+							<div className="mpDetails__toggle-wrapper">
+								<div>
+									<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
+									<label>Include</label>
+								</div>
+
+								<select
+									className="mpDetails__select"
+									name="partiesToExclude"
+									onChange={(e) => setIncludeParties(e.target.value)}
+									value={includeParties}
+									disabled={!isIncludingParties}
+								>
+									{Object.keys(Party).map(i => (
+										<option
+											value={Party[i]}
+											key={Party[i]}
+										>
+											{Party[i]}
+										</option>
+									))}
+								</select>
+
+							</div>
+
+							<div className="mpDetails__toggle-wrapper">
+								<label>Limit</label>
+								<input
+									className="mpDetails__input"
+									value={limit}
+									onChange={(e) => setLimit(e.target.value)}
+									type="number">
+								</input>
+							</div>
+
+							<button
+								className='button'
+								onClick={() => onGetVotingSimilarity('DESCENDING')}
+							>
+								Most Similar Voting Mps
+							</button>
+
+							<button
+								className='button'
+								onClick={() => onGetVotingSimilarity('ASCENDING')}
+							>
+								Least Similar Voting Mps
+							</button>
+						</div>
+
+					</fieldset>
+
+					<fieldset>
+						<legend>Voting details</legend>
+						<div className='mpDetails__actions'>
+
+							{votingSummary && (
+								<div className='votingSummary'>
+									<h4>
+										How{" "}
+										{
+											details.value.nameDisplayAs.split(
+												" "
+											)[0]
+										}{" "}
+										voted
+									</h4>
+									<div className='votingSummary__buttons'>
+										<button
+											className='button votingButton'
+											onClick={() =>
+												onGetVotingHistory("all")
+											}
+										>
+											Total
+										</button>
+										<button
+											className='button'
+											onClick={() =>
+												onGetVotingHistory("votedAye")
+											}
+										>
+											Aye
+										</button>
+										<button
+											className='button'
+											onClick={() =>
+												onGetVotingHistory("votedNo")
+											}
+										>
+											No
+										</button>
+
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.total}
+										</span>
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.votedAye || 0}
+										</span>
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.votedNo || 0}
+										</span>
+									</div>
+								</div>
+							)}
+						</div>
+					</fieldset>
+
+				</div>
 
 			</section>
 

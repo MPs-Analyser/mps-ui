@@ -127,6 +127,10 @@
 	margin-left: 1em;
 }
 
+.fieldsetsWrapper {
+	padding: 10px;
+}
+
 /* lg */
 @media (min-width: 1024px) {
 	.divisionDetails__list {
