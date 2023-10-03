@@ -139,7 +139,7 @@ const MpDetails = ({
 							"light-mode"
 							? "#a972cb"
 							: "#980c4c",
-					borderColor: "rgba(0,0,0,1)",
+					borderColor: "#262a32",
 					borderWidth: 2,
 					indexAxis: "y",
 					data: [],
