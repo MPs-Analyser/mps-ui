@@ -101,7 +101,7 @@ const MpDetails = ({
 
 	const partyColor = getColour(details.value.latestParty.name);
 
-	const onGetVotingSimilarity = async () => {
+	const onGetVotingSimilarity = async (orderby) => {
 		setProgress("Getting voting similarity...");
 		//clear voting history to make space for similarity
 		setVotingHistory(undefined);
@@ -122,7 +122,7 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&name=${details?.value?.nameDisplayAs}${queryParams}`;
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}${queryParams}`;
 
 		const result = await ky(url).json();
 
@@ -305,9 +305,16 @@ const MpDetails = ({
 				<div className='mpDetails__actions'>
 					<button
 						className='button'
-						onClick={onGetVotingSimilarity}
+						onClick={() => onGetVotingSimilarity('DESCENDING')}
 					>
 						Most Similar Voting Mps
+					</button>
+
+					<button
+						className='button'
+						onClick={() => onGetVotingSimilarity('ASCENDING')}
+					>
+						Least Similar Voting Mps
 					</button>
 
 					<div className="mpDetails__toggle-wrapper">
