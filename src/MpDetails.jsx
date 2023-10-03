@@ -386,6 +386,8 @@ const MpDetails = ({
 
 					</fieldset>
 
+					<div style={{ height: 8 }}/>
+
 					<fieldset>
 						<legend>Voting details</legend>
 						<div className='mpDetails__actions'>

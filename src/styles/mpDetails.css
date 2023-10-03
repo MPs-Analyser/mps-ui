@@ -131,6 +131,11 @@
 	padding: 10px;
 }
 
+fieldset {
+	border-color: var(--clr-accent);
+	border-radius: 3px;
+}
+
 /* lg */
 @media (min-width: 1024px) {
 	.divisionDetails__list {
