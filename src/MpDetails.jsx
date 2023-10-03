@@ -32,7 +32,7 @@ const MpDetails = ({
 	const [isIncludingParties, setIsIncludingParties] = useState(false);
 	const [excludeParties, setExcludeParties] = useState("");
 	const [includeParties, setIncludeParties] = useState("");
-	const [limit, setLimit] = useState(40);
+	const [limit, setLimit] = useState(10);
 
 	const [progress, setProgress] = useState();
 
@@ -141,7 +141,9 @@ const MpDetails = ({
 							: "#980c4c",
 					borderColor: "#262a32",
 					borderWidth: 2,
+					// barThickness: 5,
 					indexAxis: "y",
+					width: "40px",
 					data: [],
 				},
 			],
@@ -450,6 +452,7 @@ const MpDetails = ({
 			{votingSimilarity && (
 				<BarChart
 					barChartData={barChartData}
+					limit={limit}
 					onQueryMpByName={onQueryMpByName}
 				/>
 			)}
