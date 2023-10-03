@@ -319,7 +319,7 @@ const MpDetails = ({
 								</div>
 
 								<select
-									className="mpDetails__select"
+									className="mpDetails__select select"
 									name="partiesToExclude"
 									onChange={(e) => setExcludeParties(e.target.value)}
 									value={excludeParties}
@@ -343,7 +343,7 @@ const MpDetails = ({
 								</div>
 
 								<select
-									className="mpDetails__select"
+									className="mpDetails__select select"
 									name="partiesToExclude"
 									onChange={(e) => setIncludeParties(e.target.value)}
 									value={includeParties}
@@ -366,7 +366,7 @@ const MpDetails = ({
 								<label className="mpDetails__label">Limit</label>
 
 								<input
-									className="mpDetails__select"
+									className="mpDetails__select input"
 									value={limit}
 									onChange={(e) => setLimit(e.target.value)}
 									type="number">

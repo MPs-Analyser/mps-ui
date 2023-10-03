@@ -24,6 +24,16 @@
 	color: var(--clr-dark);
 }
 
+.input {
+	color: var(--clr-dark);
+	background: var(--clr-light);
+}
+
+.select {
+	color: var(--clr-dark);
+	background: var(--clr-light);
+}
+
 .toggle {
 	cursor: pointer;
 	display: inline-block;
