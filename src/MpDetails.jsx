@@ -308,10 +308,12 @@ const MpDetails = ({
 
 					<fieldset>
 						<legend>Voting analysis</legend>
-						<div className='mpDetails__actions'>						
+
+						<div className='mpDetails__actions'>
 
 							<div className="mpDetails__toggle-wrapper">
-								<div>
+
+								<div className="mpDetails__label">
 									<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
 									<label>Exclude</label>
 								</div>
@@ -335,7 +337,7 @@ const MpDetails = ({
 							</div>
 
 							<div className="mpDetails__toggle-wrapper">
-								<div>
+								<div className="mpDetails__label">
 									<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
 									<label>Include</label>
 								</div>
@@ -360,13 +362,16 @@ const MpDetails = ({
 							</div>
 
 							<div className="mpDetails__toggle-wrapper">
-								<label>Limit</label>
+
+								<label className="mpDetails__label">Limit</label>
+
 								<input
-									className="mpDetails__input"
+									className="mpDetails__select"
 									value={limit}
 									onChange={(e) => setLimit(e.target.value)}
 									type="number">
 								</input>
+
 							</div>
 
 							<button
@@ -386,7 +391,7 @@ const MpDetails = ({
 
 					</fieldset>
 
-					<div style={{ height: 8 }}/>
+					<div style={{ height: 8 }} />
 
 					<fieldset>
 						<legend>Voting details</legend>

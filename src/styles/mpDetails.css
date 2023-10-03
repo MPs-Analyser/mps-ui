@@ -122,6 +122,10 @@
 	align-items: center;
 }
 
+.mpDetails__label {
+	flex: 0.5;
+}
+
 .mpDetails__select {
 	flex: 1;
 	margin-left: 1em;
