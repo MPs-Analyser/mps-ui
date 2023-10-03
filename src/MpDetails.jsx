@@ -45,11 +45,6 @@ const MpDetails = ({
 		setIsIncludingParties(!isIncludingParties)
 	}
 
-	const onSelectExcludeParty = (value) => {
-		console.log('val ', value);
-		setExcludeParties(value);
-	}
-
 	const Party = {
 		CONSERVATIVE: "Conservative",
 		LABOUR: "Labour",
