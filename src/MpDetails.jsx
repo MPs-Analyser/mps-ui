@@ -32,6 +32,7 @@ const MpDetails = ({
 	const [isIncludingParties, setIsIncludingParties] = useState(false);
 	const [excludeParties, setExcludeParties] = useState("");
 	const [includeParties, setIncludeParties] = useState("");
+	const [limit, setLimit] = useState(40);
 
 	const [progress, setProgress] = useState();
 
@@ -121,8 +122,8 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?name=${details?.value?.nameDisplayAs}${queryParams}`;
-		
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&name=${details?.value?.nameDisplayAs}${queryParams}`;
+
 		const result = await ky(url).json();
 
 		setVotingSimilarity(result);
@@ -314,7 +315,7 @@ const MpDetails = ({
 							<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
 							<label>Exclude</label>
 						</div>
-						<input className="mpDetails__input" value={excludeParties} disabled={!isExcludingParties} onChange={(e) => setExcludeParties(e.target.value) }></input>
+						<input className="mpDetails__input" value={excludeParties} disabled={!isExcludingParties} onChange={(e) => setExcludeParties(e.target.value)}></input>
 					</div>
 
 					<div className="mpDetails__toggle-wrapper">
@@ -322,9 +323,18 @@ const MpDetails = ({
 							<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
 							<label>Include</label>
 						</div>
-						<input className="mpDetails__input" value={includeParties} disabled={!isIncludingParties} onChange={(e) => setIncludeParties(e.target.value) } ></input>
+						<input className="mpDetails__input" value={includeParties} disabled={!isIncludingParties} onChange={(e) => setIncludeParties(e.target.value)} ></input>
 					</div>
 
+					<div className="mpDetails__toggle-wrapper">
+						<label>Limit</label>
+						<input 
+							className="mpDetails__input" 
+							value={limit} 
+							onChange={(e) => setLimit(e.target.value)} 
+							type="number">
+						</input>						
+					</div>
 
 					{/* <button className="button">Least Similar Voting Mps</button> */}
 					<button
