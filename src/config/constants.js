@@ -1,7 +1,7 @@
 export const Party = {
     CONSERVATIVE: "Conservative",
     LABOUR: "Labour",
-    LIBERAL_DEMOCRATS: "Liberal Democrats",
+    LIBERAL_DEMOCRATS: "Liberal Democrat",
     GREEN: "Green Party",
     SNP: "Scottish National Party",
     PLAID_CYMRU: "Plaid Cymru",
