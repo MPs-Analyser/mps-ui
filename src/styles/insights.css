@@ -1,0 +1,30 @@
+.insights {    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.wrapper {    
+}
+
+.insights__query {
+    padding: 1em;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding-bottom: 1em;
+}
+
+.insights__config {    
+    padding: 1em;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;    
+}
+
+@media (min-width: 1024px) {
+	.insights {
+		margin-top: var(--height-nav);
+	}
+}

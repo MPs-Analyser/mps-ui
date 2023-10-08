@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import DivisionDetails from "./DivisionDetails";
 import About from "./About";
 import Search from "./Search";
+import Insights from "./Insights";
 import Toast from "./Toast";
 // import Splash from "./Splash";
 
@@ -11,7 +12,9 @@ import "./styles/index.css";
 import "./styles/utils.css";
 
 const App = () => {
+
 	const [page, setPage] = useState("home");
+
 	const [globalMessage, setGlobalMessage] = useState({
 		text: undefined,
 		type: undefined,
@@ -52,11 +55,13 @@ const App = () => {
 			/>
 
 			<div className='container' ref={container}>
+
 				{page === "home" && (
-					<>
-						<Search setGlobalMessage={setGlobalMessage} />
-						{/* <Splash /> */}
-					</>
+					<Search setGlobalMessage={setGlobalMessage} />
+				)}
+
+				{page === "insights" && (
+					<Insights setGlobalMessage={setGlobalMessage} />
 				)}
 
 				{page === "divison" && (

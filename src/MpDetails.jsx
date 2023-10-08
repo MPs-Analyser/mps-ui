@@ -15,6 +15,8 @@ import lordsImage from "./assets/lords.png";
 import Switch from "./shared/Switch";
 import { config } from "./app.config";
 
+import { Party } from "./config/constants";
+
 const MpDetails = ({
 	votingSummary,
 	details,
@@ -44,22 +46,6 @@ const MpDetails = ({
 		setIsExcludingParties(!isExcludingParties)
 		setIsIncludingParties(!isIncludingParties)
 	}
-
-	const Party = {
-		CONSERVATIVE: "Conservative",
-		LABOUR: "Labour",
-		LIBERAL_DEMOCRATS: "Liberal Democrats",
-		GREEN: "Green Party",
-		SNP: "Scottish National Party",
-		PLAID_CYMRU: "Plaid Cymru",
-		DUP: "Democratic Unionist Party",
-		SINN_FEIN: "Sinn Féin",
-		UUP: "Ulster Unionist Party",
-		SDLP: "Social Democratic and Labour Party",
-		BREXIT_PARTY: "Brexit Party",
-		RECLAIM: "The Reclaim Party",
-		UNKNOWN: "Unknown",
-	};
 
 	const getColour = (partyName) => {
 
