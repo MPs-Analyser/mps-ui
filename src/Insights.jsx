@@ -35,10 +35,26 @@ const voteTyps = [
 
 const columnHelper = createColumnHelper();
 
-const columns = [
+const divisionColumns = [
   columnHelper.accessor('title', {
     cell: info => info.getValue(),
     header: () => <span>Name</span>
+  }),  
+  columnHelper.accessor(row => row.count, {
+    id: 'count',
+    cell: info => <i>{info.getValue()}</i>,
+    header: () => <span>Count</span>
+  })
+]
+
+const mpColumns = [
+  columnHelper.accessor('title', {
+    cell: info => info.getValue(),
+    header: () => <span>Name</span>
+  }),
+  columnHelper.accessor('party', {
+    cell: info => info.getValue(),
+    header: () => <span>Party</span>
   }),
   columnHelper.accessor(row => row.count, {
     id: 'count',
@@ -48,9 +64,11 @@ const columns = [
 ]
 
 
+
 const Insights = () => {
 
-  const [data, setData] = React.useState(() => [])
+  const [data, setData] = useState([]);
+  const [columns, setColumns] = useState([]);
 
   const table = useReactTable({
     data,
@@ -65,8 +83,7 @@ const Insights = () => {
   const [limit, setLimit] = useState(10);
 
   const onSearch = async () => {
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
-    // ?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}${queryParams}`;
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;    
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
@@ -78,11 +95,13 @@ const Insights = () => {
 
     const formattedResult = [];
     if (type === 'Division') {
+      setColumns(divisionColumns);
       result.forEach(i => {
         const row = { title: i._fields[0], count: i._fields[1].low };
         formattedResult.push(row);
       });
     } else {
+      setColumns(mpColumns);
       result.forEach(i => {
         const row = { title: i._fields[0], party: i._fields[1], count: i._fields[2].low };
         formattedResult.push(row);
@@ -123,7 +142,9 @@ const Insights = () => {
 
           <div className="labelwrapper">
 
-            {party !== 'Any' ? <span>from the</span> : <span>from</span>}
+            {type === 'MP' && (
+              party !== 'Any' ? <span>from the</span> : <span>from</span>
+            )}
 
             {type === 'MP' && (
               <div>
@@ -170,7 +191,7 @@ const Insights = () => {
               </select>
             )}
 
-      
+
             {type === 'Division' && <span>the</span>}
 
             <select
@@ -190,7 +211,7 @@ const Insights = () => {
             </select>
           </div>
           <button
-          style={{ width: '100%' }}
+            style={{ width: '100%' }}
             className='button'
             onClick={onSearch}
           >
@@ -263,8 +284,6 @@ const Insights = () => {
           </input>
         </div>
       </div>
-
-
 
     </div>
 

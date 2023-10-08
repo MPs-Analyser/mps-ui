@@ -18,6 +18,10 @@
     padding-bottom: 1em;
 }
 
+.insughts__result {
+    flex-grow: 1;
+}
+
 .insights__select {
     margin-left: 8px;
     margin-right: 8px;
