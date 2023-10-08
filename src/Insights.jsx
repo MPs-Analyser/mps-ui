@@ -82,6 +82,47 @@ const Insights = () => {
   const [voteType, setVoteType] = useState(voteTyps[0]);
   const [limit, setLimit] = useState(10);
 
+  // const onQueryMpByName = async (name) => {
+
+  //   setMpDetails(undefined);
+  //   setDivisionDetails(undefined);
+
+  //   console.log('select', name);
+
+  //   const result = await ky(`https://members-api.parliament.uk/api/Members/Search?Name=${name}`).json();
+
+  //   if (result && result.items && result.items[0]) {
+  //     console.log('result ', result);
+  //     setMpDetails(result.items[0]);
+  //     onGetVotingSummary(result.items[0]?.value?.id);
+  //   }
+  // }
+
+  // const onQueryMp = async (id) => {
+
+  //   setMpDetails(undefined);
+  //   setDivisionDetails(undefined);
+
+  //   const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
+
+  //   setMpDetails(result);
+
+  //   onGetVotingSummary(result?.value?.id);
+
+  // }
+
+  // const onQueryDivision = async (id) => {
+  //   console.log('step 1 ', id);
+  //   setMpDetails(undefined);
+  //   setDivisionDetails(undefined);
+
+  //   const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
+
+  //   setDivisionDetails(result)
+  // }
+
+
+
   const onSearch = async () => {
     let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;    
 
