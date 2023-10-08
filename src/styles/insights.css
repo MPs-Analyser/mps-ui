@@ -20,6 +20,7 @@
 
 .insughts__result {
     flex-grow: 1;
+    padding: .5em;
 }
 
 .insights__select {
