@@ -4,6 +4,10 @@
 	border-color: adjust-hue(var(--clr-accent), 45deg);
 }
 
+.accent {
+	color: var(--clr-accent)
+}
+
 .button {
 	color: var(--clr-accent);
 	transition: 0.25s;

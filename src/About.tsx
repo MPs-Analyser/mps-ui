@@ -6,9 +6,13 @@ function About() {
 			<section className='description'>
 				<h2>Description:</h2>
 				<p>
-					MP Analiser is a comprehensive and user-friendly
+					If you have any interest in getting involved, have any questions or requests for features
+					you can <a className="accent" href = "mailto: rob@robincroft.com">email me</a>.
+				</p>
+				<p>
+					MP Analiser is a comprehensive 
 					application designed to analyze the voting records of
-					different members of the UK Parliament...
+					different members of the UK Parliament.
 				</p>
 				<p>
 					This is a very early prototype which much more to come

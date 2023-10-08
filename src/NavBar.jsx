@@ -1,7 +1,7 @@
 import "./styles/index.css";
 import "./styles/navbar.css";
 
-const NavBar = ({ setPage, handleThemeToggle, onToggleSearchBar }) => {
+const NavBar = ({ setPage, handleThemeToggle }) => {
 
   return (
 
