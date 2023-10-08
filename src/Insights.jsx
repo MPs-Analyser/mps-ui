@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import * as React from 'react'
 
-
 import "./styles/insights.css";
 
 import { Party } from "./config/constants";
@@ -16,7 +15,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getSortedRowModel,
 } from '@tanstack/react-table'
 
 const types = [
@@ -39,13 +37,13 @@ const columnHelper = createColumnHelper();
 
 const columns = [
   columnHelper.accessor('title', {
-    cell: info => info.getValue(),    
-    header: () => <span>Title</span>    
+    cell: info => info.getValue(),
+    header: () => <span>Name</span>
   }),
   columnHelper.accessor(row => row.count, {
     id: 'count',
     cell: info => <i>{info.getValue()}</i>,
-    header: () => <span>Last Name</span>    
+    header: () => <span>Count</span>
   })
 ]
 
@@ -53,14 +51,12 @@ const columns = [
 const Insights = () => {
 
   const [data, setData] = React.useState(() => [])
-  const rerender = React.useReducer(() => ({}), {})[1]
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
-
 
   const [type, setType] = useState(types[0]);
   const [query, setQuery] = useState(queries[0]);
@@ -83,12 +79,12 @@ const Insights = () => {
     const formattedResult = [];
     if (type === 'Division') {
       result.forEach(i => {
-        const row = { title: i._fields[0], count: i._fields[1].low};    
+        const row = { title: i._fields[0], count: i._fields[1].low };
         formattedResult.push(row);
       });
     } else {
       result.forEach(i => {
-        const row = { title: i._fields[0], count: i._fields[2].low};      
+        const row = { title: i._fields[0], party: i._fields[1], count: i._fields[2].low };
         formattedResult.push(row);
       });
     }
@@ -105,35 +101,65 @@ const Insights = () => {
 
         <div className="insights__query">
 
-          <span>which</span>
+          <div className="labelwrapper">
+            <span>Which</span>
 
-          <select
-            className="select"
-            name="type"
-            onChange={(e) => setType(e.target.value)}
-            value={type}
-          >
-            {types.map(type => (
-              <option
-                value={type}
-                key={type}
-              >
-                {type}
-              </option>
-            ))}
-          </select>
+            <select
+              className="select insights__select"
+              name="type"
+              onChange={(e) => setType(e.target.value)}
+              value={type}
+            >
+              {types.map(type => (
+                <option
+                  value={type}
+                  key={type}
+                >
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          {party !== 'Any' ? <span>From the</span> : <span>From</span>}
+          <div className="labelwrapper">
 
-          {type === 'MP' && (
-            <div>
+            {party !== 'Any' ? <span>from the</span> : <span>from</span>}
+
+            {type === 'MP' && (
+              <div>
+                <select
+                  className="select insights__select"
+                  name="party"
+                  onChange={(e) => setParty(e.target.value)}
+                  value={party}
+                >
+                  {Object.values(Party).filter(i => i !== "Unknown").map(i => (
+                    <option
+                      value={i}
+                      key={i}
+                    >
+                      {i}
+                    </option>
+                  ))}
+                </select>
+
+              </div>
+            )}
+
+            {type === 'MP' && <span>Party</span>}
+          </div>
+
+          <div className="labelwrapper">
+            {type === 'MP' ? <span>voted the</span> : <span>was voted</span>}
+
+            {type === 'Division' && (
               <select
-                className="select"
-                name="party"
-                onChange={(e) => setParty(e.target.value)}
-                value={party}
+                className="select insights__select"
+                name="voteType"
+                onChange={(e) => setVoteType(e.target.value)}
+                value={voteType}
               >
-                {Object.values(Party).filter(i => i !== "Unknown").map(i => (
+                {voteTyps.map(i => (
                   <option
                     value={i}
                     key={i}
@@ -142,51 +168,29 @@ const Insights = () => {
                   </option>
                 ))}
               </select>
+            )}
 
-            </div>
-          )}
+      
+            {type === 'Division' && <span>the</span>}
 
-          {type === 'MP' && <span>Party</span>}
-
-          {type === 'MP' ? <span>Voted the</span> : <span>Was voted</span>}
-
-          {type === 'Division' && (
             <select
-              className="select"
-              name="voteType"
-              onChange={(e) => setVoteType(e.target.value)}
-              value={voteType}
+              className="select insights__select"
+              name="query"
+              onChange={(e) => setQuery(e.target.value)}
+              value={query}
             >
-              {voteTyps.map(i => (
+              {queries.map(query => (
                 <option
-                  value={i}
-                  key={i}
+                  value={query}
+                  key={query}
                 >
-                  {i}
+                  {query}
                 </option>
               ))}
             </select>
-          )}
-
-          {type === 'Division' && <span>the</span>}
-
-          <select
-            className="select"
-            name="query"
-            onChange={(e) => setQuery(e.target.value)}
-            value={query}
-          >
-            {queries.map(query => (
-              <option
-                value={query}
-                key={query}
-              >
-                {query}
-              </option>
-            ))}
-          </select>
-
+          </div>
           <button
+          style={{ width: '100%' }}
             className='button'
             onClick={onSearch}
           >
