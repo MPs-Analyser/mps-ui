@@ -19,12 +19,14 @@
     padding-bottom: 1em;
 }
 
-.insughts__result {
+.insights__result {
     flex-grow: 1;
     padding: .5em;
+    border-top: 1px solid var(--clr-light-other);
+    border-bottom: 1px solid var(--clr-light-other);
 }
 
-.insughts__result > table {
+.insights__result > table {
     width: 100%;
 }
 

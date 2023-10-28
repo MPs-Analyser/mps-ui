@@ -32,12 +32,14 @@
 	color: var(--clr-dark);
 	background: var(--clr-light);
 	padding: 8px;
+	border-radius: 8px;
 }
 
 .select {
 	color: var(--clr-dark);
 	background: var(--clr-light);
 	padding: 8px;
+	border-radius: 8px;
 }
 
 .toggle {

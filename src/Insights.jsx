@@ -229,8 +229,7 @@ const Insights = () => {
             Go
           </button>
 
-        </div>
-        <hr />
+        </div>        
 
       </div>
 
@@ -243,7 +242,7 @@ const Insights = () => {
         </>
       )}
 
-      <div className="insughts__result">
+      <div className="insights__result">
         <table>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
@@ -308,8 +307,7 @@ const Insights = () => {
         </table>
       </div>
 
-      <div className="wrapper">
-        <hr />
+      <div className="wrapper">        
         <div className="insights__config">
           <label>Limit</label>
 
