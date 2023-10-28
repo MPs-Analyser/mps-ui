@@ -9,7 +9,7 @@
     display: flex;
     align-items: baseline;
 }
-
+ /* TODO probably should be a grid */
 .insights__query {
     padding: 1em;
     display: flex;
@@ -17,6 +17,10 @@
     align-items: baseline;
     gap: 8px;
     padding-bottom: 1em;
+}
+
+.fixedLabel {
+    width: 80px;
 }
 
 .insights__result {

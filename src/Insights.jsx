@@ -134,7 +134,7 @@ const Insights = () => {
         <div className="insights__query">
 
           <div className="labelwrapper">
-            <span>Which</span>
+            <span className='fixedLabel'>Which</span>
 
             <select
               className="select insights__select"
@@ -156,7 +156,7 @@ const Insights = () => {
           <div className="labelwrapper">
 
             {type === 'MP' && (
-              party !== 'Any' ? <span>from the</span> : <span>from</span>
+              party !== 'Any' ? <span className='fixedLabel'>from the</span> : <span className='fixedLabel'>from</span>
             )}
 
             {type === 'MP' && (
@@ -184,7 +184,7 @@ const Insights = () => {
           </div>
 
           <div className="labelwrapper">
-            {type === 'MP' ? <span>voted the</span> : <span>was voted</span>}
+            {type === 'MP' ? <span className='fixedLabel'>voted the</span> : <span className='fixedLabel'>was voted</span>}
 
             {type === 'Division' && (
               <select
