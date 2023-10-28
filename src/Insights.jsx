@@ -15,6 +15,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel
 } from '@tanstack/react-table'
 
 const types = [
@@ -39,7 +40,7 @@ const divisionColumns = [
   columnHelper.accessor('title', {
     cell: info => info.getValue(),
     header: () => <span>Name</span>
-  }),  
+  }),
   columnHelper.accessor(row => row.count, {
     id: 'count',
     cell: info => <i>{info.getValue()}</i>,
@@ -69,11 +70,18 @@ const Insights = () => {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [sorting, setSorting] = useState([]);
+  const [progress, setProgress] = useState();
 
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting
+    },
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
   })
 
   const [type, setType] = useState(types[0]);
@@ -82,49 +90,9 @@ const Insights = () => {
   const [voteType, setVoteType] = useState(voteTyps[0]);
   const [limit, setLimit] = useState(10);
 
-  // const onQueryMpByName = async (name) => {
-
-  //   setMpDetails(undefined);
-  //   setDivisionDetails(undefined);
-
-  //   console.log('select', name);
-
-  //   const result = await ky(`https://members-api.parliament.uk/api/Members/Search?Name=${name}`).json();
-
-  //   if (result && result.items && result.items[0]) {
-  //     console.log('result ', result);
-  //     setMpDetails(result.items[0]);
-  //     onGetVotingSummary(result.items[0]?.value?.id);
-  //   }
-  // }
-
-  // const onQueryMp = async (id) => {
-
-  //   setMpDetails(undefined);
-  //   setDivisionDetails(undefined);
-
-  //   const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-
-  //   setMpDetails(result);
-
-  //   onGetVotingSummary(result?.value?.id);
-
-  // }
-
-  // const onQueryDivision = async (id) => {
-  //   console.log('step 1 ', id);
-  //   setMpDetails(undefined);
-  //   setDivisionDetails(undefined);
-
-  //   const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-
-  //   setDivisionDetails(result)
-  // }
-
-
-
   const onSearch = async () => {
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;    
+    setProgress(true);
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
@@ -151,6 +119,8 @@ const Insights = () => {
     console.log('formatted result ', formattedResult);
 
     setData(formattedResult);
+
+    setProgress(false);
   }
 
   return (
@@ -264,6 +234,15 @@ const Insights = () => {
 
       </div>
 
+      {progress && (
+        <>
+          <div className='votingHistoryProgress'>
+            <progress value={null} />
+            <p>{progress}</p>
+          </div>
+        </>
+      )}
+
       <div className="insughts__result">
         <table>
           <thead>
@@ -273,9 +252,26 @@ const Insights = () => {
                   <th key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                      :
+                      (
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none votingHistory__table__header'
+                              : 'votingHistory__table__header',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                          style={{ whiteSpace: 'nowrap' }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {{
+                            asc: <svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 21l12-18 12 18z" /></svg>,
+                            desc: <svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3l-12 18-12-18z" /></svg>,
+                          }[header.column.getIsSorted()] ?? null}
+                        </div>
                       )}
                   </th>
                 ))}
@@ -315,7 +311,7 @@ const Insights = () => {
       <div className="wrapper">
         <hr />
         <div className="insights__config">
-          <label>Result Limit</label>
+          <label>Limit</label>
 
           <input
             className="input"
@@ -323,6 +319,14 @@ const Insights = () => {
             onChange={(e) => setLimit(e.target.value)}
             type="number">
           </input>
+
+          <button
+            // style={{ width: '100%' }}
+            className='button'
+            onClick={onSearch}
+          >
+            Go
+          </button>
         </div>
       </div>
 

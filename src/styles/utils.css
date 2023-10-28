@@ -31,11 +31,13 @@
 .input {
 	color: var(--clr-dark);
 	background: var(--clr-light);
+	padding: 8px;
 }
 
 .select {
 	color: var(--clr-dark);
 	background: var(--clr-light);
+	padding: 8px;
 }
 
 .toggle {
@@ -89,4 +91,11 @@
 	margin-left: 5px;
 	position: relative;
 	top: 2px;
+}
+
+.votingHistory__table__sort {
+    fill: var(--clr-accent);
+    position: relative;
+    top: 2px;
+	left: 8px;
 }

@@ -7,6 +7,7 @@
 
 .labelwrapper {    
     display: flex;
+    align-items: baseline;
 }
 
 .insights__query {
@@ -23,6 +24,11 @@
     padding: .5em;
 }
 
+.insughts__result > table {
+    width: 100%;
+}
+
+
 .insights__select {
     margin-left: 8px;
     margin-right: 8px;
@@ -31,7 +37,7 @@
 .insights__config {    
     padding: 1em;
     display: flex;
-    align-items: baseline;
+    align-items: center;    
     gap: 8px;    
 }
 

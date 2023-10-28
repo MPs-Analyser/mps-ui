@@ -42,9 +42,23 @@ const MpDetails = ({
 		setExcludeParties(details?.value?.latestParty?.name);
 	}, [details]);
 
-	const onToggleExcludeInclude = () => {
-		setIsExcludingParties(!isExcludingParties)
-		setIsIncludingParties(!isIncludingParties)
+	const onToggleExcludeInclude = (type) => {
+		console.log(type);
+		if (type === "include") {
+			setIsIncludingParties(!isIncludingParties);
+			if (isExcludingParties) {
+				setIsExcludingParties(false);	
+			}
+		} else {
+			setIsExcludingParties(!isExcludingParties);
+			if (isIncludingParties) {
+				setIsIncludingParties(false);	
+			}
+			
+		}
+		
+		
+		
 	}
 
 	const getColour = (partyName) => {
@@ -300,9 +314,10 @@ const MpDetails = ({
 							<div className="mpDetails__toggle-wrapper">
 
 								<div className="mpDetails__label">
-									<Switch onToggle={onToggleExcludeInclude} isChecked={isExcludingParties} />
+									<Switch onToggle={() => onToggleExcludeInclude("exclude")} isChecked={isExcludingParties} />
 									<label>Exclude</label>
 								</div>
+
 
 								<select
 									className="mpDetails__select select"
@@ -324,7 +339,7 @@ const MpDetails = ({
 
 							<div className="mpDetails__toggle-wrapper">
 								<div className="mpDetails__label">
-									<Switch onToggle={onToggleExcludeInclude} isChecked={isIncludingParties} />
+									<Switch onToggle={() => onToggleExcludeInclude("include")} isChecked={isIncludingParties} />
 									<label>Include</label>
 								</div>
 
