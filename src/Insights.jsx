@@ -156,7 +156,7 @@ const Insights = () => {
           <div className="labelwrapper">
 
             {type === 'MP' && (
-              party !== 'Any' ? <span className='fixedLabel'>from the</span> : <span className='fixedLabel'>from</span>
+              <span className='fixedLabel'>from</span>
             )}
 
             {type === 'MP' && (
@@ -180,7 +180,7 @@ const Insights = () => {
               </div>
             )}
 
-            {type === 'MP' && <span>Party</span>}
+            
           </div>
 
           <div className="labelwrapper">
@@ -223,8 +223,8 @@ const Insights = () => {
               ))}
             </select>
           </div>
-          <button
-            style={{ width: '100%' }}
+
+          <button          
             className='button'
             onClick={onSearch}
           >
