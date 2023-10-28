@@ -91,7 +91,9 @@ const Insights = () => {
   const [limit, setLimit] = useState(10);
 
   const onSearch = async () => {
-    setProgress(true);
+    setColumns([]);
+    setData([]);
+    setProgress(true);    
     let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
 
     if (type === 'Division' && voteType !== 'on') {
@@ -315,6 +317,7 @@ const Insights = () => {
             className="input"
             value={limit}
             onChange={(e) => setLimit(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') onSearch() }}
             type="number">
           </input>
 
