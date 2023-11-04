@@ -54,8 +54,7 @@ const mpColumns = [
   columnHelper.accessor('title', {
     cell: info => info.getValue(),
     header: () => <span>Name</span>
-  }),
-  columnHelper.accessor('party', {
+  }),  columnHelper.accessor('party', {
     cell: info => info.getValue(),
     header: () => <span>Party</span>
   }),
@@ -97,10 +96,12 @@ const Insights = () => {
     setColumns([]);
     setData([]);
     setProgress(true);    
-    
-    const voteCategoryParam = voteCategory === "Any Division" ? undefined : voteCategory;
 
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}&&voteCategory=${voteCategoryParam}`;
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
+
+    if (voteCategory !== "Any Division") {
+      url = url + `&&voteCategory=${voteCategory}`;
+    }
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
