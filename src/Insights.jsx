@@ -97,7 +97,10 @@ const Insights = () => {
     setColumns([]);
     setData([]);
     setProgress(true);    
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}&&voteCategory=${voteCategory}`;
+    
+    const voteCategoryParam = voteCategory === "Any Division" ? undefined : voteCategory;
+
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}&&voteCategory=${voteCategoryParam}`;
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
