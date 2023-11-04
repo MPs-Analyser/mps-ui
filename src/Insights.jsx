@@ -8,6 +8,8 @@ import { Party } from "./config/constants";
 
 import { config } from './app.config';
 
+import { VOTING_CATEGORIES } from "./config/constants";
+
 import ky from 'ky-universal';
 
 import {
@@ -88,13 +90,14 @@ const Insights = () => {
   const [query, setQuery] = useState(queries[0]);
   const [party, setParty] = useState("Any");
   const [voteType, setVoteType] = useState(voteTyps[0]);
+  const [voteCategory, setVoteCategory] = useState(VOTING_CATEGORIES[0]);
   const [limit, setLimit] = useState(10);
 
   const onSearch = async () => {
     setColumns([]);
     setData([]);
     setProgress(true);    
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}&&voteCategory=${voteCategory}`;
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
@@ -223,6 +226,29 @@ const Insights = () => {
               ))}
             </select>
           </div>
+
+          <div className="labelwrapper">
+
+          <span className='fixedLabel'>on</span>
+
+          <select
+              className="select insights__select"
+              name="voteCategory"
+              onChange={(e) => setVoteCategory(e.target.value)}
+              value={voteCategory}
+            >
+              {VOTING_CATEGORIES.map(value => (
+                <option
+                  value={value}
+                  key={value}
+                >
+                  {value}
+                </option>
+              ))}
+            </select>
+            
+          </div>
+          
 
           <button          
             className='button'

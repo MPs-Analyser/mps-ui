@@ -14,3 +14,20 @@ export const Party = {
     UNKNOWN: "Unknown",
     ANY: "Any",
 };
+
+export const VOTING_CATEGORIES = [
+    "Any Division",
+    "Finance and Economy",
+    "Healthcare",
+    "Environment",
+    "Domestic Abuse",
+    "European Union",
+    "Education",
+    "Policing and Crime",
+    "Housing",
+    "Immigration",
+    "Energy",
+    "Technology",
+    "Northern Ireland",
+    "Terrorism"
+]
