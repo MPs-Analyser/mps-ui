@@ -54,7 +54,7 @@ const mpColumns = [
   columnHelper.accessor('title', {
     cell: info => info.getValue(),
     header: () => <span>Name</span>
-  }),  columnHelper.accessor('party', {
+  }), columnHelper.accessor('party', {
     cell: info => info.getValue(),
     header: () => <span>Party</span>
   }),
@@ -95,7 +95,7 @@ const Insights = () => {
   const onSearch = async () => {
     setColumns([]);
     setData([]);
-    setProgress(true);    
+    setProgress(true);
 
     let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
 
@@ -160,6 +160,31 @@ const Insights = () => {
             </select>
           </div>
 
+          {type === 'Division' && (
+            
+            <div className="labelwrapper">
+
+              <span className='fixedLabel'>type</span>
+
+              <select
+                className="select insights__select"
+                name="voteCategory"
+                onChange={(e) => setVoteCategory(e.target.value)}
+                value={voteCategory}
+              >
+                {VOTING_CATEGORIES.map(value => (
+                  <option
+                    value={value}
+                    key={value}
+                  >
+                    {value}
+                  </option>
+                ))}
+              </select>
+
+            </div>
+          )}
+
           <div className="labelwrapper">
 
             {type === 'MP' && (
@@ -186,8 +211,6 @@ const Insights = () => {
 
               </div>
             )}
-
-            
           </div>
 
           <div className="labelwrapper">
@@ -211,7 +234,6 @@ const Insights = () => {
               </select>
             )}
 
-
             {type === 'Division' && <span>the</span>}
 
             <select
@@ -231,37 +253,38 @@ const Insights = () => {
             </select>
           </div>
 
-          <div className="labelwrapper">
+          {type === 'MP' && (
+            <div className="labelwrapper">
 
-          <span className='fixedLabel'>on</span>
+              <span className='fixedLabel'>on</span>
 
-          <select
-              className="select insights__select"
-              name="voteCategory"
-              onChange={(e) => setVoteCategory(e.target.value)}
-              value={voteCategory}
-            >
-              {VOTING_CATEGORIES.map(value => (
-                <option
-                  value={value}
-                  key={value}
-                >
-                  {value}
-                </option>
-              ))}
-            </select>
-            
-          </div>
-          
+              <select
+                className="select insights__select"
+                name="voteCategory"
+                onChange={(e) => setVoteCategory(e.target.value)}
+                value={voteCategory}
+              >
+                {VOTING_CATEGORIES.map(value => (
+                  <option
+                    value={value}
+                    key={value}
+                  >
+                    {value}
+                  </option>
+                ))}
+              </select>
 
-          <button          
+            </div>
+          )}
+
+          <button
             className='button'
             onClick={onSearch}
           >
             Go
           </button>
 
-        </div>        
+        </div>
 
       </div>
 
@@ -339,7 +362,7 @@ const Insights = () => {
         </table>
       </div>
 
-      <div className="wrapper">        
+      <div className="wrapper">
         <div className="insights__config">
           <label>Limit</label>
 
