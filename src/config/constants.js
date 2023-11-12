@@ -1,3 +1,6 @@
+
+export const EARLIEST_FROM_DATE = "2015-01-01";
+
 export const Party = {
     CONSERVATIVE: "Conservative",
     LABOUR: "Labour",

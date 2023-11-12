@@ -57,10 +57,12 @@
 	vertical-align: middle;
 	transition: background 0.25s;
 }
+
 .toggle__switch:before,
 .toggle__switch:after {
 	content: "";
 }
+
 .toggle__switch:before {
 	display: block;
 	background: linear-gradient(to bottom, #fff 0%, #eee 100%);
@@ -73,14 +75,17 @@
 	left: 4px;
 	transition: left 0.25s;
 }
+
 .toggle:hover .toggle__switch:before {
 	background: linear-gradient(to bottom, #fff 0%, #fff 100%);
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
-.toggle__checkbox:checked + .toggle__switch {
+
+.toggle__checkbox:checked+.toggle__switch {
 	background: var(--clr-accent);
 }
-.toggle__checkbox:checked + .toggle__switch:before {
+
+.toggle__checkbox:checked+.toggle__switch:before {
 	left: 30px;
 }
 
@@ -96,8 +101,30 @@
 }
 
 .votingHistory__table__sort {
-    fill: var(--clr-accent);
-    position: relative;
-    top: 2px;
+	fill: var(--clr-accent);
+	position: relative;
+	top: 2px;
 	left: 8px;
+}
+
+[type="date"]::-webkit-inner-spin-button {
+	display: none;
+}
+
+.datePicker {
+	margin-top: 4px;
+}
+
+::-webkit-datetime-edit-year-field { 
+	color: var(--clr-dark); 
+}
+
+.datePicker input {
+	border: 1px solid #c4c4c4;
+	border-radius: 5px;
+	padding: 8px;
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);	
+	color: var(--clr-dark);
+	background: var(--clr-light); 
+	color-scheme: var(--clr-scheme)
 }

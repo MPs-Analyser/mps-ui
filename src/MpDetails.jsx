@@ -13,12 +13,14 @@ import commonsImage from "./assets/commons.png";
 import lordsImage from "./assets/lords.png";
 
 import Switch from "./shared/Switch";
+
 import { config } from "./app.config";
 
-import { Party } from "./config/constants";
+import { Party, EARLIEST_FROM_DATE } from "./config/constants";
 
 const MpDetails = ({
 	votingSummary,
+	onChangeSummaryDateRange,
 	details,
 	onQueryMpByName,
 	onQueryMp,
@@ -36,6 +38,9 @@ const MpDetails = ({
 	const [includeParties, setIncludeParties] = useState("");
 	const [limit, setLimit] = useState(10);
 
+	const [fromDate, setFromDate] = useState(new Date(new Date(EARLIEST_FROM_DATE)).toISOString().substr(0, 10));
+	const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
+
 	const [progress, setProgress] = useState();
 
 	useEffect(() => {
@@ -47,18 +52,14 @@ const MpDetails = ({
 		if (type === "include") {
 			setIsIncludingParties(!isIncludingParties);
 			if (isExcludingParties) {
-				setIsExcludingParties(false);	
+				setIsExcludingParties(false);
 			}
 		} else {
 			setIsExcludingParties(!isExcludingParties);
 			if (isIncludingParties) {
-				setIsIncludingParties(false);	
+				setIsIncludingParties(false);
 			}
-			
 		}
-		
-		
-		
 	}
 
 	const getColour = (partyName) => {
@@ -201,6 +202,35 @@ const MpDetails = ({
 			setGlobalMessage({ type: "error", text: error.message });
 		}
 	};
+
+	const isValidDateAfter2000 = (dateString) => {
+		// Parse the input string into a Date object
+		const dateObject = new Date(dateString);
+
+		// Check if the parsing was successful and the date is after the year 2000
+		return !isNaN(dateObject.getTime()) && dateObject.getFullYear() > 2000;
+	}
+
+	const onChangeSummaryDatePicker = (type, value) => {
+
+		//TODO do we need debounce as well as valid date check?
+		
+		if (type === "from") {
+			setFromDate(value);
+
+			if (isValidDateAfter2000(value)) {
+				onChangeSummaryDateRange(details?.value?.id, value, toDate);
+			}
+			
+		} else {
+			setToDate(value);
+
+			if (isValidDateAfter2000(value)) {
+				onChangeSummaryDateRange(details?.value?.id, fromDate, value);
+			}
+			
+		}		
+	}	
 
 	return (
 		<>
@@ -409,6 +439,33 @@ const MpDetails = ({
 										}{" "}
 										voted
 									</h4>
+
+									<div className="datePicker">
+
+										<label style={{ marginRight: 24 }} for="start">Between:</label>
+										<input
+											type="date"
+											id="start"
+											min={EARLIEST_FROM_DATE}				
+											max={new Date().toISOString().substr(0, 10)}						
+											name="from-date"
+											onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
+											value={fromDate}
+										/>
+
+										{/* <label for="start" style={{ marginLeft: 8, marginRight: 8 }}>and:</label> */}
+										<input
+											style={{ marginLeft: 8 }}
+											type="date"
+											min={EARLIEST_FROM_DATE}		
+											max={new Date().toISOString().substr(0, 10)}								
+											id="toDate"
+											name="to-date"
+											onChange={(e) => onChangeSummaryDatePicker("to", e.target.value)}											
+											value={toDate}
+										/>
+									</div>
+
 									<div className='votingSummary__buttons'>
 										<button
 											className='button votingButton'

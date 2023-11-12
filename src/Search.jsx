@@ -10,6 +10,8 @@ import { config } from '../src/app.config';
 
 import ky from 'ky-universal';
 
+const EARLIEST_FROM_DATE = "2003-11-12";
+
 const Search = ({ setGlobalMessage }) => {
 
   const [mpNames, setMpNames] = useState([]);
@@ -73,7 +75,7 @@ const Search = ({ setGlobalMessage }) => {
     if (item.type === 'mp') {
       onGetVotingSummary(result?.value?.id);
     }
-    
+
   }
 
   const handleOnFocus = () => {
@@ -90,9 +92,13 @@ const Search = ({ setGlobalMessage }) => {
     )
   }
 
-  const onGetVotingSummary = async (id) => {
+  const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate) => {
 
-    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}`).json();
+    if (!toDate) {
+      toDate = new Date().toISOString().substr(0, 10);
+    }
+
+    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}`).json();
     console.log('votingsummaryneo ', result);
 
     setVotingSummary(result);
@@ -137,6 +143,11 @@ const Search = ({ setGlobalMessage }) => {
     setDivisionDetails(result)
   }
 
+  const onChangeSummaryDateRange = (id, fromDate, toDate) => {
+    console.log(fromDate, toDate);
+    onGetVotingSummary(id, fromDate, toDate);
+  }
+
   return (
     <div className="search">
 
@@ -170,11 +181,12 @@ const Search = ({ setGlobalMessage }) => {
           onQueryMp={onQueryMp}
           onQueryDivision={onQueryDivision}
           setGlobalMessage={setGlobalMessage}
+          onChangeSummaryDateRange={onChangeSummaryDateRange}
         />
       )}
 
       {divisionDetails && Boolean(Object.keys(divisionDetails).length) && (
-        <DivisionDetails        
+        <DivisionDetails
           onQueryMpByName={onQueryMpByName}
           division={divisionDetails}
           onQueryMp={onQueryMp}

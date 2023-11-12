@@ -8,7 +8,7 @@ import { Party } from "./config/constants";
 
 import { config } from './app.config';
 
-import { VOTING_CATEGORIES } from "./config/constants";
+import { VOTING_CATEGORIES, EARLIEST_FROM_DATE } from "./config/constants";
 
 import ky from 'ky-universal';
 
@@ -65,14 +65,14 @@ const mpColumns = [
   })
 ]
 
-
-
 const Insights = () => {
 
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [progress, setProgress] = useState();
+  const [fromDate, setFromDate] = useState(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString().substr(0, 10));
+  const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
 
   const table = useReactTable({
     data,
@@ -97,7 +97,7 @@ const Insights = () => {
     setData([]);
     setProgress(true);
 
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&&partyIncludes=${party}`;
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&partyIncludes=${party}&fromDate=${fromDate}&toDate=${toDate}`;
 
     if (voteCategory !== "Any Division") {
       url = url + `&&voteCategory=${voteCategory}`;
@@ -161,7 +161,7 @@ const Insights = () => {
           </div>
 
           {type === 'Division' && (
-            
+
             <div className="labelwrapper">
 
               <span className='fixedLabel'>type</span>
@@ -276,6 +276,32 @@ const Insights = () => {
 
             </div>
           )}
+
+          <div className="datePicker">
+
+            <label style={{ marginRight: 24 }} for="start">Between:</label>
+            <input
+              type="date"
+              id="start"
+              name="from-date"
+              min={EARLIEST_FROM_DATE}	
+              max={new Date().toISOString().substr(0, 10)}
+              onChange={(e) => setFromDate(e.target.value)}
+              value={fromDate}
+            />
+
+            {/* <label for="start" style={{ marginLeft: 8, marginRight: 8 }}>and:</label> */}
+            <input
+              style={{ marginLeft: 8 }}
+              type="date"
+              id="toDate"
+              name="to-date"
+              min={EARLIEST_FROM_DATE}	
+              max={new Date().toISOString().substr(0, 10)}
+              onChange={(e) => setToDate(e.target.value)}
+              value={toDate}
+            />
+          </div>
 
           <button
             className='button'

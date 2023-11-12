@@ -1,6 +1,8 @@
 :root {
 	font-family: "Satoshi", sans-serif;
 
+	--clr-scheme: light;	
+
 	--clr-dark: #070a13;
 	--clr-light: #f1f5f9;
 
@@ -19,6 +21,7 @@
 }
 
 .light-mode {
+	--clr-scheme: dark;
 	--clr-light: #070a13;
 	--clr-dark: #f1f5f9;
 	--clr-accent: #a972cb;
