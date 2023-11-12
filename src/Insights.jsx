@@ -71,7 +71,7 @@ const Insights = () => {
   const [columns, setColumns] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [progress, setProgress] = useState();
-  const [fromDate, setFromDate] = useState(new Date(new Date().setFullYear(new Date().getFullYear() - 20)).toISOString().substr(0, 10));
+  const [fromDate, setFromDate] = useState(new Date(EARLIEST_FROM_DATE).toISOString().substr(0, 10));
   const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
 
   const table = useReactTable({
