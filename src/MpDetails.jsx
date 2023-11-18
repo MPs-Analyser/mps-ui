@@ -123,7 +123,7 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}${queryParams}`;
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}${queryParams}`;
 
 		const result = await ky(url).json();
 
