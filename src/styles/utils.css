@@ -128,3 +128,7 @@
 	background: var(--clr-light); 
 	color-scheme: var(--clr-scheme)
 }
+
+fieldset {
+	padding: 4px;
+}

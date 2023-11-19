@@ -16,7 +16,11 @@ import Switch from "./shared/Switch";
 
 import { config } from "./app.config";
 
-import { Party, EARLIEST_FROM_DATE } from "./config/constants";
+import {
+	Party,
+	EARLIEST_FROM_DATE,
+	VOTING_CATEGORIES
+} from "./config/constants";
 
 const MpDetails = ({
 	votingSummary,
@@ -123,7 +127,7 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}${queryParams}`;
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}&fromDate=${fromDate}&toDate=${toDate}${queryParams}`;
 
 		const result = await ky(url).json();
 
@@ -179,7 +183,7 @@ const MpDetails = ({
 		try {
 
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}$`
 			).json();
 
 			const formattedResults = [];
@@ -214,23 +218,23 @@ const MpDetails = ({
 	const onChangeSummaryDatePicker = (type, value) => {
 
 		//TODO do we need debounce as well as valid date check?
-		
+
 		if (type === "from") {
 			setFromDate(value);
 
 			if (isValidDateAfter2000(value)) {
 				onChangeSummaryDateRange(details?.value?.id, value, toDate);
 			}
-			
+
 		} else {
 			setToDate(value);
 
 			if (isValidDateAfter2000(value)) {
 				onChangeSummaryDateRange(details?.value?.id, fromDate, value);
 			}
-			
-		}		
-	}	
+
+		}
+	}
 
 	return (
 		<>
@@ -337,6 +341,58 @@ const MpDetails = ({
 				<div className="fieldsetsWrapper">
 
 					<fieldset>
+						<legend>Filters</legend>
+
+						<div className="filterWrapper" style={{ paddingBottom: 8, display: "flex", flexDirection: "column", gap: 12 }}>
+							<div className="datePicker">
+
+								<label style={{ marginRight: 36 }} for="start">Between:</label>
+								<input
+									type="date"
+									id="start"
+									min={EARLIEST_FROM_DATE}
+									max={new Date().toISOString().substr(0, 10)}
+									name="from-date"
+									onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
+									value={fromDate}
+								/>
+
+								{/* <label for="start" style={{ marginLeft: 8, marginRight: 8 }}>and:</label> */}
+								<input
+									style={{ marginLeft: 8 }}
+									type="date"
+									min={EARLIEST_FROM_DATE}
+									max={new Date().toISOString().substr(0, 10)}
+									id="toDate"
+									name="to-date"
+									onChange={(e) => onChangeSummaryDatePicker("to", e.target.value)}
+									value={toDate}
+								/>
+							</div>
+
+							<div className="filterCategory__wrapper">
+								<label for="divisionCategory">Division Type</label>
+								<select
+									className="select insights__select"
+									name="divisionCategory"
+									disabled
+								>
+									{VOTING_CATEGORIES.map(i => (
+										<option
+											value={i}
+											key={i}
+										>
+											{i}
+										</option>
+									))}
+								</select>
+							</div>
+
+						</div>
+
+					</fieldset>
+
+					<fieldset>
 						<legend>Voting analysis</legend>
 
 						<div className='mpDetails__actions'>
@@ -439,32 +495,6 @@ const MpDetails = ({
 										}{" "}
 										voted
 									</h4>
-
-									<div className="datePicker">
-
-										<label style={{ marginRight: 24 }} for="start">Between:</label>
-										<input
-											type="date"
-											id="start"
-											min={EARLIEST_FROM_DATE}				
-											max={new Date().toISOString().substr(0, 10)}						
-											name="from-date"
-											onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
-											value={fromDate}
-										/>
-
-										{/* <label for="start" style={{ marginLeft: 8, marginRight: 8 }}>and:</label> */}
-										<input
-											style={{ marginLeft: 8 }}
-											type="date"
-											min={EARLIEST_FROM_DATE}		
-											max={new Date().toISOString().substr(0, 10)}								
-											id="toDate"
-											name="to-date"
-											onChange={(e) => onChangeSummaryDatePicker("to", e.target.value)}											
-											value={toDate}
-										/>
-									</div>
 
 									<div className='votingSummary__buttons'>
 										<button
