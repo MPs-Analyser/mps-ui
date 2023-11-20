@@ -183,7 +183,7 @@ const MpDetails = ({
 		try {
 
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}$`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}`
 			).json();
 
 			const formattedResults = [];
