@@ -92,13 +92,13 @@ const Search = ({ setGlobalMessage }) => {
     )
   }
 
-  const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate) => {
+  const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory="Any") => {
 
     if (!toDate) {
       toDate = new Date().toISOString().substr(0, 10);
     }
 
-    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}`).json();
+    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
     console.log('votingsummaryneo ', result);
 
     setVotingSummary(result);
@@ -148,6 +148,11 @@ const Search = ({ setGlobalMessage }) => {
     onGetVotingSummary(id, fromDate, toDate);
   }
 
+  const onApplyGlobalFilter = (id, fromDate, toDate, divisionCategory) => {
+    //bobby
+    onGetVotingSummary(id, fromDate, toDate, divisionCategory);
+  }
+
   return (
     <div className="search">
 
@@ -182,6 +187,7 @@ const Search = ({ setGlobalMessage }) => {
           onQueryDivision={onQueryDivision}
           setGlobalMessage={setGlobalMessage}
           onChangeSummaryDateRange={onChangeSummaryDateRange}
+          onApplyGlobalFilter={onApplyGlobalFilter}
         />
       )}
 

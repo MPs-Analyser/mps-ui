@@ -19,18 +19,24 @@ export const Party = {
 };
 
 export const VOTING_CATEGORIES = [
-    "Any Division",
-    "Finance and Economy",
-    "Healthcare",
-    "Environment",
-    "Domestic Abuse",
-    "European Union",
-    "Education",
-    "Policing and Crime",
-    "Housing",
-    "Immigration",
-    "Energy",
+    "Any",
     "Technology",
-    "Northern Ireland",
-    "Terrorism"
+    "Levelling up",
+    "Environment",
+    "State Ceremonies",
+    "Welfare",
+    "Domestic Abuse",
+    "National Security",
+    "Wales",
+    "Civil Liberties",
+    "Food and Farming",
+    "Children",
+    "Terrorism",
+    "Procurement",
+    "Legal Reform",
+    "Foreign Affairs",
+    "Scotland",
+    "Drugs",
+    "Environmental Protection",
+    "Government Structure"
 ]

@@ -30,6 +30,7 @@ const MpDetails = ({
 	onQueryMp,
 	onQueryDivision,
 	setGlobalMessage,
+	onApplyGlobalFilter
 }) => {
 	const [votingSimilarity, setVotingSimilarity] = useState();
 	const [votingHistory, setVotingHistory] = useState();
@@ -44,6 +45,7 @@ const MpDetails = ({
 
 	const [fromDate, setFromDate] = useState(new Date(new Date(EARLIEST_FROM_DATE)).toISOString().substr(0, 10));
 	const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
+	const [divisionCategory, setDivisionCategory] = useState("Any");
 
 	const [progress, setProgress] = useState();
 
@@ -127,7 +129,7 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}&fromDate=${fromDate}&toDate=${toDate}${queryParams}`;
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}${queryParams}`;
 
 		const result = await ky(url).json();
 
@@ -183,7 +185,7 @@ const MpDetails = ({
 		try {
 
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`
 			).json();
 
 			const formattedResults = [];
@@ -207,33 +209,35 @@ const MpDetails = ({
 		}
 	};
 
-	const isValidDateAfter2000 = (dateString) => {
-		// Parse the input string into a Date object
-		const dateObject = new Date(dateString);
+	// const isValidDateAfter2000 = (dateString) => {
+	// 	// Parse the input string into a Date object
+	// 	const dateObject = new Date(dateString);
 
-		// Check if the parsing was successful and the date is after the year 2000
-		return !isNaN(dateObject.getTime()) && dateObject.getFullYear() > 2000;
-	}
+	// 	// Check if the parsing was successful and the date is after the year 2000
+	// 	return !isNaN(dateObject.getTime()) && dateObject.getFullYear() > 2000;
+	// }
 
 	const onChangeSummaryDatePicker = (type, value) => {
 
 		//TODO do we need debounce as well as valid date check?
-
 		if (type === "from") {
 			setFromDate(value);
 
-			if (isValidDateAfter2000(value)) {
-				onChangeSummaryDateRange(details?.value?.id, value, toDate);
-			}
-
+			// if (isValidDateAfter2000(value)) {
+			// 	onChangeSummaryDateRange(details?.value?.id, value, toDate);
+			// }
 		} else {
 			setToDate(value);
 
-			if (isValidDateAfter2000(value)) {
-				onChangeSummaryDateRange(details?.value?.id, fromDate, value);
-			}
-
+			// if (isValidDateAfter2000(value)) {
+			// 	onChangeSummaryDateRange(details?.value?.id, fromDate, value);
+			// }
 		}
+	}
+
+	const onApplyFilter = () => {
+		// onChangeSummaryDateRange(details?.value?.id, fromDate, toDate);
+		onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory);
 	}
 
 	return (
@@ -373,9 +377,10 @@ const MpDetails = ({
 							<div className="filterCategory__wrapper">
 								<label for="divisionCategory">Division Type</label>
 								<select
+									value={divisionCategory}
+									onChange={(e) => setDivisionCategory(e.target.value)}
 									className="select insights__select"
-									name="divisionCategory"
-									disabled
+									name="divisionCategory"									
 								>
 									{VOTING_CATEGORIES.map(i => (
 										<option
@@ -387,6 +392,15 @@ const MpDetails = ({
 									))}
 								</select>
 							</div>
+
+							<button
+								className='button'
+								onClick={onApplyFilter} 
+								onApplyFilter
+							>
+								Apply
+							</button>
+
 
 						</div>
 
