@@ -46,6 +46,16 @@ const App = () => {
 		document.querySelector(".wrapper input").focus();
 	};
 
+	const onQueryDivision = (value ) => {
+		console.log("Query division id ", value);
+		setPage('division');
+	}
+
+	const onQueryMp = (value ) => {
+		console.log("query mp id ", value);
+		setPage('home');
+	}
+
 	return (
 		<main>
 			<NavBar
@@ -61,11 +71,17 @@ const App = () => {
 				)}
 
 				{page === "insights" && (
-					<Insights setGlobalMessage={setGlobalMessage} />
+					<Insights 
+						setGlobalMessage={setGlobalMessage} 
+						onQueryDivision={onQueryDivision}
+						onQueryMp={onQueryMp}
+					/>
 				)}
 
 				{page === "divison" && (
-					<DivisionDetails onHandleError={onHandleError} />
+					<DivisionDetails 
+						onHandleError={onHandleError} 
+					/>
 				)}
 
 				{page === "about" && <About />}

@@ -1,15 +1,16 @@
-.insights {    
+.insights {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
 
-.labelwrapper {    
+.labelwrapper {
     display: flex;
     align-items: baseline;
 }
- /* TODO probably should be a grid */
+
+/* TODO probably should be a grid */
 .insights__query {
     padding: 1em;
     display: flex;
@@ -19,7 +20,7 @@
     padding-bottom: 1em;
 }
 
-.insights__query > button {
+.insights__query>button {
     width: 100%;
     margin-top: 8px;
 }
@@ -35,7 +36,7 @@
     border-bottom: 1px solid var(--clr-light-other);
 }
 
-.insights__result > table {
+.insights__result>table {
     width: 100%;
 }
 
@@ -45,17 +46,21 @@
     margin-right: 8px;
 }
 
-.insights__config {    
+.insights__config {
     padding: 1em;
     display: flex;
-    align-items: center;    
-    gap: 8px;    
+    align-items: center;
+    gap: 8px;
+}
+
+.insights__result tr {
+    cursor: pointer;
 }
 
 @media (min-width: 1024px) {
-	.insights {
-		margin-top: var(--height-nav);
-	}
+    .insights {
+        margin-top: var(--height-nav);
+    }
 
     .insights__query {
         padding: 1em;
@@ -64,5 +69,4 @@
         gap: 8px;
         padding-bottom: 1em;
     }
-    
 }
