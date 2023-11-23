@@ -10,16 +10,21 @@ import { config } from '../src/app.config';
 
 import ky from 'ky-universal';
 
-const EARLIEST_FROM_DATE = "2003-11-12";
-
-const Search = ({ setGlobalMessage }) => {
+const Search = ({ 
+  setGlobalMessage, 
+  divisionDetails, 
+  setDivisionDetails, 
+  mpDetails, 
+  setMpDetails,
+  onGetVotingSummary,
+  votingSummary,  
+  onQueryMp,
+  onQueryDivision
+}) => {
 
   const [mpNames, setMpNames] = useState([]);
-  const [divisionNames, setDivisionNames] = useState([]);
-  const [mpDetails, setMpDetails] = useState({});
-  const [divisionDetails, setDivisionDetails] = useState({});
-  const [votingSummary, setVotingSummary] = useState({});
-
+  const [divisionNames, setDivisionNames] = useState([]);  
+  
   const getMpNames = async () => {
     console.log('get names');
     const result = await ky(`${config.mpsApiUrl}mpnames`).json();
@@ -93,18 +98,6 @@ const Search = ({ setGlobalMessage }) => {
     )
   }
 
-  const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory="Any") => {
-
-    if (!toDate) {
-      toDate = new Date().toISOString().substr(0, 10);
-    }
-
-    const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
-    console.log('votingsummaryneo ', result);
-
-    setVotingSummary(result);
-  }
-
   const onQueryMpByName = async (name) => {
 
     setMpDetails(undefined);
@@ -121,37 +114,12 @@ const Search = ({ setGlobalMessage }) => {
     }
   }
 
-  //TODO move this back to app.js
-  const onQueryMp = async (id) => {
-
-    setMpDetails(undefined);
-    setDivisionDetails(undefined);
-
-    const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-
-    setMpDetails(result);
-
-    onGetVotingSummary(result?.value?.id);
-
-  }
-
-  const onQueryDivision = async (id) => {
-    console.log('step 1 ', id);
-    setMpDetails(undefined);
-    setDivisionDetails(undefined);
-
-    const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-
-    setDivisionDetails(result)
-  }
-
   const onChangeSummaryDateRange = (id, fromDate, toDate) => {
     console.log(fromDate, toDate);
     onGetVotingSummary(id, fromDate, toDate);
   }
 
   const onApplyGlobalFilter = (id, fromDate, toDate, divisionCategory) => {
-    //bobby
     onGetVotingSummary(id, fromDate, toDate, divisionCategory);
   }
 
@@ -183,6 +151,7 @@ const Search = ({ setGlobalMessage }) => {
       {mpDetails && mpDetails.value && (
         <MpDetails
           votingSummary={votingSummary}
+          onGetVotingSummary={onGetVotingSummary}
           onQueryMpByName={onQueryMpByName}
           details={mpDetails}
           onQueryMp={onQueryMp}

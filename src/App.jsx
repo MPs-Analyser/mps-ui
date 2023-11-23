@@ -8,12 +8,21 @@ import Insights from "./Insights";
 import Toast from "./Toast";
 // import Splash from "./Splash";
 
+import ky from 'ky-universal';
+
+import { config } from '../src/app.config';
+
+const EARLIEST_FROM_DATE = "2003-11-12";
+
 import "./styles/index.css";
 import "./styles/utils.css";
 
 const App = () => {
 
 	const [page, setPage] = useState("home");
+	const [mpDetails, setMpDetails] = useState({});
+	const [divisionDetails, setDivisionDetails] = useState({});
+	const [votingSummary, setVotingSummary] = useState({});
 
 	const [globalMessage, setGlobalMessage] = useState({
 		text: undefined,
@@ -46,16 +55,45 @@ const App = () => {
 		document.querySelector(".wrapper input").focus();
 	};
 
-	const onQueryDivision = (value ) => {
-		console.log("Query division id ", value);
-		setPage('division');
+	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory="Any") => {
+
+		if (!toDate) {
+			toDate = new Date().toISOString().substr(0, 10);
+		}
+	
+		const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
+		console.log('votingsummaryneo ', result);
+	
+		setVotingSummary(result);
 	}
 
-	const onQueryMp = (value ) => {
-		console.log("query mp id ", value);
+	const onQueryMp = async (id) => {
+
 		setPage('home');
-	}
 
+		setMpDetails(undefined);
+		setDivisionDetails(undefined);
+	
+		const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
+	
+		setMpDetails(result);
+	
+		onGetVotingSummary(result?.value?.id);
+	
+		}
+	
+		const onQueryDivision = async (id) => {
+
+		setPage('home');
+		
+		setMpDetails(undefined);
+		setDivisionDetails(undefined);
+	
+		const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
+	
+		setDivisionDetails(result)
+	}
+	
 	return (
 		<main>
 			<NavBar
@@ -67,20 +105,32 @@ const App = () => {
 			<div className='container' ref={container}>
 
 				{page === "home" && (
-					<Search setGlobalMessage={setGlobalMessage} />
+					<Search 
+						setGlobalMessage={setGlobalMessage} 
+						mpDetails={mpDetails}
+						setMpDetails={setMpDetails}
+						divisionDetails={divisionDetails}
+						setDivisionDetails={setDivisionDetails}
+						votingSummary={votingSummary}
+						setVotingSummary={setVotingSummary}
+						onGetVotingSummary={onGetVotingSummary}
+						onQueryMp={onQueryMp}
+						onQueryDivision={onQueryDivision}
+					/>
+					
 				)}
 
 				{page === "insights" && (
-					<Insights 
-						setGlobalMessage={setGlobalMessage} 
+					<Insights
+						setGlobalMessage={setGlobalMessage}
 						onQueryDivision={onQueryDivision}
 						onQueryMp={onQueryMp}
 					/>
 				)}
 
 				{page === "divison" && (
-					<DivisionDetails 
-						onHandleError={onHandleError} 
+					<DivisionDetails
+						onHandleError={onHandleError}
 					/>
 				)}
 
