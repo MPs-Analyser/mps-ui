@@ -221,6 +221,17 @@ const MpDetails = ({
 		onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory);
 	}
 
+	const displayNameString = (name) => `How ${name} voted`
+
+	const displayName = (value="") => {		
+		let nameArray = value.split(" ");		
+		if (nameArray.length === 3) {
+			return displayNameString(nameArray[1]);	
+		} else {
+			return displayNameString(nameArray[0]);	
+		}		
+	}
+
 	return (
 		<>
 			<section className='mpDetails'>
@@ -307,7 +318,7 @@ const MpDetails = ({
 										? `Active`
 										: `Inactive`}
 								</td>
-							</tr>							
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -320,7 +331,7 @@ const MpDetails = ({
 						<div className="filterWrapper" style={{ paddingBottom: 8, display: "flex", flexDirection: "column", gap: 12 }}>
 							<div className="datePicker">
 
-								<label style={{ marginRight: 36 }} for="start">Between:</label>
+								<label style={{ marginRight: 36 }} htmlFor="start">Between:</label>
 								<input
 									type="date"
 									id="start"
@@ -330,8 +341,7 @@ const MpDetails = ({
 									onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
 									value={fromDate}
 								/>
-
-								{/* <label for="start" style={{ marginLeft: 8, marginRight: 8 }}>and:</label> */}
+								
 								<input
 									style={{ marginLeft: 8 }}
 									type="date"
@@ -345,7 +355,7 @@ const MpDetails = ({
 							</div>
 
 							<div className="filterCategory__wrapper">
-								<label for="divisionCategory">Division Type</label>
+								<label htmlFor="divisionCategory">Division Type</label>
 								<select
 									value={divisionCategory}
 									onChange={(e) => setDivisionCategory(e.target.value)}
@@ -365,8 +375,7 @@ const MpDetails = ({
 
 							<button
 								className='button'
-								onClick={onApplyFilter}
-								onApplyFilter
+								onClick={onApplyFilter}							
 							>
 								Apply
 							</button>
@@ -383,13 +392,7 @@ const MpDetails = ({
 							{votingSummary && (
 								<div className='votingSummary'>
 									<h4>
-										How{" "}
-										{
-											details.value.nameDisplayAs.split(
-												" "
-											)[0]
-										}{" "}
-										voted
+										{displayName(details.value.nameDisplayAs)}
 									</h4>
 
 									<div className='votingSummary__buttons'>
