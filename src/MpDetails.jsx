@@ -307,18 +307,7 @@ const MpDetails = ({
 										? `Active`
 										: `Inactive`}
 								</td>
-							</tr>
-							<tr>
-								<th>Status Description</th>
-								<td>
-									{
-										details.value
-											.latestHouseMembership
-											?.membershipStatus
-											?.statusDescription
-									}
-								</td>
-							</tr>
+							</tr>							
 						</tbody>
 					</table>
 				</div>
