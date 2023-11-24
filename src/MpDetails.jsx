@@ -29,7 +29,9 @@ const MpDetails = ({
 	onQueryMp,
 	onQueryDivision,
 	setGlobalMessage,
-	onApplyGlobalFilter
+	onApplyGlobalFilter,
+	filterInProgress,
+	setFilterInProgress
 }) => {
 	const [votingSimilarity, setVotingSimilarity] = useState();
 	const [votingHistory, setVotingHistory] = useState();
@@ -216,20 +218,22 @@ const MpDetails = ({
 		}
 	}
 
-	const onApplyFilter = () => {
+	const onApplyFilter = async () => {
+		setFilterInProgress(true);
 		// onChangeSummaryDateRange(details?.value?.id, fromDate, toDate);
-		onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory);
+		await onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory);
+		// setFilterInProgress(false);
 	}
 
 	const displayNameString = (name) => `How ${name} voted`
 
-	const displayName = (value="") => {		
-		let nameArray = value.split(" ");		
+	const displayName = (value = "") => {
+		let nameArray = value.split(" ");
 		if (nameArray.length === 3) {
-			return displayNameString(nameArray[1]);	
+			return displayNameString(nameArray[1]);
 		} else {
-			return displayNameString(nameArray[0]);	
-		}		
+			return displayNameString(nameArray[0]);
+		}
 	}
 
 	return (
@@ -325,8 +329,25 @@ const MpDetails = ({
 
 				<div className="fieldsetsWrapper">
 
-					<fieldset>
-						<legend>Filters</legend>
+					<fieldset style={{ marginTop: -4 }}>
+
+						<legend>
+
+							<svg
+								style={{ position: "relative", top: 0, marginRight: 4 }}
+								className="standalone-svg"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24">
+								<path d="M19 2c1.654 0 3 1.346 3 3v14c0 1.654-1.346 3-3 3h-14c-1.654 0-3-1.346-3-3v-14c0-1.654 1.346-3 3-3h14zm5 3c0-2.761-2.238-5-5-5h-14c-2.762 0-5 2.239-5 5v14c0 2.761 2.238 5 5 5h14c2.762 0 5-2.239 5-5v-14zm-13 12h-2v3h-2v-3h-2v-3h6v3zm-2-13h-2v8h2v-8zm10 5h-6v3h2v8h2v-8h2v-3zm-2-5h-2v3h2v-3z" />
+							</svg>
+							<span style={{ position: "relative", top: -6 }}>
+								Filters
+							</span>
+
+						</legend>
+
 
 						<div className="filterWrapper" style={{ paddingBottom: 8, display: "flex", flexDirection: "column", gap: 12 }}>
 							<div className="datePicker">
@@ -341,7 +362,7 @@ const MpDetails = ({
 									onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
 									value={fromDate}
 								/>
-								
+
 								<input
 									style={{ marginLeft: 8 }}
 									type="date"
@@ -375,7 +396,7 @@ const MpDetails = ({
 
 							<button
 								className='button'
-								onClick={onApplyFilter}							
+								onClick={onApplyFilter}
 							>
 								Apply
 							</button>
@@ -385,8 +406,21 @@ const MpDetails = ({
 
 					</fieldset>
 
-					<fieldset>
-						<legend>Voting details</legend>
+					<fieldset style={{ marginTop: 8 }}>
+						<legend>
+							<svg
+								style={{ position: "relative", top: 0, marginRight: 4 }}
+								className="standalone-svg"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24">
+								<path d="M2 0v24h20v-24h-20zm18 22h-16v-15h16v15zm-3-4h-10v-1h10v1zm0-3h-10v-1h10v1zm0-3h-10v-1h10v1z" />
+							</svg>
+							<span style={{ position: "relative", top: -6 }}>
+								Voting details
+							</span>
+						</legend>
 						<div className='mpDetails__actions'>
 
 							{votingSummary && (
@@ -421,16 +455,28 @@ const MpDetails = ({
 											No
 										</button>
 
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.total}
-										</span>
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.votedAye || 0}
-										</span>
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.votedNo || 0}
-										</span>
+
+										{!filterInProgress && (
+											<>
+												<span className='votingSummary__buttons__count'>
+													{filterInProgress ? 'a' : votingSummary?.total}
+												</span>
+												<span className='votingSummary__buttons__count'>
+													{votingSummary?.votedAye || 0}
+												</span>
+												<span className='votingSummary__buttons__count'>
+													{votingSummary?.votedNo || 0}
+												</span>
+											</>
+										)}
+
 									</div>
+
+									{filterInProgress && (
+										<div style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 8 }}>
+											<progress value={null} />
+										</div>
+									)}
 								</div>
 							)}
 						</div>
@@ -439,7 +485,22 @@ const MpDetails = ({
 					<div style={{ height: 8 }} />
 
 					<fieldset>
-						<legend>Voting analysis</legend>
+						<legend>
+
+							<svg
+								style={{ position: "relative", top: 0, marginRight: 4 }}
+								className="standalone-svg"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24">
+								<path d="M8 1c0-.552.448-1 1-1h6c.552 0 1 .448 1 1s-.448 1-1 1h-6c-.552 0-1-.448-1-1zm12.759 19.498l-3.743-7.856c-1.041-2.186-2.016-4.581-2.016-7.007v-1.635h-2v2c.09 2.711 1.164 5.305 2.21 7.502l3.743 7.854c.143.302-.068.644-.376.644h-1.497l-4.377-9h-3.682c.882-1.908 1.886-4.377 1.973-7l.006-2h-2v1.635c0 2.426-.975 4.82-2.016 7.006l-3.743 7.856c-.165.348-.241.708-.241 1.058 0 1.283 1.023 2.445 2.423 2.445h13.154c1.4 0 2.423-1.162 2.423-2.446 0-.35-.076-.709-.241-1.056z" />
+							</svg>
+							<span style={{ position: "relative", top: -6 }}>
+								Voting analysis
+							</span>
+
+						</legend>
 
 						<div className='mpDetails__actions'>
 

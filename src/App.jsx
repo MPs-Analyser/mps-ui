@@ -24,6 +24,8 @@ const App = () => {
 	const [divisionDetails, setDivisionDetails] = useState({});
 	const [votingSummary, setVotingSummary] = useState({});
 
+	const [filterInProgress, setFilterInProgress] = useState(false);
+
 	const [globalMessage, setGlobalMessage] = useState({
 		text: undefined,
 		type: undefined,
@@ -57,6 +59,8 @@ const App = () => {
 
 	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory="Any") => {
 
+		setFilterInProgress(true);
+
 		if (!toDate) {
 			toDate = new Date().toISOString().substr(0, 10);
 		}
@@ -64,6 +68,7 @@ const App = () => {
 		const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
 		console.log('votingsummaryneo ', result);
 	
+		setFilterInProgress(false);
 		setVotingSummary(result);
 	}
 
@@ -116,6 +121,8 @@ const App = () => {
 						onGetVotingSummary={onGetVotingSummary}
 						onQueryMp={onQueryMp}
 						onQueryDivision={onQueryDivision}
+						filterInProgress={filterInProgress}
+						setFilterInProgress={setFilterInProgress}
 					/>
 					
 				)}

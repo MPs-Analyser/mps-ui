@@ -19,7 +19,9 @@ const Search = ({
   onGetVotingSummary,
   votingSummary,  
   onQueryMp,
-  onQueryDivision
+  onQueryDivision,
+  filterInProgress,
+	setFilterInProgress
 }) => {
 
   const [mpNames, setMpNames] = useState([]);
@@ -151,6 +153,8 @@ const Search = ({
           setGlobalMessage={setGlobalMessage}
           onChangeSummaryDateRange={onChangeSummaryDateRange}
           onApplyGlobalFilter={onApplyGlobalFilter}
+          filterInProgress={filterInProgress}
+					setFilterInProgress={setFilterInProgress}
         />
       )}
 
