@@ -24,7 +24,6 @@ import {
 
 const MpDetails = ({
 	votingSummary,
-	onChangeSummaryDateRange,
 	details,
 	onQueryMpByName,
 	onQueryMp,
@@ -209,29 +208,11 @@ const MpDetails = ({
 		}
 	};
 
-	// const isValidDateAfter2000 = (dateString) => {
-	// 	// Parse the input string into a Date object
-	// 	const dateObject = new Date(dateString);
-
-	// 	// Check if the parsing was successful and the date is after the year 2000
-	// 	return !isNaN(dateObject.getTime()) && dateObject.getFullYear() > 2000;
-	// }
-
 	const onChangeSummaryDatePicker = (type, value) => {
-
-		//TODO do we need debounce as well as valid date check?
 		if (type === "from") {
 			setFromDate(value);
-
-			// if (isValidDateAfter2000(value)) {
-			// 	onChangeSummaryDateRange(details?.value?.id, value, toDate);
-			// }
 		} else {
 			setToDate(value);
-
-			// if (isValidDateAfter2000(value)) {
-			// 	onChangeSummaryDateRange(details?.value?.id, fromDate, value);
-			// }
 		}
 	}
 
@@ -380,7 +361,7 @@ const MpDetails = ({
 									value={divisionCategory}
 									onChange={(e) => setDivisionCategory(e.target.value)}
 									className="select insights__select"
-									name="divisionCategory"									
+									name="divisionCategory"
 								>
 									{VOTING_CATEGORIES.map(i => (
 										<option
@@ -395,7 +376,7 @@ const MpDetails = ({
 
 							<button
 								className='button'
-								onClick={onApplyFilter} 
+								onClick={onApplyFilter}
 								onApplyFilter
 							>
 								Apply
@@ -405,6 +386,65 @@ const MpDetails = ({
 						</div>
 
 					</fieldset>
+
+					<fieldset>
+						<legend>Voting details</legend>
+						<div className='mpDetails__actions'>
+
+							{votingSummary && (
+								<div className='votingSummary'>
+									<h4>
+										How{" "}
+										{
+											details.value.nameDisplayAs.split(
+												" "
+											)[0]
+										}{" "}
+										voted
+									</h4>
+
+									<div className='votingSummary__buttons'>
+										<button
+											className='button votingButton'
+											onClick={() =>
+												onGetVotingHistory("all")
+											}
+										>
+											Total
+										</button>
+										<button
+											className='button'
+											onClick={() =>
+												onGetVotingHistory("votedAye")
+											}
+										>
+											Aye
+										</button>
+										<button
+											className='button'
+											onClick={() =>
+												onGetVotingHistory("votedNo")
+											}
+										>
+											No
+										</button>
+
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.total}
+										</span>
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.votedAye || 0}
+										</span>
+										<span className='votingSummary__buttons__count'>
+											{votingSummary?.votedNo || 0}
+										</span>
+									</div>
+								</div>
+							)}
+						</div>
+					</fieldset>
+
+					<div style={{ height: 8 }} />
 
 					<fieldset>
 						<legend>Voting analysis</legend>
@@ -490,65 +530,6 @@ const MpDetails = ({
 							</button>
 						</div>
 
-					</fieldset>
-
-					<div style={{ height: 8 }} />
-
-					<fieldset>
-						<legend>Voting details</legend>
-						<div className='mpDetails__actions'>
-
-							{votingSummary && (
-								<div className='votingSummary'>
-									<h4>
-										How{" "}
-										{
-											details.value.nameDisplayAs.split(
-												" "
-											)[0]
-										}{" "}
-										voted
-									</h4>
-
-									<div className='votingSummary__buttons'>
-										<button
-											className='button votingButton'
-											onClick={() =>
-												onGetVotingHistory("all")
-											}
-										>
-											Total
-										</button>
-										<button
-											className='button'
-											onClick={() =>
-												onGetVotingHistory("votedAye")
-											}
-										>
-											Aye
-										</button>
-										<button
-											className='button'
-											onClick={() =>
-												onGetVotingHistory("votedNo")
-											}
-										>
-											No
-										</button>
-
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.total}
-										</span>
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.votedAye || 0}
-										</span>
-										<span className='votingSummary__buttons__count'>
-											{votingSummary?.votedNo || 0}
-										</span>
-									</div>
-								</div>
-							)}
-						</div>
 					</fieldset>
 
 				</div>
