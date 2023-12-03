@@ -132,8 +132,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
     }
 
     const result = await ky(url).json();
-    console.log('result ', result);
-
+    
     const formattedResult = [];
     if (type === 'Division') {
       setColumns(divisionColumns);
@@ -148,8 +147,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
         formattedResult.push(row);
       });
     }
-    console.log('formatted result ', formattedResult);
-
+  
     setData(formattedResult);
 
     setProgress(false);
@@ -302,7 +300,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
           <div className="datePicker">
 
-            <label style={{ marginRight: 24 }} for="start">Between:</label>
+            <label style={{ marginRight: 24 }} htmlFor="start">Between:</label>
             <input
               type="date"
               id="start"
