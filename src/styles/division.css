@@ -18,8 +18,8 @@
     margin-top: 8px;;
 }
 
-.divisionDetails__list__wrapper {
-    height: 100%;
+.divisionDetails__list__wrapper {    
+    height: calc(100dvh - var(--height-nav)); 
     overflow-x: auto;
     display: flex;
     padding: 1em;    

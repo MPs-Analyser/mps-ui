@@ -473,7 +473,7 @@ const MpDetails = ({
 									</div>
 
 									{filterInProgress && (
-										<div style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 8 }}>
+										<div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
 											<progress value={null} />
 										</div>
 									)}
