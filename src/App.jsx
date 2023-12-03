@@ -57,17 +57,17 @@ const App = () => {
 		document.querySelector(".wrapper input").focus();
 	};
 
-	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory="Any") => {
+	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory = "Any") => {
 
 		setFilterInProgress(true);
 
 		if (!toDate) {
 			toDate = new Date().toISOString().substr(0, 10);
 		}
-	
+
 		const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
 		console.log('votingsummaryneo ', result);
-	
+
 		setFilterInProgress(false);
 		setVotingSummary(result);
 	}
@@ -78,27 +78,27 @@ const App = () => {
 
 		setMpDetails(undefined);
 		setDivisionDetails(undefined);
-	
+
 		const result = await ky(`https://members-api.parliament.uk/api/Members/${id}`).json();
-	
+
 		setMpDetails(result);
-	
+
 		onGetVotingSummary(result?.value?.id);
-	
-		}
-	
-		const onQueryDivision = async (id) => {
+
+	}
+
+	const onQueryDivision = async (id) => {
 
 		setPage('home');
-		
+
 		setMpDetails(undefined);
 		setDivisionDetails(undefined);
-	
+
 		const result = await ky(`https://commonsvotes-api.parliament.uk/data/division/${id}.json`).json();
-	
+
 		setDivisionDetails(result)
 	}
-	
+
 	return (
 		<main>
 			<NavBar
@@ -110,21 +110,27 @@ const App = () => {
 			<div className='container' ref={container}>
 
 				{page === "home" && (
-					<Search 
-						setGlobalMessage={setGlobalMessage} 
-						mpDetails={mpDetails}
-						setMpDetails={setMpDetails}
-						divisionDetails={divisionDetails}
-						setDivisionDetails={setDivisionDetails}
-						votingSummary={votingSummary}
-						setVotingSummary={setVotingSummary}
-						onGetVotingSummary={onGetVotingSummary}
-						onQueryMp={onQueryMp}
-						onQueryDivision={onQueryDivision}
-						filterInProgress={filterInProgress}
-						setFilterInProgress={setFilterInProgress}
-					/>
-					
+
+					<>
+
+						<Search
+							setGlobalMessage={setGlobalMessage}
+							mpDetails={mpDetails}
+							setMpDetails={setMpDetails}
+							divisionDetails={divisionDetails}
+							setDivisionDetails={setDivisionDetails}
+							votingSummary={votingSummary}
+							setVotingSummary={setVotingSummary}
+							onGetVotingSummary={onGetVotingSummary}
+							onQueryMp={onQueryMp}
+							onQueryDivision={onQueryDivision}
+							filterInProgress={filterInProgress}
+							setFilterInProgress={setFilterInProgress}
+						/>
+
+					</>
+
+
 				)}
 
 				{page === "insights" && (
@@ -133,6 +139,7 @@ const App = () => {
 						onQueryDivision={onQueryDivision}
 						onQueryMp={onQueryMp}
 					/>
+
 				)}
 
 				{page === "divison" && (
