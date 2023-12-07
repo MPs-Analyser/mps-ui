@@ -69,26 +69,26 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
       cell: info => <i>{info.getValue()}</i>,
       header: () => <span>Count</span>
     })
-  ]  
+  ]
 
   const mpColumns = [
 
     columnHelper.accessor('title', {
       cell: info => info.getValue() ? (
         <span onClick={() => onQueryMp(info.row.original.id)} style={{ textWrap: 'nowrap' }}>
-          <svg 
+          <svg
             className="votingHistory__table-svg"
-            xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
             viewBox="0 0 24 24">
-              <path d="M12 2c2.757 0 5 2.243 5 5.001 0 2.756-2.243 5-5 5s-5-2.244-5-5c0-2.758 2.243-5.001 5-5.001zm0-2c-3.866 0-7 3.134-7 7.001 0 3.865 3.134 7 7 7s7-3.135 7-7c0-3.867-3.134-7.001-7-7.001zm6.369 13.353c-.497.498-1.057.931-1.658 1.302 2.872 1.874 4.378 5.083 4.972 7.346h-19.387c.572-2.29 2.058-5.503 4.973-7.358-.603-.374-1.162-.811-1.658-1.312-4.258 3.072-5.611 8.506-5.611 10.669h24c0-2.142-1.44-7.557-5.631-10.647z" />
+            <path d="M12 2c2.757 0 5 2.243 5 5.001 0 2.756-2.243 5-5 5s-5-2.244-5-5c0-2.758 2.243-5.001 5-5.001zm0-2c-3.866 0-7 3.134-7 7.001 0 3.865 3.134 7 7 7s7-3.135 7-7c0-3.867-3.134-7.001-7-7.001zm6.369 13.353c-.497.498-1.057.931-1.658 1.302 2.872 1.874 4.378 5.083 4.972 7.346h-19.387c.572-2.29 2.058-5.503 4.973-7.358-.603-.374-1.162-.811-1.658-1.312-4.258 3.072-5.611 8.506-5.611 10.669h24c0-2.142-1.44-7.557-5.631-10.647z" />
           </svg>
           <span style={{ marginLeft: 8 }}>{info.getValue()}</span>
         </span>
       ) : '',
       header: () => <span>Name</span>
-    }),    
+    }),
     columnHelper.accessor('party', {
       cell: info => info.getValue(),
       header: () => <span>Party</span>
@@ -132,14 +132,14 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
     }
 
     const result = await ky(url).json();
-    
+
     const formattedResult = [];
     if (type === 'Division') {
       setColumns(divisionColumns);
       result.forEach(i => {
         const row = { title: i._fields[0], count: i._fields[1].low, id: i._fields[2].low };
         formattedResult.push(row);
-      });      
+      });
     } else {
       setColumns(mpColumns);
       result.forEach(i => {
@@ -147,7 +147,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
         formattedResult.push(row);
       });
     }
-  
+
     setData(formattedResult);
 
     setProgress(false);
@@ -161,34 +161,31 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
         <div className="insights__query">
 
-          <div className="labelwrapper">
-            <span className='fixedLabel'>Which</span>
+          <span className='fixedLabel'>Which</span>
 
-            <select
-              className="select insights__select"
-              name="type"
-              onChange={(e) => setType(e.target.value)}
-              value={type}
-            >
-              {types.map(type => (
-                <option
-                  value={type}
-                  key={type}
-                >
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            className="select insights__select fixedInput"
+            name="type"
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+          >
+            {types.map(type => (
+              <option
+                value={type}
+                key={type}
+              >
+                {type}
+              </option>
+            ))}
+          </select>
+
 
           {type === 'Division' && (
-
-            <div className="labelwrapper">
-
+            <>
               <span className='fixedLabel'>type</span>
 
               <select
-                className="select insights__select"
+                className="select insights__select fixedInput"
                 name="voteCategory"
                 onChange={(e) => setVoteCategory(e.target.value)}
                 value={voteCategory}
@@ -203,48 +200,23 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
                 ))}
               </select>
 
-            </div>
+            </>
+
           )}
 
-          <div className="labelwrapper">
+          {type === 'MP' && (
+            <span className='fixedLabel'>from</span>
+          )}
 
-            {type === 'MP' && (
-              <span className='fixedLabel'>from</span>
-            )}
-
-            {type === 'MP' && (
-              <div>
-                <select
-                  className="select insights__select"
-                  name="party"
-                  onChange={(e) => setParty(e.target.value)}
-                  value={party}
-                >
-                  {Object.values(Party).filter(i => i !== "Unknown").map(i => (
-                    <option
-                      value={i}
-                      key={i}
-                    >
-                      {i}
-                    </option>
-                  ))}
-                </select>
-
-              </div>
-            )}
-          </div>
-
-          <div className="labelwrapper">
-            {type === 'MP' ? <span className='fixedLabel'>voted the</span> : <span className='fixedLabel'>was voted</span>}
-
-            {type === 'Division' && (
+          {type === 'MP' && (
+            <div className='fixedInput'>
               <select
                 className="select insights__select"
-                name="voteType"
-                onChange={(e) => setVoteType(e.target.value)}
-                value={voteType}
+                name="party"
+                onChange={(e) => setParty(e.target.value)}
+                value={party}
               >
-                {voteTyps.map(i => (
+                {Object.values(Party).filter(i => i !== "Unknown").map(i => (
                   <option
                     value={i}
                     key={i}
@@ -253,34 +225,56 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
                   </option>
                 ))}
               </select>
-            )}
 
-            {type === 'Division' && <span>the</span>}
+            </div>
+          )}
 
+
+          {type === 'MP' ? <span className='fixedLabel'>voted the</span> : <span className='fixedLabel'>was voted</span>}
+
+          {type === 'Division' && (
             <select
-              className="select insights__select"
-              name="query"
-              onChange={(e) => setQuery(e.target.value)}
-              value={query}
+              className="select insights__select fixedInput"
+              name="voteType"
+              onChange={(e) => setVoteType(e.target.value)}
+              value={voteType}
             >
-              {queries.map(query => (
+              {voteTyps.map(i => (
                 <option
-                  value={query}
-                  key={query}
+                  value={i}
+                  key={i}
                 >
-                  {query}
+                  {i}
                 </option>
               ))}
             </select>
-          </div>
+          )}
+
+          {type === 'Division' && <span className='fixedLabel'>the</span>}
+
+          <select
+            className="select insights__select fixedInput"
+            name="query"
+            onChange={(e) => setQuery(e.target.value)}
+            value={query}
+          >
+            {queries.map(query => (
+              <option
+                value={query}
+                key={query}
+              >
+                {query}
+              </option>
+            ))}
+          </select>
+
 
           {type === 'MP' && (
-            <div className="labelwrapper">
-
+            <>
               <span className='fixedLabel'>on</span>
 
               <select
-                className="select insights__select"
+                className="select insights__select fixedInput"
                 name="voteCategory"
                 onChange={(e) => setVoteCategory(e.target.value)}
                 value={voteCategory}
@@ -294,13 +288,14 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
                   </option>
                 ))}
               </select>
+            </>
 
-            </div>
           )}
 
-          <div className="datePicker">
+          <label className='fixexLabel' htmlFor="start">Between:</label>
 
-            <label style={{ marginRight: 24 }} htmlFor="start">Between:</label>
+          <div className="datePicker fixedInput select">
+
             <input
               type="date"
               id="start"
@@ -325,7 +320,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           </div>
 
           <button
-            className='button'
+            className='button fixedButton'
             onClick={onSearch}
           >
             Go

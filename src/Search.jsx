@@ -138,16 +138,14 @@ const Search = ({
 
       {mpDetails && Object.keys(mpDetails).length === 0 && divisionDetails && Object.keys(divisionDetails).length === 0 && (
         <>
-        <h4 style={{ padding: 12, marginLeft: 4 }}>Or try out some general queries</h4>
+        <h4 style={{ padding: 12, marginLeft: 4, paddingBottom: 0 }}>Or try out some general queries</h4>
           <Insights
             setGlobalMessage={setGlobalMessage}
             onQueryDivision={onQueryDivision}
             onQueryMp={onQueryMp}
           />
         </>
-
       )}
-
 
       {!mpDetails && !divisionDetails && (
         <div

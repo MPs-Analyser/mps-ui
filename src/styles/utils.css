@@ -111,10 +111,6 @@
 	display: none;
 }
 
-.datePicker {
-	margin-top: 4px;
-}
-
 ::-webkit-datetime-edit-year-field { 
 	color: var(--clr-dark); 
 }
