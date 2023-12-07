@@ -292,9 +292,9 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
           )}
 
-          <label className='fixexLabel' htmlFor="start">Between:</label>
+          <label className='fixexLabel' htmlFor="start">Between</label>
 
-          <div className="datePicker fixedInput select">
+          <div style={{ padding: 0, paddingLeft: 8 }} className="datePicker fixedInput select">
 
             <input
               type="date"
