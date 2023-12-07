@@ -15,7 +15,7 @@
     display: grid;
     align-items: baseline;
     gap: 8px;
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 80px 1fr;
 }
 
 .fixedButton {        
