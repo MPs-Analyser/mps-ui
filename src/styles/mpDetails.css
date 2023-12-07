@@ -39,6 +39,7 @@
 	margin-right: 8px;
 	margin-bottom: 0;
 }
+
 .mpDetails__titleWrapper span h4 {
 	margin-bottom: 0;
 }
@@ -52,7 +53,7 @@
 	align-items: center;
 }
 
-.votingSummary__buttons > button {
+.votingSummary__buttons>button {
 	width: 100%;
 }
 
@@ -132,6 +133,9 @@
 }
 
 .fieldsetsWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
 	padding: 0px 10px 10px 10px;
 }
 
@@ -146,10 +150,18 @@ fieldset {
 		margin-right: 12px;
 	}
 }
+
 @media (min-width: 700px) {
-  .mpDetails {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+
+	.fieldsetsWrapper {	
+		gap: 20px;		
+	}
+
+	.mpDetails {
+		grid-template-columns: repeat(2, 1fr);
+		padding: 16px;
+	}
+
 	.mpDetails__image,
 	.mpDetails__titleWrapper {
 		max-width: 500px;

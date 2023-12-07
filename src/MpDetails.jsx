@@ -277,9 +277,7 @@ const MpDetails = ({
 							/>
 						</div>
 					</div>
-				</div>
-
-				<div className='mpDetails__overview'>
+					<div className='mpDetails__overview'>
 					<table>
 						<tbody>
 							<tr>
@@ -327,9 +325,11 @@ const MpDetails = ({
 					</table>
 				</div>
 
+				</div>
+
 				<div className="fieldsetsWrapper">
 
-					<fieldset style={{ marginTop: -4 }}>
+					<fieldset>
 
 						<legend>
 
@@ -406,7 +406,7 @@ const MpDetails = ({
 
 					</fieldset>
 
-					<fieldset style={{ marginTop: 8 }}>
+					<fieldset>
 						<legend>
 							<svg
 								style={{ position: "relative", top: 0, marginRight: 4 }}
@@ -481,9 +481,7 @@ const MpDetails = ({
 							)}
 						</div>
 					</fieldset>
-
-					<div style={{ height: 8 }} />
-
+					
 					<fieldset>
 						<legend>
 

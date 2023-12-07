@@ -48,7 +48,6 @@ body {
 
 .container {	
 	padding-bottom: var(--height-nav);
-	overflow-y: scroll;
 }
 
 section,

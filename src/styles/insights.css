@@ -20,6 +20,11 @@
     padding-bottom: 1em;
 }
 
+/* .insights__query {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+} */
+
 .insights__query>button {
     width: 100%;
     margin-top: 8px;
