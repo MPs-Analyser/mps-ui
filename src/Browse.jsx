@@ -31,7 +31,7 @@ const types = [
 const Browse = ({ onQueryDivision, onQueryMp }) => {
 
   //toolbar options
-  const [type, setType] = useState("Mp");
+  const [type, setType] = useState("MP");
 
   //mps
   const [mps, setMps] = useState([]);
@@ -64,7 +64,6 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     setFilteredMps([]);
 
     const result = await ky(`${config.mpsApiUrl}searchDivisions`).json();
-    console.log("get data >> ", result);
 
     setDivisions(result);
     setFilteredDivisions(result);
@@ -102,7 +101,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
 
       <div className="browse__toolbar">
 
-        <div className="inputwrapper">
+        <div className="browse__toolbar__inputwrapper">
           <label
             htmlFor="type"
           >
@@ -119,7 +118,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           </select>
         </div>
 
-        <div className="inputwrapper">
+        <div className="browse__toolbar__inputwrapper">
           <label htmlFor="prominance">Prominance:</label>
           <select name="prominance">
             <option>Time Served</option>
@@ -127,8 +126,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           </select>
         </div>
 
-        {type === "Mp" && (
-          <div className="inputwrapper">
+        {type === "MP" && (
+          <div className="browse__toolbar__inputwrapper">
             <label htmlFor="party">Party:</label>
             <select name="party">
               {Object.keys(Party).map(i => <option>{i}</option>)}
@@ -137,7 +136,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         )}
 
         {type === "Division" && (
-          <div className="inputwrapper">
+          <div className="browse__toolbar__inputwrapper">
             <label htmlFor="category">Category:</label>
             <select name="party">
               {VOTING_CATEGORIES.map(i => <option>{i}</option>)}
@@ -175,22 +174,11 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
             <span>{i.category}</span>
             <span>Voted Year: {i.date.year.low}</span>
             <span>AyeVote: {i.ayeCount.low} NoVote:{i.noCount.low}</span>
-
-
           </div>
-
         ))}
 
-
-
       </div>
-
-
-
-
     </div>
-
-
   )
 }
 
