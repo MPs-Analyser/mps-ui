@@ -5,8 +5,8 @@ import DivisionDetails from "./DivisionDetails";
 import About from "./About";
 import Search from "./Search";
 import Insights from "./Insights";
+import Browse from "./Browse";
 import Toast from "./Toast";
-// import Splash from "./Splash";
 
 import ky from 'ky-universal';
 
@@ -139,7 +139,14 @@ const App = () => {
 						onQueryDivision={onQueryDivision}
 						onQueryMp={onQueryMp}
 					/>
+				)}
 
+				{page === "browse" && (
+					<Browse
+						setGlobalMessage={setGlobalMessage}
+						onQueryDivision={onQueryDivision}
+						onQueryMp={onQueryMp}
+					/>
 				)}
 
 				{page === "divison" && (

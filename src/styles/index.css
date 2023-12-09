@@ -5,6 +5,8 @@
 
 	--clr-dark: #070a13;
 	--clr-light: #f1f5f9;
+	--clr-lightgrey: lightgrey;
+	--clr-shadow: rgba(0,0,0,0.2);
 
 	--clr-dark-other: #262a32;
 	--clr-light-other: #d5e3f0;
@@ -30,6 +32,8 @@
 	--clr-slate400: #1e293b;
 	--clr-slate600: #1e293b;
 	--clr-slate800: #1e293b;
+	--clr-lightgrey: #353434;
+	--clr-shadow: rgba(67,67,67,67.2);
 }
 .light-mode > .button {
 	color: #070a13;
