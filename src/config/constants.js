@@ -1,6 +1,25 @@
 
 export const EARLIEST_FROM_DATE = "2015-01-01";
 
+export const PARTY_NAMES = [
+    "Any",
+    "Conservative",
+    "Labour",
+    "Scottish National Party",
+    "Labour (Co-op)",
+    "The Reclaim Party",
+    "Independent",
+    "Plaid Cymru",
+    "Green Party",
+    "Sinn Féin",
+    "Liberal Democrat",
+    "Social Democratic & Labour Party",
+    "Democratic Unionist Party",
+    "Alba Party",
+    "Speaker",
+    "Alliance"
+]
+
 export const Party = {
     CONSERVATIVE: "Conservative",
     LABOUR: "Labour",

@@ -89,6 +89,8 @@ const App = () => {
 
 	const onQueryDivision = async (id) => {
 
+		console.log("go ", id );
+
 		setPage('home');
 
 		setMpDetails(undefined);
