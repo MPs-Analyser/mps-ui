@@ -269,7 +269,9 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           <label
             htmlFor="type"
           >
-            Type:
+            Showing &nbsp;
+            {type === "MP" && filteredMps && filteredMps.length}
+            {type === "Division" && filteredDivisions && filteredDivisions.length}
           </label>
           <select
             name="type"
@@ -277,7 +279,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
             onChange={(e) => onChangeType(e.target.value)}
           >
             {types.map(type => (
-              <option value={type} key={type}>{type}</option>
+              <option value={type} key={type}>{`${type}'s`}</option>
             ))}
           </select>
         </div>
