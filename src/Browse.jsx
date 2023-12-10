@@ -17,6 +17,23 @@ const types = [
   "Division"
 ]
 
+const mpSortBy = [
+  // "Total Votes",
+  // "Voted Aye Count",
+  // "Voted No Count",
+  "Time Served",
+  "Name",
+  "Party"
+]
+
+const divisionSortBy = [
+  "Title",
+  "Voted Aye Count",
+  "Voted No Count",
+  "Total Votes",
+  "Date"
+]
+
 // const queries = [
 //   "most",
 //   "least"
@@ -34,6 +51,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const [type, setType] = useState("MP");
   const [party, setParty] = useState("Any");
   const [category, setCategory] = useState(VOTING_CATEGORIES[0]);
+  const [sortBy, setSortBy] = useState("Name");
+  const [sortDirection, setSortDirection] = useState("ASC");
 
   //mps
   const [mps, setMps] = useState([]);
@@ -90,8 +109,10 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     if (value !== type) {
       if (value === 'MP') {
         onSearchMps();
+        setSortBy("Name");
       } else {
         onSearchDivisions();
+        setSortBy("Title");
       }
     }
   }
@@ -125,6 +146,119 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     }
   }
 
+  const compareDates = (date1, date2) => {
+    
+    // Compare years
+    if (date1.year.low !== date2.year.low) {
+      return date1.year.low - date2.year.low;
+    }
+
+    // Compare months
+    if (date1.month.low !== date2.month.low) {
+      return date1.month.low - date2.month.low;
+    }
+
+    // Compare days
+    return date1.day.low - date2.day.low;
+  }
+
+  const onChangeSortBy = (value, direction = sortDirection) => {
+
+    console.log("onChangeSortBy ", type, value, direction);
+
+    setSortBy(value);
+
+    let result;
+
+    if (type === "MP") {
+
+      if (value === "Name") {
+
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => a.name > b.name);
+        } else {
+          result = [...mps].reverse((a, b) => a.name > b.name);
+        }
+        setFilteredMps(result);
+
+      } else if (value === "Party") {
+
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => a.party > b.party);
+        } else {
+          result = [...mps].reverse((a, b) => a.party > b.party);
+        }
+        setFilteredMps(result);
+
+      } else if (value === "Total Votes") {
+        //
+      } else if (value === "Time Served") {
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => compareDates(a.startDate, b.startDate));
+        } else {
+          result = [...mps].sort((a, b) => compareDates(b.startDate, a.startDate));
+        }
+        setFilteredMps(result);
+      } else if (value === "Voted Aye Count") {
+        //      
+      } else if (value === "Voted No Count") {
+        //    
+      }
+
+
+    } else {
+      
+      if (value === "Title") {
+        if (direction === "ASC") {
+          result = [...divisions].sort((a, b) => a.title > b.title);
+        } else {
+          result = [...divisions].reverse((a, b) => a.title > b.title);
+        }
+        setFilteredDivisions(result);
+      } else if (value === "Voted Aye Count") {
+
+        if (direction === "ASC") {
+          result = [...divisions].sort((a, b) => a.ayeCount.low - b.ayeCount.low);
+        } else {
+          result = [...divisions].sort((a, b) => b.ayeCount.low - a.ayeCount.low);
+        }
+        setFilteredDivisions(result);
+
+      } else if (value === "Voted No Count") {
+        if (direction === "ASC") {
+          result = [...divisions].sort((a, b) => a.noCount.low - b.noCount.low);
+        } else {
+          result = [...divisions].sort((a, b) => b.noCount.low - a.noCount.low);
+        }        
+        setFilteredDivisions(result);
+      } else if (value === "Total Votes") {
+        if (direction === "ASC") {
+          result = [...divisions].sort((a, b) => (a.noCount.low + a.ayeCount.low) - (b.noCount.low + b.ayeCount.low));
+        } else {
+          result = [...divisions].sort((a, b) => (b.noCount.low + b.ayeCount.low) - (a.noCount.low + a.ayeCount.low));
+        }        
+        setFilteredDivisions(result);
+      } else if (value === "Date") {
+        if (direction === "ASC") {
+          result = [...divisions].sort((a, b) => compareDates(a.date, b.date));
+        } else {
+          result = [...divisions].sort((a, b) => compareDates(b.date, a.date));
+        }
+        setFilteredDivisions(result);
+      }
+
+    }
+
+  }
+
+  const onToggleSortDirection = () => {
+
+    const newDirection = sortDirection === "ASC" ? "DESC" : "ASC";
+    setSortDirection(newDirection);
+    onChangeSortBy(sortBy, newDirection);
+
+  }
+
   return (
 
     <div className="browse">
@@ -148,13 +282,13 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           </select>
         </div>
 
-        <div className="browse__toolbar__inputwrapper">
+        {/* <div className="browse__toolbar__inputwrapper">
           <label htmlFor="prominance">Prominance:</label>
           <select name="prominance">
             <option>Time Served</option>
             <option>Total votes</option>
           </select>
-        </div>
+        </div> */}
 
         {type === "MP" && (
           <div className="browse__toolbar__inputwrapper">
@@ -177,10 +311,52 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
               value={category}
               onChange={(e) => onChangeCategory(e.target.value)}
             >
-              {VOTING_CATEGORIES.map(i => <option key={i}>{i}</option>)}
+              {VOTING_CATEGORIES.map(i => <option key={i} value={i}>{i}</option>)}
             </select>
           </div>
         )}
+
+        <div className="browse__toolbar__inputwrapper">
+
+
+
+          <label htmlFor="soryBy">Sort:</label>
+          <select
+            name="sortBy"
+            value={sortBy}
+            onChange={(e) => onChangeSortBy(e.target.value)}
+          >
+            {type === "MP" && mpSortBy.map(i => <option key={i} value={i}>{i}</option>)}
+            {type === "Division" && divisionSortBy.map(i => <option key={i} value={i}>{i}</option>)}
+
+          </select>
+
+          <button className='button iconbutton' onClick={onToggleSortDirection}>
+            {sortDirection === "ASC" && (
+              <svg
+                className="standalone-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24">
+                <path d="M6 3l-6 8h4v10h4v-10h4l-6-8zm16 14h-8v-2h8v2zm2 2h-10v2h10v-2zm-4-8h-6v2h6v-2zm-2-4h-4v2h4v-2zm-2-4h-2v2h2v-2z" />
+              </svg>
+            )}
+
+            {sortDirection === "DESC" && (
+              <svg
+                className="standalone-svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24">
+                <path d="M6 21l6-8h-4v-10h-4v10h-4l6 8zm16-4h-8v-2h8v2zm2 2h-10v2h10v-2zm-4-8h-6v2h6v-2zm-2-4h-4v2h4v-2zm-2-4h-2v2h2v-2z" />
+              </svg>
+            )}
+
+          </button>
+        </div>
+
       </div>
 
       <div className="browse__grid">
@@ -209,10 +385,10 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
               </svg>
               <span><h4>{i.title}</h4></span>
             </div>
-            <span>{i.category}</span>
-            <span>{i.id}</span>
+            <span>{i.category}</span>            
             <span>Voted Year: {i.date.year.low}</span>
             <span>AyeVote: {i.ayeCount.low} NoVote:{i.noCount.low}</span>
+            <h3>{i.ayeCount.low + i.noCount.low}</h3>
           </div>
         ))}
 
