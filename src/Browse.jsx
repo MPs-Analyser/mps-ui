@@ -268,8 +268,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         <div className="browse__toolbar__inputwrapper">
           <label
             htmlFor="type"
-          >
-            Showing &nbsp;
+          >            
             {type === "MP" && filteredMps && filteredMps.length}
             {type === "Division" && filteredDivisions && filteredDivisions.length}
           </label>
