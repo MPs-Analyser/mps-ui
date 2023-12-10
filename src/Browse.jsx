@@ -274,6 +274,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
             {type === "Division" && filteredDivisions && filteredDivisions.length}
           </label>
           <select
+            className='select'
             name="type"
             value={type}
             onChange={(e) => onChangeType(e.target.value)}
@@ -296,6 +297,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           <div className="browse__toolbar__inputwrapper">
             <label htmlFor="party">Party:</label>
             <select
+              className='select'
               name="party"
               value={party}
               onChange={(e) => onChangeParty(e.target.value)}
@@ -309,6 +311,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           <div className="browse__toolbar__inputwrapper">
             <label htmlFor="category">Category:</label>
             <select
+              className='select'
               name="party"
               value={category}
               onChange={(e) => onChangeCategory(e.target.value)}
@@ -319,11 +322,10 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         )}
 
         <div className="browse__toolbar__inputwrapper">
-
-
-
+          
           <label htmlFor="soryBy">Sort:</label>
           <select
+            className='select'
             name="sortBy"
             value={sortBy}
             onChange={(e) => onChangeSortBy(e.target.value)}
