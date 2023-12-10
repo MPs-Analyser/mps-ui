@@ -60,7 +60,7 @@
 }
 
 .browse__card__img {
-    border: 2px solid red;
+    border: 2px solid var(--clr-lightgrey);
     width: 50%;
     border-radius: 5px;
 }
@@ -74,7 +74,7 @@
 
 @container card (min-width: 200px) {
     .browse__card__img {
-        border: 2px solid green;
+        border: 2px solid var(--clr-dark);
     }
 }
 
