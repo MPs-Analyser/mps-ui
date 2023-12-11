@@ -1,4 +1,4 @@
-import { useEffect  } from 'react';
+import { useEffect } from 'react';
 
 import * as React from 'react'
 import "./styles/browse.css";
@@ -7,7 +7,7 @@ import "./styles/browse.css";
 
 // import ky from 'ky-universal';
 
-const MpCard = ({ onQueryMp, item={ startDate: { year: {}}} }) => {
+const MpCard = ({ onQueryMp, item = { startDate: { year: {} } } }) => {
 
 
   useEffect(() => {
@@ -21,10 +21,17 @@ const MpCard = ({ onQueryMp, item={ startDate: { year: {}}} }) => {
       <span>{item.gender}</span>
       <span>{item.party}</span>
       <p>{item.startDate.year.low}</p>
-      total:<span>{item.totalVotes}</span>
-      aye: <span>{item.ayeVotes}</span>
-      no:<span>{item.noVotes}</span>
-      
+      <div className="votecounts">
+        <span>votes</span>
+        <span>aye</span>
+        <span>no</span>
+        <span>{item.totalVotes}</span>
+        <span>{item.ayeVotes}</span>
+        <span>{item.noVotes}</span>
+      </div>
+
+
+
     </div>
   )
 }

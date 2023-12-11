@@ -37,17 +37,6 @@ const divisionSortBy = [
   "Date"
 ]
 
-// const queries = [
-//   "most",
-//   "least"
-// ];
-
-// const voteTyps = [
-//   "on",
-//   "for",
-//   "against",
-// ];
-
 const Browse = ({ onQueryDivision, onQueryMp }) => {
 
   //toolbar options
@@ -65,13 +54,6 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   //divisions
   const [divisions, setDivisions] = useState([]);
   const [filteredDivisions, setFilteredDivisions] = useState([]);
-
-
-  // const [sorting, setSorting] = useState([]);
-  // const [progress, setProgress] = useState();
-  // const [fromDate, setFromDate] = useState(new Date(EARLIEST_FROM_DATE).toISOString().substr(0, 10));
-  // const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
-
 
   const onSearchMps = async () => {
 
@@ -371,6 +353,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         <div className="browse__toolbar__inputwrapper">
           <label htmlFor="party">Name:</label>
           <input
+            type="search"
             title="name"
             placeholder={type === "MP" ? 'filter by MP name' : 'filter by division title'}
             className='input'

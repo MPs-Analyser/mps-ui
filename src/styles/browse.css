@@ -24,7 +24,6 @@
     width: 180px;    
 }
 
-
 .browse__toolbar input {
     width: 180px;    
 }
@@ -62,6 +61,16 @@
     box-shadow: 0 4px 8px 0 var(--clr-shadow);
     transition: 0.3s;
     border-radius: 5px;
+}
+
+.browse__card .votecounts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.browse__card .votecounts span {
+    border: 1px solid var(--clr-lightgrey);
+    padding: 4px;
 }
 
 .browse__card__img {
