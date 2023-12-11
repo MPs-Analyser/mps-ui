@@ -29,6 +29,13 @@ const mpSortBy = [
   "Party"
 ]
 
+const mpFilterTypes = [
+  "Party",
+  "Sex",
+  "Date",
+  "Votes"
+]
+
 const divisionSortBy = [
   "Title",
   "Voted Aye Count",
@@ -46,6 +53,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const [sortBy, setSortBy] = useState("Name");
   const [sortDirection, setSortDirection] = useState("ASC");
   const [name, setName] = useState("");
+  const [mpFilterType, setMpFilterType] = useState(mpFilterTypes[0]);
 
   //mps
   const [mps, setMps] = useState([]);
@@ -258,11 +266,14 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   }
 
   const onToggleSortDirection = () => {
-
     const newDirection = sortDirection === "ASC" ? "DESC" : "ASC";
     setSortDirection(newDirection);
     onChangeSortBy(sortBy, newDirection);
+  }
 
+  const onChangeMpFilterType = (value) => {
+    //TODO change the options based on the filter type
+    setMpFilterType(value);
   }
 
   return (
@@ -322,12 +333,26 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           </select>
         </div> */}
 
-        {type === "MP" && (
-          <div className="browse__toolbar__inputwrapper">
-            <label htmlFor="party">Party:</label>
+
+        {type === "MP" && (          
+          <div className="browse__toolbar__inputwrapper">            
+
+            <select
+              htmlFor="filtervalue"
+              className='select'
+              style={{ position: "relative", left: -4, marginRight: -12, width:83,  borderRadius: "10px 0 0 10px" }}
+              name="filtertype"
+              value={mpFilterType}
+              onChange={(e) => onChangeMpFilterType(e.target.value)}
+            >
+              {mpFilterTypes.map(i => <option disabled={i !== "Party"} key={i}>{i}:</option>)}
+            </select>
+            
+
             <select
               className='select'
-              name="party"
+              style={{ borderRadius: "0 10px 10px 0" }}
+              name="filtervalue"
               value={party}
               onChange={(e) => onChangeParty(e.target.value)}
             >
