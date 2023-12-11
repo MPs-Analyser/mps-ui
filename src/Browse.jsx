@@ -351,7 +351,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         )}
 
         <div className="browse__toolbar__inputwrapper">
-          <label htmlFor="party">Name:</label>
+          <label htmlFor="party">{type === "MP" ? "Name" : "Title"}:</label>
           <input
             type="search"
             title="name"
