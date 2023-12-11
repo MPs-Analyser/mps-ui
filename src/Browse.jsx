@@ -21,9 +21,9 @@ const types = [
 ]
 
 const mpSortBy = [
-  // "Total Votes",
-  // "Voted Aye Count",
-  // "Voted No Count",
+  "Total Votes",
+  "Voted Aye Count",
+  "Voted No Count",
   "Time Served",
   "Name",
   "Party"
@@ -55,7 +55,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const [party, setParty] = useState("Any");
   const [category, setCategory] = useState(VOTING_CATEGORIES[0]);
   const [sortBy, setSortBy] = useState("Name");
-  const [sortDirection, setSortDirection] = useState("ASC"); 
+  const [sortDirection, setSortDirection] = useState("ASC");
+  const [name, setName] = useState("");
 
   //mps
   const [mps, setMps] = useState([]);
@@ -76,9 +77,14 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
 
     setDivisions([]);
     setFilteredDivisions([]);
+    
+    let url = `${config.mpsApiUrl}searchMps?party=${party}`;
 
-    // const result = await ky(`${config.mpsApiUrl}searchMps`).json();
-    const result = await ky(`${config.mpsApiUrl}searchMps`).json();
+    if (name) {
+      url = `${url}&name=${name}`
+    }
+            
+    const result = await ky(url).json();
 
     setMps(result);
     setFilteredMps(result);
@@ -88,7 +94,12 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     setMps([]);
     setFilteredMps([]);
 
-    const result = await ky(`${config.mpsApiUrl}searchDivisions`).json();
+    let url = `${config.mpsApiUrl}searchDivisions?category=${category}`;
+    if (name) {
+      url = `${url}&name=${name}`
+    }
+
+    const result = await ky(url).json();
 
     setDivisions(result);
     setFilteredDivisions(result);
@@ -188,8 +199,6 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         }
         setFilteredMps(result);
 
-      } else if (value === "Total Votes") {
-        //
       } else if (value === "Time Served") {
         if (direction === "ASC") {
           result = [...mps].sort((a, b) => compareDates(a.startDate, b.startDate));
@@ -197,10 +206,27 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           result = [...mps].sort((a, b) => compareDates(b.startDate, a.startDate));
         }
         setFilteredMps(result);
+      } else if (value === "Total Votes") {
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => a.totalVotes - b.totalVotes);
+        } else {
+          result = [...mps].reverse((a, b) => a.totalVotes - b.totalVotes);
+        }
+        setFilteredMps(result);
       } else if (value === "Voted Aye Count") {
-        //      
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => a.ayeVotes - b.ayeVotes);
+        } else {
+          result = [...mps].reverse((a, b) => a.ayeVotes - b.ayeVotes);
+        }
+        setFilteredMps(result);
       } else if (value === "Voted No Count") {
-        //    
+        if (direction === "ASC") {
+          result = [...mps].sort((a, b) => a.noVotes - b.noVotes);
+        } else {
+          result = [...mps].reverse((a, b) => a.noVotes - b.noVotes);
+        }
+        setFilteredMps(result);
       }
 
 
@@ -341,6 +367,20 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
             </select>
           </div>
         )}
+
+        <div className="browse__toolbar__inputwrapper">
+          <label htmlFor="party">Name:</label>
+          <input
+            title="name"
+            placeholder={type === "MP" ? 'filter by MP name' : 'filter by division title'}
+            className='input'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button className='button iconbutton' onClick={type === "MP" ? onSearchMps : onSearchDivisions}>
+            Apply 
+          </button>
+        </div>
 
         <div className="browse__toolbar__inputwrapper">
 

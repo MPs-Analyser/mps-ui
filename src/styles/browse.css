@@ -21,7 +21,12 @@
 }
 
 .browse__toolbar select {
-    width: 170px;    
+    width: 180px;    
+}
+
+
+.browse__toolbar input {
+    width: 180px;    
 }
 
 .labelWrapper {      
@@ -79,12 +84,10 @@
 }
 
 @media (min-width: 700px) {
-
     .browse__grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 12px;
     }
-
 }
 
 @media (min-width: 1024px) {
