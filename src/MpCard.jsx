@@ -20,7 +20,7 @@ const MpCard = ({ onQueryMp, item = { startDate: { year: {} } } }) => {
       <span><h4>{item.name}</h4> <img className='browse__card__img' src={`https://members-api.parliament.uk/api/Members/${item.id}/Thumbnail`} alt="Paris" loading="lazy"></img></span>
       <span>{item.gender}</span>
       <span>{item.party}</span>
-      <p>{item.startDate.year.low}</p>
+      <p>{item.startDate.day.low}/{item.startDate.month.low}/{item.startDate.year.low}</p>
       <div className="votecounts">
         <span>votes</span>
         <span>aye</span>
@@ -29,9 +29,6 @@ const MpCard = ({ onQueryMp, item = { startDate: { year: {} } } }) => {
         <span>{item.ayeVotes}</span>
         <span>{item.noVotes}</span>
       </div>
-
-
-
     </div>
   )
 }
