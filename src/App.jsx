@@ -34,6 +34,7 @@ const App = () => {
 	const container = useRef(null);
 
 	useEffect(() => {
+		console.log("render APP ");
 		const theme = localStorage.getItem("theme");
 		theme && document.body.classList.add(theme);
 	}, []);
@@ -65,8 +66,8 @@ const App = () => {
 			toDate = new Date().toISOString().substr(0, 10);
 		}
 
-		const result = await ky(`${config.mpsApiUrl}votingSummaryNeo?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
-		console.log('votingsummaryneo ', result);
+		const result = await ky(`${config.mpsApiUrl}votecounts?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
+		console.log('votecounts ', result);
 
 		setFilterInProgress(false);
 		setVotingSummary(result);
