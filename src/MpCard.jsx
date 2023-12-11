@@ -22,9 +22,9 @@ const MpCard = ({ onQueryMp, item = { startDate: { year: {} } } }) => {
       <span>{item.party}</span>
       <p>{item.startDate.day.low}/{item.startDate.month.low}/{item.startDate.year.low}</p>
       <div className="votecounts">
-        <span>votes</span>
-        <span>aye</span>
-        <span>no</span>
+        <span className='gridheader'>Votes</span>
+        <span className='gridheader'>Aye</span>
+        <span className='gridheader'>No</span>
         <span>{item.totalVotes}</span>
         <span>{item.ayeVotes}</span>
         <span>{item.noVotes}</span>

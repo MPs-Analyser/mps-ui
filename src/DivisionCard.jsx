@@ -20,9 +20,9 @@ const DivisionCard = ({ item,  onQueryDivision }) => {
       <span>{item.category}</span>
       <span>{item.date.day.low}/{item.date.month.low}/{item.date.year.low}</span>
       <div className="votecounts">
-        <span>votes</span>
-        <span>aye</span>
-        <span>no</span>
+        <span className='gridheader'>Votes</span>
+        <span className='gridheader'>Aye</span>
+        <span className='gridheader'>No</span>
         <span>{item.ayeCount + item.noCount}</span>
         <span>{item.ayeCount}</span>
         <span>{item.noCount}</span>

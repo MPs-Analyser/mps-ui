@@ -66,11 +66,22 @@
 .browse__card .votecounts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--clr-lightgrey);
+    border-radius: 4px;
 }
 
-.browse__card .votecounts span {
-    border: 1px solid var(--clr-lightgrey);
-    padding: 4px;
+.browse__card .votecounts span {    
+    padding: 6px;
+    border-bottom: 1px solid var(--clr-lightgrey);
+    border-right: 1px solid var(--clr-lightgrey);
+}
+
+.browse__card .votecounts span:nth-child(3n) {        
+    border-right: none;
+}
+
+.browse__card .votecounts span:nth-child(n + 4) {            
+    border-bottom: none;
 }
 
 .browse__card__img {
