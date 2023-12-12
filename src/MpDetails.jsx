@@ -378,7 +378,7 @@ const MpDetails = ({
 							</div>
 
 							<div className="filterCategory__wrapper">
-								<label htmlFor="divisionCategory">Division Type</label>
+								<label style={{ marginRight: 4 }} htmlFor="divisionCategory fixedLabel">Division Type:</label>
 								<select
 									value={divisionCategory}
 									onChange={(e) => setDivisionCategory(e.target.value)}
