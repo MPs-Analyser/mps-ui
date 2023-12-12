@@ -113,8 +113,8 @@ const Search = ({
     onGetVotingSummary(id, fromDate, toDate);
   }
 
-  const onApplyGlobalFilter = (id, fromDate, toDate, divisionCategory) => {
-    onGetVotingSummary(id, fromDate, toDate, divisionCategory);
+  const onApplyGlobalFilter = (id, fromDate, toDate, divisionCategory, name) => {
+    onGetVotingSummary(id, fromDate, toDate, divisionCategory, name);
   }
 
   return (

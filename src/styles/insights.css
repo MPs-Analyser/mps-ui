@@ -22,6 +22,11 @@
     grid-column: 1/3;
 }
 
+.fixedInput {
+    width: 100%;
+    max-width: 300px;
+}
+
 .insights__query>button {
     width: 100%;
     margin-top: 8px;
@@ -36,12 +41,6 @@
 
 .insights__result>table {
     width: 100%;
-}
-
-
-.insights__select {
-    margin-left: 8px;
-    margin-right: 8px;
 }
 
 .insights__config {

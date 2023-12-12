@@ -58,7 +58,7 @@ const App = () => {
 		document.querySelector(".wrapper input").focus();
 	};
 
-	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory = "Any") => {
+	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory = "Any", name= "Any") => {
 
 		setFilterInProgress(true);
 
@@ -66,7 +66,7 @@ const App = () => {
 			toDate = new Date().toISOString().substr(0, 10);
 		}
 
-		const result = await ky(`${config.mpsApiUrl}votecounts?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`).json();
+		const result = await ky(`${config.mpsApiUrl}votecounts?id=${id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}&name=${name}`).json();
 		console.log('votecounts ', result);
 
 		setFilterInProgress(false);

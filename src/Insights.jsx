@@ -41,6 +41,7 @@ const columnHelper = createColumnHelper();
 const Insights = ({ onQueryDivision, onQueryMp }) => {
 
   const [data, setData] = useState([]);
+  const [name, setName] = useState("");
   const [columns, setColumns] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [progress, setProgress] = useState();
@@ -124,7 +125,9 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
     setData([]);
     setProgress(true);
 
-    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&partyIncludes=${party}&fromDate=${fromDate}&toDate=${toDate}&category=${voteCategory}`;
+    const nameParam = name || "Any";
+
+    let url = `${config.mpsApiUrl}insights/${type === 'MP' ? 'mpvotes' : 'divisionvotes'}?limit=${limit}&orderby=${query === 'most' ? 'DESC' : 'ASC'}&partyIncludes=${party}&fromDate=${fromDate}&toDate=${toDate}&category=${voteCategory}&name=${nameParam}`;
 
     if (type === 'Division' && voteType !== 'on') {
       const ayeOrNo = voteType === "for" ? "aye" : "no";
@@ -164,7 +167,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           <span className='fixedLabel'>Which</span>
 
           <select
-            className="select insights__select fixedInput"
+            className="select fixedInput"
             name="type"
             onChange={(e) => setType(e.target.value)}
             value={type}
@@ -179,13 +182,22 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
             ))}
           </select>
 
+          <span className='fixedLabel'>{type === "MP" ? "Name" : "Title"}</span>
+
+          <input
+            className="input fixedInput"
+            type="search"
+            placeholder="includes text"            
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
           {type === 'Division' && (
             <>
               <span className='fixedLabel'>type</span>
 
               <select
-                className="select insights__select fixedInput"
+                className="select fixedInput"
                 name="voteCategory"
                 onChange={(e) => setVoteCategory(e.target.value)}
                 value={voteCategory}
@@ -209,9 +221,9 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           )}
 
           {type === 'MP' && (
-            <div className='fixedInput'>
+            
               <select
-                className="select insights__select"
+                className="select fixedInput"
                 name="party"
                 onChange={(e) => setParty(e.target.value)}
                 value={party}
@@ -226,7 +238,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
                 ))}
               </select>
 
-            </div>
+            
           )}
 
 
@@ -234,7 +246,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
           {type === 'Division' && (
             <select
-              className="select insights__select fixedInput"
+              className="select fixedInput"
               name="voteType"
               onChange={(e) => setVoteType(e.target.value)}
               value={voteType}
@@ -253,7 +265,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           {type === 'Division' && <span className='fixedLabel'>the</span>}
 
           <select
-            className="select insights__select fixedInput"
+            className="select fixedInput"
             name="query"
             onChange={(e) => setQuery(e.target.value)}
             value={query}
@@ -274,7 +286,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
               <span className='fixedLabel'>on</span>
 
               <select
-                className="select insights__select fixedInput"
+                className="select fixedInput"
                 name="voteCategory"
                 onChange={(e) => setVoteCategory(e.target.value)}
                 value={voteCategory}
@@ -294,7 +306,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
           <label className='fixexLabel' htmlFor="start">Between</label>
 
-          <div style={{ padding: 0, paddingLeft: 8 }} className="datePicker fixedInput select">
+          <div style={{ padding: 0, paddingLeft: 0 }} className="datePicker fixedInput select">
 
             <input
               type="date"

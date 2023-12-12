@@ -129,6 +129,11 @@
 	color-scheme: var(--clr-scheme)
 }
 
+.insights .datePicker input {
+	width: calc(50% - 5px );
+}
+
+
 fieldset {
 	padding: 4px;
 }

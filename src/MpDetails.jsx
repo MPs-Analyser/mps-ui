@@ -44,9 +44,11 @@ const MpDetails = ({
 	const [includeParties, setIncludeParties] = useState("");
 	const [limit, setLimit] = useState(10);
 
+	//filter values
 	const [fromDate, setFromDate] = useState(new Date(new Date(EARLIEST_FROM_DATE)).toISOString().substr(0, 10));
 	const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
 	const [divisionCategory, setDivisionCategory] = useState("Any");
+	const [name, setName] = useState("");
 
 	const [progress, setProgress] = useState();
 
@@ -184,9 +186,9 @@ const MpDetails = ({
 		);
 
 		try {
-
+			const nameParam = name || "Any";
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}&name=${nameParam}`
 			).json();
 
 			const formattedResults = [];
@@ -221,7 +223,7 @@ const MpDetails = ({
 	const onApplyFilter = async () => {
 		setFilterInProgress(true);
 		// onChangeSummaryDateRange(details?.value?.id, fromDate, toDate);
-		await onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory);
+		await onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory, name);
 		// setFilterInProgress(false);
 	}
 
@@ -278,52 +280,52 @@ const MpDetails = ({
 						</div>
 					</div>
 					<div className='mpDetails__overview'>
-					<table>
-						<tbody>
-							<tr>
-								<th>Constituency</th>
-								<td>
-									{
-										details.value
+						<table>
+							<tbody>
+								<tr>
+									<th>Constituency</th>
+									<td>
+										{
+											details.value
+												.latestHouseMembership
+												?.membershipFrom
+										}
+									</td>
+								</tr>
+								<tr>
+									<th>House</th>
+									<td>
+										{details.value
 											.latestHouseMembership
-											?.membershipFrom
-									}
-								</td>
-							</tr>
-							<tr>
-								<th>House</th>
-								<td>
-									{details.value
-										.latestHouseMembership
-										?.house === 1
-										? "Commons"
-										: "Lords"}
-								</td>
-							</tr>
-							<tr>
-								<th>Member Since</th>
-								<td>
-									{details.value
-										.latestHouseMembership &&
-										details.value.latestHouseMembership?.membershipStartDate.substring(
-											0,
-											10
-										)}
-								</td>
-							</tr>
-							<tr>
-								<th>Status</th>
-								<td>
-									{details.value
-										.latestHouseMembership
-										?.membershipStatus
-										? `Active`
-										: `Inactive`}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+											?.house === 1
+											? "Commons"
+											: "Lords"}
+									</td>
+								</tr>
+								<tr>
+									<th>Member Since</th>
+									<td>
+										{details.value
+											.latestHouseMembership &&
+											details.value.latestHouseMembership?.membershipStartDate.substring(
+												0,
+												10
+											)}
+									</td>
+								</tr>
+								<tr>
+									<th>Status</th>
+									<td>
+										{details.value
+											.latestHouseMembership
+											?.membershipStatus
+											? `Active`
+											: `Inactive`}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
 				</div>
 
@@ -392,6 +394,17 @@ const MpDetails = ({
 										</option>
 									))}
 								</select>
+							</div>
+
+							<div className="browse__toolbar__inputwrapper">
+								<label htmlFor="title">Division  Title:</label>
+								<input
+									type="search"																		
+									placeholder="includes text"
+									className='input'
+									value={name}
+									onChange={(e) => setName(e.target.value)}
+								/>								
 							</div>
 
 							<button
@@ -481,7 +494,7 @@ const MpDetails = ({
 							)}
 						</div>
 					</fieldset>
-					
+
 					<fieldset>
 						<legend>
 
