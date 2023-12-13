@@ -11,12 +11,11 @@ const MpCard = ({ onQueryMp, item = { startDate: { year: {} } } }) => {
 
 
   useEffect(() => {
-    //get all mps 
-    console.log("render MP ", item);
+    //get all mps     
   }, [item]);
 
   return (
-    <div className='browse__card' onClick={() => onQueryMp(item.id)}>
+    <div className='browse__card' onClick={() => onQueryMp(item.id)} >
       <span><h4>{item.name}</h4> <img className='browse__card__img' src={`https://members-api.parliament.uk/api/Members/${item.id}/Thumbnail`} alt="Paris" loading="lazy"></img></span>
       <span>{item.gender}</span>
       <span>{item.party}</span>

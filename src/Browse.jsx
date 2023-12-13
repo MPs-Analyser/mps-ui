@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import * as React from 'react'
 
@@ -29,12 +29,19 @@ const mpSortBy = [
   "Party"
 ]
 
-const mpFilterTypes = [
+const mpFilterTypeKeys = [
   "Party",
   "Sex",
-  "Date",
+  "Year",
   "Votes"
 ]
+
+const mpFilterTypeValues = {
+  Party: PARTY_NAMES,
+  Sex: ["Any", "M", "F"],
+  Year: ["Any", 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+  Votes: ["Any", "> 100", "> 200", "> 300", "> 400", "> 500", "> 600", "> 700", "> 800", "> 900", "> 1000"]
+}
 
 const divisionSortBy = [
   "Title",
@@ -48,12 +55,13 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
 
   //toolbar options
   const [type, setType] = useState("MP");
-  const [party, setParty] = useState("Any");
   const [category, setCategory] = useState(VOTING_CATEGORIES[0]);
   const [sortBy, setSortBy] = useState("Name");
   const [sortDirection, setSortDirection] = useState("ASC");
   const [name, setName] = useState("");
-  const [mpFilterType, setMpFilterType] = useState(mpFilterTypes[0]);
+  const [mpFilterTypeKey, setMpFilterTypeKey] = useState(mpFilterTypeKeys[0]);
+  const [mpFilterTypeOptions, setMpFilterTypeOptions] = useState(mpFilterTypeValues[mpFilterTypeKeys[0]]);
+  const [mpFilterTypeValue, setMpFilterTypeValue] = useState("Any");
 
   //mps
   const [mps, setMps] = useState([]);
@@ -63,22 +71,21 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const [divisions, setDivisions] = useState([]);
   const [filteredDivisions, setFilteredDivisions] = useState([]);
 
-  const onSearchMps = async () => {
-
+  const onSearchMps = useCallback(async ()  => {
     setDivisions([]);
     setFilteredDivisions([]);
-    
-    let url = `${config.mpsApiUrl}searchMps?party=${party}`;
+
+    let url = `${config.mpsApiUrl}searchMps?party=${mpFilterTypeValue}`;
 
     if (name) {
       url = `${url}&name=${name}`
     }
-            
+
     const result = await ky(url).json();
 
     setMps(result);
     setFilteredMps(result);
-  }
+  }, [mpFilterTypeValue, name]);
 
   const onSearchDivisions = async () => {
     setMps([]);
@@ -100,11 +107,15 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     //get all mps 
     onSearchMps();
 
-  }, []);
+  }, [onSearchMps]);
 
 
   const onChangeType = (value) => {
+
     setType(value);
+    setMpFilterTypeKey(mpFilterTypeKeys[0])
+    setMpFilterTypeOptions(mpFilterTypeValues[mpFilterTypeKeys[0]]);
+
     if (value !== type) {
       if (value === 'MP') {
         onSearchMps();
@@ -117,12 +128,56 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   }
 
   const onChangeParty = async (value) => {
-    setParty(value);
-    if (value !== party) {
+
+    console.log("onChangeParty ", value);
+
+    if (value !== mpFilterTypeValue) {
       setMps(undefined);
       setFilteredMps(undefined);
 
       const result = await ky(`${config.mpsApiUrl}searchMps?party=${value}`).json();
+
+      setMps(result);
+      setFilteredMps(result);
+
+    }
+  }
+
+  const onChangeSex = async (value) => {
+
+    if (value !== mpFilterTypeValue) {
+      setMps(undefined);
+      setFilteredMps(undefined);
+
+      const result = await ky(`${config.mpsApiUrl}searchMps?sex=${value}`).json();
+
+      setMps(result);
+      setFilteredMps(result);
+
+    }
+  }
+
+  const onChangeYear = async (value) => {
+
+    if (value !== mpFilterTypeValue) {
+      setMps(undefined);
+      setFilteredMps(undefined);
+
+      const result = await ky(`${config.mpsApiUrl}searchMps?year=${value === "Any" ? 0 : value}`).json();
+
+      setMps(result);
+      setFilteredMps(result);
+
+    }
+  }
+
+  const onChangeVotes = async (value) => {
+
+    if (value !== mpFilterTypeValue) {
+      setMps(undefined);
+      setFilteredMps(undefined);
+
+      const result = await ky(`${config.mpsApiUrl}searchMps?votes=${value === "Any" ? 0 : value}`).json();
 
       setMps(result);
       setFilteredMps(result);
@@ -271,9 +326,27 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     onChangeSortBy(sortBy, newDirection);
   }
 
-  const onChangeMpFilterType = (value) => {
-    //TODO change the options based on the filter type
-    setMpFilterType(value);
+  const onChangeMpFilterTypeKey = (value) => {
+    const key = value.slice(0, -1);
+    console.log("go >> ", key);
+    setMpFilterTypeKey(value);
+    setMpFilterTypeOptions(mpFilterTypeValues[key]);
+
+  }
+
+  const onChangeMpFilterTypeValue = (value) => {
+    console.log("onChangeMpFilterTypeValue ", mpFilterTypeKey, value);
+    setMpFilterTypeValue(value);
+
+    if (mpFilterTypeKey === "Party") {
+      onChangeParty(value);
+    } else if (mpFilterTypeKey === "Sex:") {
+      onChangeSex(value);
+    } else if (mpFilterTypeKey === "Year:") {
+      onChangeYear(value);
+    } else if (mpFilterTypeKey === "Votes:") {
+      onChangeVotes(value);
+    }
   }
 
   return (
@@ -333,30 +406,28 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           </select>
         </div> */}
 
-
-        {type === "MP" && (          
-          <div className="browse__toolbar__inputwrapper">            
+        {type === "MP" && (
+          <div className="browse__toolbar__inputwrapper">
 
             <select
               htmlFor="filtervalue"
               className='select'
-              style={{ position: "relative", left: -4, marginRight: -12, width:83,  borderRadius: "10px 0 0 10px" }}
+              style={{ position: "relative", left: -4, marginRight: -12, width: 83, borderRadius: "10px 0 0 10px" }}
               name="filtertype"
-              value={mpFilterType}
-              onChange={(e) => onChangeMpFilterType(e.target.value)}
+              value={mpFilterTypeKey}
+              onChange={(e) => onChangeMpFilterTypeKey(e.target.value)}
             >
-              {mpFilterTypes.map(i => <option disabled={i !== "Party"} key={i}>{i}:</option>)}
+              {mpFilterTypeKeys.map(i => <option disabled={i === "Votes"} key={i}>{i}:</option>)}
             </select>
-            
 
             <select
               className='select'
               style={{ borderRadius: "0 10px 10px 0" }}
               name="filtervalue"
-              value={party}
-              onChange={(e) => onChangeParty(e.target.value)}
+              value={mpFilterTypeValue}
+              onChange={(e) => onChangeMpFilterTypeValue(e.target.value)}
             >
-              {PARTY_NAMES.map(i => <option key={i}>{i}</option>)}
+              {mpFilterTypeOptions.map(i => <option key={i}>{i}</option>)}
             </select>
           </div>
         )}
@@ -386,7 +457,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
             onChange={(e) => setName(e.target.value)}
           />
           <button className='button iconbutton' onClick={type === "MP" ? onSearchMps : onSearchDivisions}>
-            Apply 
+            Apply
           </button>
         </div>
 
@@ -435,11 +506,11 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
       <div className="browse__grid">
 
         {Boolean(mps && mps.length) && filteredMps.map(i => (
-          <MpCard item={i} onQueryMp={onQueryMp} />
+          <MpCard item={i} onQueryMp={onQueryMp} key={i.name} />
         ))}
 
         {Boolean(divisions && divisions.length) && filteredDivisions.map(i => (
-          <DivisionCard item={i} onQueryDivision={onQueryDivision} />
+          <DivisionCard item={i} onQueryDivision={onQueryDivision} key={i.name} />
         ))}
 
       </div>
