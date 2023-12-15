@@ -90,8 +90,6 @@ const App = () => {
 
 	const onQueryDivision = async (id) => {
 
-		console.log("go ", id );
-
 		setPage('home');
 
 		setMpDetails(undefined);
@@ -111,11 +109,9 @@ const App = () => {
 			/>
 
 			<div className='container' ref={container}>
-
+			
 				{page === "home" && (
-
 					<>
-
 						<Search
 							setGlobalMessage={setGlobalMessage}
 							mpDetails={mpDetails}
@@ -130,10 +126,7 @@ const App = () => {
 							filterInProgress={filterInProgress}
 							setFilterInProgress={setFilterInProgress}
 						/>
-
 					</>
-
-
 				)}
 
 				{page === "insights" && (

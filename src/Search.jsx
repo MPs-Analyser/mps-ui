@@ -4,7 +4,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import MpDetails from './MpDetails';
 import DivisionDetails from './DivisionDetails';
 
-import Insights from "./Insights";
+import Browse from "./Browse";
 
 import "./styles/search.css";
 
@@ -137,14 +137,14 @@ const Search = ({
       </div>
 
       {mpDetails && Object.keys(mpDetails).length === 0 && divisionDetails && Object.keys(divisionDetails).length === 0 && (
-        <>
-        <h4 style={{ padding: 12, marginLeft: 4, paddingBottom: 0 }}>Or try out some general queries</h4>
-          <Insights
-            setGlobalMessage={setGlobalMessage}
-            onQueryDivision={onQueryDivision}
-            onQueryMp={onQueryMp}
-          />
-        </>
+        
+
+        <Browse
+						setGlobalMessage={setGlobalMessage}
+						onQueryDivision={onQueryDivision}
+						onQueryMp={onQueryMp}
+					/>
+        
       )}
 
       {!mpDetails && !divisionDetails && (
