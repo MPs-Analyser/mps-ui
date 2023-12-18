@@ -6,6 +6,8 @@ import "./styles/browse.css";
 
 import MpCard from './MpCard';
 import DivisionCard from './DivisionCard';
+import DivisionCardSkeleton from './DivisionCardSkeleton';
+import MpCardSkeleton from './MpCardSkeleton';
 
 import { PARTY_NAMES } from "./config/constants";
 
@@ -60,6 +62,9 @@ const divisionSortBy = [
   "Date"
 ]
 
+const skeletonArray = Array.from({ length: 100 }, (_, index) => index);
+
+
 const Browse = ({ onQueryDivision, onQueryMp }) => {
 
   //toolbar options
@@ -74,30 +79,30 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const [filterTypeKeys, setFilterTypeKeys] = useState(mpFilterTypeKeys);
 
   //mps
-  const [mps, setMps] = useState([]);
-  const [filteredMps, setFilteredMps] = useState([]);
+  const [mps, setMps] = useState();
+  const [filteredMps, setFilteredMps] = useState();
 
   //divisions
-  const [divisions, setDivisions] = useState([]);
-  const [filteredDivisions, setFilteredDivisions] = useState([]);
+  const [divisions, setDivisions] = useState();
+  const [filteredDivisions, setFilteredDivisions] = useState();
 
-  const onSearchMps = async ({party="Any"}) => {
+  const onSearchMps = async ({ party = "Any" }) => {
     console.log("onSearchMps ", filterTypeValue);
     console.log("party ", party);
 
     let paramKey = filterTypeKey;
     let paramValue = filterTypeValue;
-    if (filterTypeKey.endsWith(":")){
-      paramKey = filterTypeKey.slice(0,-1);
+    if (filterTypeKey.endsWith(":")) {
+      paramKey = filterTypeKey.slice(0, -1);
     }
     if (filterTypeKey === "Year:" && filterTypeValue === "Any") {
       paramValue = 0
     }
-    
 
-    
-    setDivisions([]);
-    setFilteredDivisions([]);
+
+
+    setDivisions(undefined);
+    setFilteredDivisions(undefined);
     console.log("call 1");
     let url = `${config.mpsApiUrl}searchMps?${paramKey.toLowerCase()}=${paramValue}`;
 
@@ -116,9 +121,9 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   };
 
 
-  const onSearchDivisions = async ({ category=filterTypeValue }) => {
-    setMps([]);
-    setFilteredMps([]);
+  const onSearchDivisions = async ({ category = filterTypeValue }) => {
+    setMps(undefined);
+    setFilteredMps(undefined);
 
     let url = `${config.mpsApiUrl}searchDivisions?category=${category}`;
     if (name) {
@@ -136,17 +141,17 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
 
     const onSearchAllMps = async () => {
 
-      setDivisions([]);
-      setFilteredDivisions([]);
-      
+      setDivisions(undefined);
+      setFilteredDivisions(undefined);
+
       let url = `${config.mpsApiUrl}searchMps?party=Any`;
-  
+
       const result = await ky(url).json();
-  
+
       setMps(result);
       setFilteredMps(result);
     };
-  
+
 
     //get all mps 
     onSearchAllMps();
@@ -157,8 +162,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   const onChangeType = (value) => {
 
     setType(value);
-    setFilterTypeValue("Any")       
-    
+    setFilterTypeValue("Any")
+
     if (value !== type) {
       if (value === 'MP') {
 
@@ -184,8 +189,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
 
     if (value !== filterTypeValue) {
       setMps(undefined);
-      setFilteredMps(undefined);    
-      
+      setFilteredMps(undefined);
+
       let url = `${config.mpsApiUrl}searchMps?party=${value}`;
       if (name) {
         url = `${url}&name=${name}`
@@ -219,7 +224,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   }
 
   const onChangeMpYear = async (value) => {
-    
+
     if (value !== filterTypeValue) {
       setMps(undefined);
       setFilteredMps(undefined);
@@ -247,7 +252,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
       if (name) {
         url = `${url}&name=${name}`
       }
-  
+
       const result = await ky(url).json();
 
       setMps(result);
@@ -257,7 +262,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
   }
 
   const onChangeDivisionCategory = async (value) => {
-    
+
     setDivisions(undefined);
     setFilteredDivisions(undefined);
 
@@ -379,7 +384,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
           result = [...divisions].sort((a, b) => (a.noCount + a.ayeCount) - (b.noCount + b.ayeCount));
         } else {
           result = [...divisions].sort((a, b) => (b.noCount + b.ayeCount) - (a.noCount + a.ayeCount));
-        }                
+        }
         setFilteredDivisions(result);
       } else if (value === "Date") {
         if (direction === "ASC") {
@@ -438,7 +443,7 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
     } else {
       if (filterTypeKey === "Category") {
         onChangeDivisionCategory(value);
-      } else if (filterTypeKey === "Year:") {        
+      } else if (filterTypeKey === "Year:") {
         onChangeDivisionYear(value);
       } else {
         console.log("unknown div type ", filterTypeKey);
@@ -601,6 +606,13 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
       </div>
 
       <div className="browse__grid">
+
+        
+        
+
+        {type === "MP" && !filteredMps && skeletonArray.map(() => <MpCardSkeleton />)}        
+        {type === "Division" && !filteredDivisions && skeletonArray.map(() => <DivisionCardSkeleton />)}
+
 
         {Boolean(mps && mps.length) && filteredMps.map(i => (
           <MpCard item={i} onQueryMp={onQueryMp} key={i.id} />

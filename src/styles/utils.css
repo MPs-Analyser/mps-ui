@@ -23,6 +23,10 @@
 	padding: 4px;
 }
 
+.icon {
+	color: var(--clr-dark);
+}
+
 .standalone-svg {
 	fill: var(--clr-dark);
 }
