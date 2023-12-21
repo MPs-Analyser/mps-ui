@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import * as React from 'react'
 import "./styles/browse.css";
 
 // import { config } from './app.config';
