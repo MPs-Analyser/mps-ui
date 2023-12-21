@@ -103,11 +103,11 @@
 
 @keyframes skeleton-loading {
     0% {
-        background-color: hsl(200, 20%, var(--clr-lightness));
+        background-color: hsl(200, 20%, var(--clr-lightness-light));
     }
 
     100% {
-        background-color: hsl(200, 20%, 95%);
+        background-color: hsl(200, 20%, var(--clr-lightness-dark));
     }
 }
 
@@ -136,7 +136,7 @@
 /* cards end */
 
 @container card (min-width: 200px) {
-    .browse__card__img {}
+    /* .browse__card__img {} */
 }
 
 @media (min-width: 700px) {

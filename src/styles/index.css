@@ -21,7 +21,9 @@
 	--height-search: 64px;
 	--height-nav: 54px;
 
-	--clr-lightness: 80%	
+	--clr-lightness-light: 90%;	
+	--clr-lightness-dark: 80%;	
+
 }
 
 .light-mode {
@@ -36,7 +38,10 @@
 	--clr-slate800: #1e293b;
 	--clr-lightgrey: #353434;
 	--clr-shadow: rgba(67,67,67,67.2);
-	--clr-lightness: 60%	
+
+	--clr-lightness-light: 20%;	
+	--clr-lightness-dark: 10%;
+
 }
 .light-mode > .button {
 	color: #070a13;

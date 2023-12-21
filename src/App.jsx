@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import NavBar from "./NavBar";
 import DivisionDetails from "./DivisionDetails";
-import About from "./About";
+import Parties from "./Parties";
 import Search from "./Search";
 import Insights from "./Insights";
 import Browse from "./Browse";
@@ -149,9 +149,9 @@ const App = () => {
 					<DivisionDetails
 						onHandleError={onHandleError}
 					/>
-				)}
+				)}				
 
-				{page === "about" && <About />}
+				{page === "parties" && <Parties />}
 
 				{globalMessage.type && <Toast message={globalMessage} />}
 			</div>
