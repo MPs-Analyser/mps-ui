@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import NavBar from "./NavBar";
 import DivisionDetails from "./DivisionDetails";
-import Parties from "./Parties";
+import PartiesPage from "./PartiesPage";
 import Search from "./Search";
 import Insights from "./Insights";
 import Browse from "./Browse";
@@ -151,7 +151,7 @@ const App = () => {
 					/>
 				)}				
 
-				{page === "parties" && <Parties />}
+				{page === "parties" && <PartiesPage />}
 
 				{globalMessage.type && <Toast message={globalMessage} />}
 			</div>
