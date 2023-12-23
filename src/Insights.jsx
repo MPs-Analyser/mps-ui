@@ -101,7 +101,6 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
     })
   ]
 
-
   const table = useReactTable({
     data,
     columns,

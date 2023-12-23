@@ -1,0 +1,16 @@
+.partiesPage {
+    padding-top: 0px;
+}
+
+.partiesPage__header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;    
+}
+
+@media (min-width: 1024px) {
+    .partiesPage {
+         padding-top: var(--height-nav); 
+    }
+    
+}
