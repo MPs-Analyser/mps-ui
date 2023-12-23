@@ -35,7 +35,10 @@ const Parties = () => {
       header: <span style={{ marginRight: 0 }}>Donation Count</span>
     }),
     columnHelper.accessor('totalDonationValue', {
-      cell: info => <i>{info.getValue()}</i>,
+      cell: info => <i>{new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GBP'
+      }).format(info.getValue())}</i>,
       header: <span style={{ marginRight: 0 }}>Donation value</span>
     }),
   ]
