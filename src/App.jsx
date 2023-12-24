@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import NavBar from "./NavBar";
 import DivisionDetails from "./DivisionDetails";
 import PartiesPage from "./PartiesPage";
+import DonarsPage from "./DonarsPage";
 import Search from "./Search";
 import Insights from "./Insights";
 import Browse from "./Browse";
@@ -23,6 +24,7 @@ const App = () => {
 	const [mpDetails, setMpDetails] = useState({});
 	const [divisionDetails, setDivisionDetails] = useState({});
 	const [votingSummary, setVotingSummary] = useState({});
+	const [partyDonations, setPartyDonations] = useState({});
 
 	const [filterInProgress, setFilterInProgress] = useState(false);
 
@@ -58,7 +60,7 @@ const App = () => {
 		document.querySelector(".wrapper input").focus();
 	};
 
-	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory = "Any", name= "Any") => {
+	const onGetVotingSummary = async (id, fromDate = EARLIEST_FROM_DATE, toDate, divisionCategory = "Any", name = "Any") => {
 
 		setFilterInProgress(true);
 
@@ -100,6 +102,20 @@ const App = () => {
 		setDivisionDetails(result)
 	}
 
+	const onQueryPartyDonars = async (i) => {
+		setPage('donars');
+		const donationsResponse = await ky(`${config.mpsApiUrl}donations?partyname=${i}`).json();
+		setPartyDonations(donationsResponse);
+
+		console.log("GO ", i);
+	}
+
+	const onQueryDonar = async (i) => {
+		console.log("query donar ", i);
+	}
+	
+
+
 	return (
 		<main>
 			<NavBar
@@ -109,7 +125,7 @@ const App = () => {
 			/>
 
 			<div className='container' ref={container}>
-			
+
 				{page === "home" && (
 					<>
 						<Search
@@ -149,9 +165,15 @@ const App = () => {
 					<DivisionDetails
 						onHandleError={onHandleError}
 					/>
-				)}				
+				)}
 
-				{page === "parties" && <PartiesPage />}
+				{page === "parties" && (
+					<PartiesPage onQueryPartyDonars={onQueryPartyDonars} />
+				)}
+
+				{page === "donars" && (
+					<DonarsPage partyDonations={partyDonations} onQueryDonar={onQueryDonar} />
+				)}
 
 				{globalMessage.type && <Toast message={globalMessage} />}
 			</div>

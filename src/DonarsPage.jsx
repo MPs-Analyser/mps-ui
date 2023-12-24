@@ -15,26 +15,26 @@ import {
 
 const columnHelper = createColumnHelper();
 
-const Parties = ({ onQueryPartyDonars }) => {
+const DonarsPage = ({ partyDonations, onQueryDonar }) => {
   
   const [donations, setDonations] = useState();
   const [sorting, setSorting] = useState([]);
 
   const columns = [
     columnHelper.accessor('partyName', {
-      cell: info => <span onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
+      cell: info => <span onClick={() => onQueryDonar(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
       header: <span style={{ marginRight: 0 }}>Party</span>
     }),
-    columnHelper.accessor("memberCount", {
-      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</i>,
+    columnHelper.accessor("donar", {
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{info.getValue()}</i>,
       header: <span style={{ marginRight: 0 }}>Member Count</span>
     }),
-    columnHelper.accessor('donationCount', {
-      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</i>,
+    columnHelper.accessor('donatedCout', {
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{info.getValue()}</i>,
       header: <span style={{ marginRight: 0 }}>Donation Count</span>
     }),
     columnHelper.accessor('totalDonationValue', {
-      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{new Intl.NumberFormat('en-GB', {
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{new Intl.NumberFormat('en-GB', {
         style: 'currency',
         currency: 'GBP'
       }).format(info.getValue())}</i>,
@@ -43,7 +43,7 @@ const Parties = ({ onQueryPartyDonars }) => {
   ]
 
   const table = useReactTable({
-    data: donations,
+    data: partyDonations,
     columns,
     state: {
       sorting
@@ -73,7 +73,6 @@ const Parties = ({ onQueryPartyDonars }) => {
       <div className="partiesPage__header">
         <h3>Total donations since 01-Jan-2000</h3>
       </div>
-
 
       {donations && (
         <table>
@@ -128,4 +127,4 @@ const Parties = ({ onQueryPartyDonars }) => {
   )
 }
 
-export default Parties;
+export default DonarsPage;
