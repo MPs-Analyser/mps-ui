@@ -111,9 +111,10 @@ const App = () => {
 	}
 
 	const onQueryDonar = async (i) => {
+		setPage("donarDetails")
 		console.log("query donar ", i);
 	}
-	
+
 
 
 	return (
@@ -173,6 +174,11 @@ const App = () => {
 
 				{page === "donars" && (
 					<DonarsPage partyDonations={partyDonations} onQueryDonar={onQueryDonar} />
+				)}
+
+
+				{page === "donarDetails" && (
+					<h1>donarDetails</h1>
 				)}
 
 				{globalMessage.type && <Toast message={globalMessage} />}
