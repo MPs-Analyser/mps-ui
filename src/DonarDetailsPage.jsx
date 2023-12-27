@@ -1,10 +1,62 @@
-// import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // import ky from 'ky-universal';
 // import { config } from './app.config';
 
+import {
+	createColumnHelper,
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+	getSortedRowModel
+} from '@tanstack/react-table'
+
+const columnHelper = createColumnHelper();
 
 const DonarDetailsPage = ({ donarDetails = [] }) => {
+
+	const [sorting, setSorting] = useState([]);
+
+	useEffect(() => {
+		console.log(donarDetails);
+	}, [donarDetails]);
+
+	const columns = [
+		columnHelper.accessor('donationType', {
+			cell: info => info.getValue(),
+			header: <span style={{ marginRight: 0 }}>Type</span>
+		}),
+		columnHelper.accessor("amount", {
+			cell: info => 
+				new Intl.NumberFormat('en-GB', {
+					style: 'currency',
+					currency: 'GBP'
+				}).format(info.getValue())
+			,
+			header: <span style={{ marginRight: 0 }}>Amount</span>
+		}),
+		columnHelper.accessor('receivedDate', {
+			cell: info => info.getValue().year.low,
+			header: <span style={{ marginRight: 0 }}>Date</span>
+		}),
+		columnHelper.accessor('partyName', {
+			cell: info => info.getValue(),
+			header: <span style={{ marginRight: 0 }}>Donation to</span>
+		})
+	]
+
+
+
+	const table = useReactTable({
+		data: donarDetails,
+		columns,
+		state: {
+			sorting
+		},
+		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
+	})
 
 	return (
 		<div className="donarDetailsPage" style={{ marginTop: 60 }}>
@@ -20,25 +72,53 @@ const DonarDetailsPage = ({ donarDetails = [] }) => {
 
 			<table>
 				<thead>
-					<tr>
-						<th>donationType</th>
-						<th>amount</th>
-						<th>date</th>
-					</tr>
+					{table.getHeaderGroups().map(headerGroup => (
+						<tr key={headerGroup.id}>
+							{headerGroup.headers.map(header => (
+								<th key={header.id}>
+									{header.isPlaceholder
+										? null
+										:
+										(
+											<div
+												{...{
+													className: header.column.getCanSort()
+														? 'cursor-pointer select-none votingHistory__table__header'
+														: 'votingHistory__table__header',
+													onClick: header.column.getToggleSortingHandler(),
+												}}
+												style={{ whiteSpace: 'nowrap' }}
+											>
+												{flexRender(
+													header.column.columnDef.header,
+													header.getContext()
+												)}
+												{{
+													asc: <svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 21l12-18 12 18z" /></svg>,
+													desc: <svg className='votingHistory__table__sort' width='16' height='16' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3l-12 18-12-18z" /></svg>,
+												}[header.column.getIsSorted()] ?? null}
+											</div>
+										)}
+								</th>
+							))}
+						</tr>
+					))}
 				</thead>
 				<tbody>
-					{/* {JSON.stringify(donarDetails)} */}
-					
-					{donarDetails && donarDetails.map(donation => (
-						<tr>
-							<td>{donation.donationType}</td>
-							<td>{donation.amount}</td>
-							<td>{donation.receivedDate.year.low}</td>							
+					{table.getRowModel().rows.map(row => (
+						// JSON.stringify(row)
+						<tr key={row.id}>
+							{row.getVisibleCells().map(cell => (
+								<td key={cell.id}>
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}									
+								</td>
+							))}
 						</tr>
 					))}
 				</tbody>
 			</table>
 		</div>
+
 
 	);
 };
