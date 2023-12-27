@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import DivisionDetails from "./DivisionDetails";
 import PartiesPage from "./PartiesPage";
 import DonarsPage from "./DonarsPage";
+import DonarDetailsPage from "./DonarDetailsPage";
 import Search from "./Search";
 import Insights from "./Insights";
 import Browse from "./Browse";
@@ -25,6 +26,7 @@ const App = () => {
 	const [divisionDetails, setDivisionDetails] = useState({});
 	const [votingSummary, setVotingSummary] = useState({});
 	const [partyDonations, setPartyDonations] = useState({});
+	const [donarDetails, setDonarDetails] = useState([]);
 
 	const [filterInProgress, setFilterInProgress] = useState(false);
 
@@ -111,11 +113,11 @@ const App = () => {
 	}
 
 	const onQueryDonar = async (i) => {
-		setPage("donarDetails")
 		console.log("query donar ", i);
+		setPage("donarDetails")
+		const result = await ky(`${config.mpsApiUrl}donations?donar=${i}`).json();
+		setDonarDetails(result);
 	}
-
-
 
 	return (
 		<main>
@@ -176,9 +178,8 @@ const App = () => {
 					<DonarsPage partyDonations={partyDonations} onQueryDonar={onQueryDonar} />
 				)}
 
-
 				{page === "donarDetails" && (
-					<h1>donarDetails</h1>
+					<DonarDetailsPage donarDetails={donarDetails} />
 				)}
 
 				{globalMessage.type && <Toast message={globalMessage} />}

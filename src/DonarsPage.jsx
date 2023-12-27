@@ -22,19 +22,19 @@ const DonarsPage = ({ partyDonations, onQueryDonar }) => {
 
   const columns = [
     columnHelper.accessor('partyName', {
-      cell: info => <span onClick={() => onQueryDonar(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
+      cell: info => <span onClick={() => onQueryDonar(info.row.original.donar)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
       header: <span style={{ marginRight: 0 }}>Party</span>
     }),
     columnHelper.accessor("donar", {
-      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{info.getValue()}</i>,
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.donar)}>{info.getValue()}</i>,
       header: <span style={{ marginRight: 0 }}>Member Count</span>
     }),
     columnHelper.accessor('donatedCout', {
-      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{info.getValue()}</i>,
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.donar)}>{info.getValue()}</i>,
       header: <span style={{ marginRight: 0 }}>Donation Count</span>
     }),
     columnHelper.accessor('totalDonationValue', {
-      cell: info => <i onClick={() => onQueryDonar(info.row.original.partyName)}>{new Intl.NumberFormat('en-GB', {
+      cell: info => <i onClick={() => onQueryDonar(info.row.original.donar)}>{new Intl.NumberFormat('en-GB', {
         style: 'currency',
         currency: 'GBP'
       }).format(info.getValue())}</i>,
