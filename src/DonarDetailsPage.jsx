@@ -1,8 +1,5 @@
 import { useState } from "react";
 
-// import ky from 'ky-universal';
-// import { config } from './app.config';
-
 import {
 	createColumnHelper,
 	flexRender,
@@ -16,10 +13,6 @@ const columnHelper = createColumnHelper();
 const DonarDetailsPage = ({ donarHeader, donarDetails }) => {
 
 	const [sorting, setSorting] = useState([]);
-
-	// useEffect(() => {
-	// 	console.log(donarHeader);
-	// }, [donarDetails]);
 
 	const columns = [
 		columnHelper.accessor('donationType', {

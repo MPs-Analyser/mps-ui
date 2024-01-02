@@ -117,9 +117,7 @@ const App = () => {
 	const onQueryDonar = async (donar, amount) => {
 		console.log("query donar ", donar, amount);
 		setPage("donarDetails")
-		const result = await ky(`${config.mpsApiUrl}donations?donar=${donar}`).json();
-		console.log("res ", result);
-
+		const result = await ky(`${config.mpsApiUrl}donations?donar=${donar}`).json();		
 
 		if (result && Array.isArray(result)) {
 
