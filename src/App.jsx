@@ -26,7 +26,9 @@ const App = () => {
 	const [divisionDetails, setDivisionDetails] = useState({});
 	const [votingSummary, setVotingSummary] = useState({});
 	const [partyDonations, setPartyDonations] = useState({});
+
 	const [donarDetails, setDonarDetails] = useState([]);
+	const [donarHeader, setDonarHeader] = useState([]);
 
 	const [filterInProgress, setFilterInProgress] = useState(false);
 
@@ -112,12 +114,39 @@ const App = () => {
 		console.log("GO ", i);
 	}
 
-	const onQueryDonar = async (i) => {
-		console.log("query donar ", i);
+	const onQueryDonar = async (donar, amount) => {
+		console.log("query donar ", donar, amount);
 		setPage("donarDetails")
-		const result = await ky(`${config.mpsApiUrl}donations?donar=${i}`).json();
-		setDonarDetails(result);
+		const result = await ky(`${config.mpsApiUrl}donations?donar=${donar}`).json();
+		console.log("res ", result);
+
+
+		if (result && Array.isArray(result)) {
+
+			const headerResult = {
+				donar: result[0].donar,
+				accountingUnitName: result[0].accountingUnitName,
+				postcode: result[0].postcode,
+				donorStatus: result[0].donorStatus,
+
+				totals: {}
+			};
+
+			result.forEach(i => {
+				if (headerResult.totals[i.partyName]) {
+					headerResult.totals[i.partyName] = headerResult.totals[i.partyName] + i.amount;
+				} else {
+					headerResult.totals[i.partyName] = i.amount;
+				}
+			});
+			
+			setDonarDetails(result);
+			setDonarHeader(headerResult);
+
+		}
+
 	}
+
 
 	return (
 		<main>
@@ -179,7 +208,7 @@ const App = () => {
 				)}
 
 				{page === "donarDetails" && (
-					<DonarDetailsPage donarDetails={donarDetails} />
+					<DonarDetailsPage donarDetails={donarDetails} donarHeader={donarHeader} />
 				)}
 
 				{globalMessage.type && <Toast message={globalMessage} />}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // import ky from 'ky-universal';
 // import { config } from './app.config';
@@ -13,13 +13,13 @@ import {
 
 const columnHelper = createColumnHelper();
 
-const DonarDetailsPage = ({ donarDetails = [] }) => {
+const DonarDetailsPage = ({ donarHeader, donarDetails }) => {
 
 	const [sorting, setSorting] = useState([]);
 
-	useEffect(() => {
-		console.log(donarDetails);
-	}, [donarDetails]);
+	// useEffect(() => {
+	// 	console.log(donarHeader);
+	// }, [donarDetails]);
 
 	const columns = [
 		columnHelper.accessor('donationType', {
@@ -27,7 +27,7 @@ const DonarDetailsPage = ({ donarDetails = [] }) => {
 			header: <span style={{ marginRight: 0 }}>Type</span>
 		}),
 		columnHelper.accessor("amount", {
-			cell: info => 
+			cell: info =>
 				new Intl.NumberFormat('en-GB', {
 					style: 'currency',
 					currency: 'GBP'
@@ -61,14 +61,21 @@ const DonarDetailsPage = ({ donarDetails = [] }) => {
 	return (
 		<div className="donarDetailsPage" style={{ marginTop: 60 }}>
 
-			{donarDetails[0] && (
-				<ul>
-					<li>{donarDetails[0].donar}</li>
-					<li>{donarDetails[0].accountingUnitName}</li>
-					<li>{donarDetails[0].postcode}</li>
-					<li>{donarDetails[0].donorStatus}</li>
-				</ul>
-			)}
+			<ul>
+				<li>{donarHeader.donar}</li>
+				<li>{donarHeader.accountingUnitName}</li>
+				<li>{donarHeader.postcode}</li>
+				<li>{donarHeader.donorStatus}</li>
+			</ul>
+
+			<h4 style={{ marginTop: 8, marginBottom: 0 }}>Totals</h4>
+			<ul>
+				{donarHeader.totals && Object.keys(donarHeader.totals).map(i => (<li key={i}>{i}: {donarHeader.totals[i]}</li>))}
+			</ul>
+
+
+			{JSON.stringify()}
+
 
 			<table>
 				<thead>
@@ -110,7 +117,7 @@ const DonarDetailsPage = ({ donarDetails = [] }) => {
 						<tr key={row.id}>
 							{row.getVisibleCells().map(cell => (
 								<td key={cell.id}>
-									{flexRender(cell.column.columnDef.cell, cell.getContext())}									
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
 								</td>
 							))}
 						</tr>
