@@ -63,7 +63,14 @@ const DonarDetailsPage = ({ donarHeader, donarDetails }) => {
 
 			<h4 style={{ marginTop: 8, marginBottom: 0 }}>Totals</h4>
 			<ul>
-				{donarHeader.totals && Object.keys(donarHeader.totals).map(i => (<li key={i}>{i}: {donarHeader.totals[i]}</li>))}
+				{donarHeader.totals && Object.keys(donarHeader.totals).map(i => (
+					<li key={i}>
+						{i}: {new Intl.NumberFormat('en-GB', {
+							style: 'currency',
+							currency: 'GBP'
+						}).format(donarHeader.totals[i])}
+					</li>
+				))}
 			</ul>
 
 

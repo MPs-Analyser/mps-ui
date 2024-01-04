@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import "./styles/partiesPage.css";
 
-import MultiDonationsTable from "./MultiDonationsTable";
-
-import { config } from './app.config';
-import ky from 'ky-universal';
+// import { config } from './app.config';
+// import ky from 'ky-universal';
 
 import {
   createColumnHelper,
@@ -17,37 +15,27 @@ import {
 
 const columnHelper = createColumnHelper();
 
-const Parties = ({ onQueryPartyDonars }) => {
-
-  const [donations, setDonations] = useState();
-  const [multiDonations, setMultiDonations] = useState([]);
+const MultiDonationsTable = ({ onQueryPartyDonars, multiDonations }) => {
+  
   const [sorting, setSorting] = useState([]);
-  const [tableType, setTableType] = useState("party");
   
   const columns = [
-    columnHelper.accessor('partyName', {
+    columnHelper.accessor('donor', {
       cell: info => <span onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
-      header: <span style={{ marginRight: 0 }}>Party</span>
+      header: <span style={{ marginRight: 0 }}>Donar</span>
     }),
-    columnHelper.accessor("memberCount", {
+    columnHelper.accessor("numberOfPartiesDonated", {
       cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</i>,
-      header: <span style={{ marginRight: 0 }}>Member Count</span>
+      header: <span style={{ marginRight: 0 }}>Party Count</span>
     }),
-    columnHelper.accessor('donationCount', {
-      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</i>,
-      header: <span style={{ marginRight: 0 }}>Donation Count</span>
-    }),
-    columnHelper.accessor('totalDonationValue', {
-      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{new Intl.NumberFormat('en-GB', {
-        style: 'currency',
-        currency: 'GBP'
-      }).format(info.getValue())}</i>,
-      header: <span style={{ marginRight: 0 }}>Donation value</span>
-    }),
+    columnHelper.accessor('partyNames', {
+      cell: info => <i onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue().join(", ")}</i>,
+      header: <span style={{ marginRight: 0 }}>Parties</span>
+    })
   ]
 
   const table = useReactTable({
-    data: donations,
+    data: multiDonations,
     columns,
     state: {
       sorting
@@ -57,47 +45,11 @@ const Parties = ({ onQueryPartyDonars }) => {
     onSortingChange: setSorting,
   })
 
-  const onQueryMultiPartyDonars = async () => {
-		setTableType('multi');
-		const response = await ky(`${config.mpsApiUrl}donations?multiparty=true`).json();
-		// setPartyDonations(donationsResponse);		
-		console.log(response);
-    setMultiDonations(response);
-	}
-	
-
-  const getParties = async () => {
-    setTableType("party");
-    const donationsResponse = await ky(`${config.mpsApiUrl}donations`).json();
-    setDonations(donationsResponse);
-  }
-
-
-  useEffect(() => {
-
-    const getPartiesLocal = async () => {
-
-      const donationsResponse = await ky(`${config.mpsApiUrl}donations`).json();
-      setDonations(donationsResponse);
-    }
-
-    getPartiesLocal();
-
-  }, []);
 
   return (
-    <div className="partiesPage">
+    <div className="multiDonationsTable">
 
-      <div className="partiesPage__header" style={{ }}>
-        <button onClick={tableType === "party" ? onQueryMultiPartyDonars : getParties}>{tableType === "party" ? "Multi Party Donars" : "Donations" }</button>
-        {tableType === "party" ? <h3>Total donations since 01-Jan-2000</h3> : <h3>Multi donations since 01-Jan-2000</h3>}        
-      </div>
-
-      {tableType === "multi" && (
-        <MultiDonationsTable multiDonations={multiDonations} />
-      )}
-
-      {tableType === "party"  && donations && (
+      {multiDonations && (
         <table>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
@@ -150,4 +102,4 @@ const Parties = ({ onQueryPartyDonars }) => {
   )
 }
 
-export default Parties;
+export default MultiDonationsTable;

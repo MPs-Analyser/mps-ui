@@ -109,9 +109,7 @@ const App = () => {
 	const onQueryPartyDonars = async (i) => {
 		setPage('donars');
 		const donationsResponse = await ky(`${config.mpsApiUrl}donations?partyname=${i}`).json();
-		setPartyDonations(donationsResponse);
-
-		console.log("GO ", i);
+		setPartyDonations(donationsResponse);		
 	}
 
 	const onQueryDonar = async (donar, amount) => {
@@ -204,7 +202,7 @@ const App = () => {
 				{page === "donars" && (
 					<DonarsPage partyDonations={partyDonations} onQueryDonar={onQueryDonar} />
 				)}
-
+				
 				{page === "donarDetails" && (
 					<DonarDetailsPage donarDetails={donarDetails} donarHeader={donarHeader} />
 				)}
