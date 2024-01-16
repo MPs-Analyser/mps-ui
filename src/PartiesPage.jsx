@@ -17,13 +17,14 @@ import {
 
 const columnHelper = createColumnHelper();
 
-const Parties = ({ onQueryPartyDonars }) => {
+const Parties = ({ onQueryPartyDonars, onSearchDonarNames }) => {
 
   const [donations, setDonations] = useState();
   const [multiDonations, setMultiDonations] = useState([]);
   const [sorting, setSorting] = useState([]);
   const [tableType, setTableType] = useState("party");
-  
+  const [donar, setDonar] = useState();
+
   const columns = [
     columnHelper.accessor('partyName', {
       cell: info => <span onClick={() => onQueryPartyDonars(info.row.original.partyName)} style={{ textWrap: 'nowrap' }}>{info.getValue()}</span>,
@@ -58,13 +59,13 @@ const Parties = ({ onQueryPartyDonars }) => {
   })
 
   const onQueryMultiPartyDonars = async () => {
-		setTableType('multi');
-		const response = await ky(`${config.mpsApiUrl}donations?multiparty=true`).json();
-		// setPartyDonations(donationsResponse);		
-		console.log(response);
+    setTableType('multi');
+    const response = await ky(`${config.mpsApiUrl}donations?multiparty=true`).json();
+    // setPartyDonations(donationsResponse);		
+    console.log(response);
     setMultiDonations(response);
-	}
-	
+  }
+
 
   const getParties = async () => {
     setTableType("party");
@@ -88,16 +89,35 @@ const Parties = ({ onQueryPartyDonars }) => {
   return (
     <div className="partiesPage">
 
-      <div className="partiesPage__header" style={{ }}>
-        <button onClick={tableType === "party" ? onQueryMultiPartyDonars : getParties}>{tableType === "party" ? "Multi Party Donars" : "Donations" }</button>
-        {tableType === "party" ? <h3>Total donations since 01-Jan-2000</h3> : <h3>Multi donations since 01-Jan-2000</h3>}        
+      <div className="partiesPage__header" style={{}}>
+        <button onClick={tableType === "party" ? onQueryMultiPartyDonars : getParties}>{tableType === "party" ? "Multi Party Donars" : "Donations"}</button>
+
+        <div className="donarSearchWraper">
+          <label htmlFor="donarSearch">Search donar:</label>
+          <input
+            type="search"
+            title="name"
+            placeholder="Search Donar"
+            className='input'
+            value={donar}
+            onChange={(e) => setDonar(e.target.value)}
+          />
+          <button
+            className='button'
+            onClick={() => onSearchDonarNames(donar)}
+          >
+            Go
+          </button>
+        </div>
+
+        {tableType === "party" ? <h3>Total donations since 01-Jan-2000</h3> : <h3>Multi donations since 01-Jan-2000</h3>}
       </div>
 
       {tableType === "multi" && (
         <MultiDonationsTable multiDonations={multiDonations} />
       )}
 
-      {tableType === "party"  && donations && (
+      {tableType === "party" && donations && (
         <table>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (

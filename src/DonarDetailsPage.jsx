@@ -15,6 +15,10 @@ const DonarDetailsPage = ({ donarHeader, donarDetails }) => {
 	const [sorting, setSorting] = useState([]);
 
 	const columns = [
+		columnHelper.accessor('donar', {
+			cell: info => info.getValue(),
+			header: <span style={{ marginRight: 0 }}>Donar</span>
+		}),
 		columnHelper.accessor('donationType', {
 			cell: info => info.getValue(),
 			header: <span style={{ marginRight: 0 }}>Type</span>
@@ -37,8 +41,6 @@ const DonarDetailsPage = ({ donarHeader, donarDetails }) => {
 			header: <span style={{ marginRight: 0 }}>Donation to</span>
 		})
 	]
-
-
 
 	const table = useReactTable({
 		data: donarDetails,

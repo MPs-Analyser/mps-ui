@@ -25,7 +25,7 @@ const App = () => {
 	const [mpDetails, setMpDetails] = useState({});
 	const [divisionDetails, setDivisionDetails] = useState({});
 	const [votingSummary, setVotingSummary] = useState({});
-	const [partyDonations, setPartyDonations] = useState({});
+	const [partyDonations, setPartyDonations] = useState({});	
 
 	const [donarDetails, setDonarDetails] = useState([]);
 	const [donarHeader, setDonarHeader] = useState([]);
@@ -112,6 +112,19 @@ const App = () => {
 		setPartyDonations(donationsResponse);		
 	}
 
+	const onSearchDonarNames = async (value) => {
+		setPage('donarDetails');
+		const donationsResponse = await ky(`${config.mpsApiUrl}donations?donar=${value}`).json();
+
+		const headerResult = {
+			donar: value,			
+			totals: {}
+		};
+
+		setDonarHeader(headerResult);
+		setDonarDetails(donationsResponse);
+	}
+
 	const onQueryDonar = async (donar, amount) => {
 		console.log("query donar ", donar, amount);
 		setPage("donarDetails")
@@ -196,7 +209,7 @@ const App = () => {
 				)}
 
 				{page === "parties" && (
-					<PartiesPage onQueryPartyDonars={onQueryPartyDonars} />
+					<PartiesPage onQueryPartyDonars={onQueryPartyDonars} onSearchDonarNames={onSearchDonarNames} />
 				)}
 
 				{page === "donars" && (
