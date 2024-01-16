@@ -89,7 +89,7 @@ const Parties = ({ onQueryPartyDonars, onSearchDonarNames }) => {
   return (
     <div className="partiesPage">
 
-      <div className="partiesPage__header" style={{}}>
+      <div className="partiesPage__header">
         <button onClick={tableType === "party" ? onQueryMultiPartyDonars : getParties}>{tableType === "party" ? "Multi Party Donars" : "Donations"}</button>
 
         <div className="donarSearchWraper">          
