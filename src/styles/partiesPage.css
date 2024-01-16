@@ -8,6 +8,12 @@
     padding: 12px;    
 }
 
+.donarSearchWraper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 @media (min-width: 1024px) {
     .partiesPage {
          padding-top: var(--height-nav); 

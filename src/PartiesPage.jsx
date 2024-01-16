@@ -92,8 +92,7 @@ const Parties = ({ onQueryPartyDonars, onSearchDonarNames }) => {
       <div className="partiesPage__header" style={{}}>
         <button onClick={tableType === "party" ? onQueryMultiPartyDonars : getParties}>{tableType === "party" ? "Multi Party Donars" : "Donations"}</button>
 
-        <div className="donarSearchWraper">
-          <label htmlFor="donarSearch">Search donar:</label>
+        <div className="donarSearchWraper">          
           <input
             type="search"
             title="name"
