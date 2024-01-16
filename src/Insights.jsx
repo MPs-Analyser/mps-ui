@@ -171,7 +171,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
             onChange={(e) => setType(e.target.value)}
             value={type}
           >
-            {types.aa.map(type => (
+            {types.map(type => (
               <option
                 value={type}
                 key={type}
