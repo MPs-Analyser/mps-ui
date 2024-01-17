@@ -1,0 +1,10 @@
+.errorpage {
+    padding: 12px;
+    display: flex;
+    width: 100%;
+    justify-content: center;    
+}
+
+.errorpage__text {
+    color: var(--clr-error);    
+}

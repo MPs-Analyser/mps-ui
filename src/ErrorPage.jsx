@@ -1,11 +1,14 @@
 import React from 'react'
 
-export default function ErrorPage({ error }) {
+import "./styles/errorpage.css";
+
+export default function ErrorPage() {
   return (
 
-  <div>
-    ErrorPage
-    <pre>{JSON.stringify(error)}</pre>
+  <div className='errorpage'>
+    
+    <p className='errorpage__text'>ooops something has gone wrong</p>
+        
   </div>
     
   )

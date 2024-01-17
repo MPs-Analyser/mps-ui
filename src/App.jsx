@@ -165,7 +165,7 @@ const App = () => {
 				onToggleSearchBar={onToggleSearchBar}
 			/>
 
-			<div className='container' ref={container}>
+			<div className='container' ref={container.a.b}>
 
 				{page === "home" && (
 					<>
