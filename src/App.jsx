@@ -21,6 +21,7 @@ import "./styles/utils.css";
 
 const App = () => {
 
+
 	const [page, setPage] = useState("home");
 	const [mpDetails, setMpDetails] = useState({});
 	const [divisionDetails, setDivisionDetails] = useState({});
@@ -153,9 +154,7 @@ const App = () => {
 			setDonarHeader(headerResult);
 
 		}
-
 	}
-
 
 	return (
 		<main>
@@ -168,7 +167,7 @@ const App = () => {
 			<div className='container' ref={container}>
 
 				{page === "home" && (
-					<>
+					<>												
 						<Search
 							setGlobalMessage={setGlobalMessage}
 							mpDetails={mpDetails}

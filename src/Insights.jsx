@@ -12,6 +12,8 @@ import { VOTING_CATEGORIES, EARLIEST_FROM_DATE } from "./config/constants";
 
 import ky from 'ky-universal';
 
+import useStore from './store';
+
 import {
   createColumnHelper,
   flexRender,
@@ -39,6 +41,8 @@ const voteTyps = [
 const columnHelper = createColumnHelper();
 
 const Insights = ({ onQueryDivision, onQueryMp }) => {
+
+  const globalState = useStore();
 
   const [data, setData] = useState([]);
   const [name, setName] = useState("");
@@ -161,6 +165,14 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
 
       <div className="wrapper">
 
+
+        <h1 style={{ color: 'red' }}>Bears are {globalState.bears}</h1>
+
+        <button onClick={globalState.increasePopulation}>Increment1</button>
+        <button onClick={() => globalState.addBears(10)}>Increment2</button>
+
+
+
         <div className="insights__query">
 
           <span className='fixedLabel'>Which</span>
@@ -186,7 +198,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           <input
             className="input fixedInput"
             type="search"
-            placeholder="includes text"            
+            placeholder="includes text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -220,24 +232,24 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
           )}
 
           {type === 'MP' && (
-            
-              <select
-                className="select fixedInput"
-                name="party"
-                onChange={(e) => setParty(e.target.value)}
-                value={party}
-              >
-                {Object.values(Party).filter(i => i !== "Unknown").map(i => (
-                  <option
-                    value={i}
-                    key={i}
-                  >
-                    {i}
-                  </option>
-                ))}
-              </select>
 
-            
+            <select
+              className="select fixedInput"
+              name="party"
+              onChange={(e) => setParty(e.target.value)}
+              value={party}
+            >
+              {Object.values(Party).filter(i => i !== "Unknown").map(i => (
+                <option
+                  value={i}
+                  key={i}
+                >
+                  {i}
+                </option>
+              ))}
+            </select>
+
+
           )}
 
 

@@ -610,8 +610,8 @@ const Browse = ({ onQueryDivision, onQueryMp }) => {
         
         
 
-        {type === "MP" && !filteredMps && skeletonArray.map(() => <MpCardSkeleton />)}        
-        {type === "Division" && !filteredDivisions && skeletonArray.map(() => <DivisionCardSkeleton />)}
+        {type === "MP" && !filteredMps && skeletonArray.map((item, index) => <MpCardSkeleton key={'skel-'+index} />)}        
+        {type === "Division" && !filteredDivisions && skeletonArray.map((item, index) => <DivisionCardSkeleton key={'skel'+index} />)}
 
 
         {Boolean(mps && mps.length) && filteredMps.map(i => (

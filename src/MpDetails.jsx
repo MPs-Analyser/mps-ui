@@ -16,6 +16,8 @@ import Switch from "./shared/Switch";
 
 import { config } from "./app.config";
 
+import useStore from './store';
+
 import {
 	Party,
 	EARLIEST_FROM_DATE,
@@ -33,6 +35,9 @@ const MpDetails = ({
 	filterInProgress,
 	setFilterInProgress
 }) => {
+
+	const globalState = useStore();
+
 	const [votingSimilarity, setVotingSimilarity] = useState();
 	const [votingHistory, setVotingHistory] = useState();
 	const [barChartData, setBarChartData] = useState();
@@ -45,10 +50,10 @@ const MpDetails = ({
 	const [limit, setLimit] = useState(10);
 
 	//filter values
-	const [fromDate, setFromDate] = useState(new Date(new Date(EARLIEST_FROM_DATE)).toISOString().substr(0, 10));
-	const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
-	const [divisionCategory, setDivisionCategory] = useState("Any");
-	const [name, setName] = useState("");
+	// const [fromDate, setFromDate] = useState(new Date(new Date(EARLIEST_FROM_DATE)).toISOString().substr(0, 10));
+	// const [toDate, setToDate] = useState(new Date().toISOString().substr(0, 10));
+	// const [divisionCategory, setDivisionCategory] = useState("Any");
+	// const [name, setName] = useState("");
 
 	const [progress, setProgress] = useState();
 
@@ -132,7 +137,7 @@ const MpDetails = ({
 			queryParams = `&partyIncludes=${includeParties}`;
 		}
 
-		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}${queryParams}`;
+		const url = `${config.mpsApiUrl}votingSimilarityNeo?limit=${limit}&orderby=${orderby}&name=${details?.value?.nameDisplayAs}&id=${details?.value?.id}&fromDate=${globalState.votefilter.from}&toDate=${globalState.votefilter.to}&category=${globalState.votefilter.type}${queryParams}`;
 
 		const result = await ky(url).json();
 
@@ -188,7 +193,7 @@ const MpDetails = ({
 		try {
 			const nameParam = name || "Any";
 			const response = await ky(
-				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${fromDate}&toDate=${toDate}&category=${divisionCategory}&name=${nameParam}`
+				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${globalState.votefilter.from}&toDate=${globalState.votefilter.to}&category=${globalState.votefilter.type}&name=${nameParam}`
 			).json();
 
 			const formattedResults = [];
@@ -214,16 +219,18 @@ const MpDetails = ({
 
 	const onChangeSummaryDatePicker = (type, value) => {
 		if (type === "from") {
-			setFromDate(value);
+			globalState.setVotefilterFrom(value);
+			// setFromDate(value);
 		} else {
-			setToDate(value);
+			globalState.setVotefilterTo(value);
+			// setToDate(value);
 		}
 	}
 
 	const onApplyFilter = async () => {
 		setFilterInProgress(true);
 		// onChangeSummaryDateRange(details?.value?.id, fromDate, toDate);
-		await onApplyGlobalFilter(details?.value?.id, fromDate, toDate, divisionCategory, name);
+		await onApplyGlobalFilter(details?.value?.id, globalState.votefilter.from, globalState.votefilter.to, globalState.votefilter.type, name);
 		// setFilterInProgress(false);
 	}
 
@@ -362,7 +369,7 @@ const MpDetails = ({
 									max={new Date().toISOString().substr(0, 10)}
 									name="from-date"
 									onChange={(e) => onChangeSummaryDatePicker("from", e.target.value)}
-									value={fromDate}
+									value={globalState.votefilter.from}
 								/>
 
 								<input
@@ -373,15 +380,15 @@ const MpDetails = ({
 									id="toDate"
 									name="to-date"
 									onChange={(e) => onChangeSummaryDatePicker("to", e.target.value)}
-									value={toDate}
+									value={globalState.votefilter.to}
 								/>
 							</div>
 
 							<div className="filterCategory__wrapper">
 								<label style={{ marginRight: 4 }} htmlFor="divisionCategory fixedLabel">Division Type:</label>
 								<select
-									value={divisionCategory}
-									onChange={(e) => setDivisionCategory(e.target.value)}
+									value={globalState.votefilter.type}
+									onChange={(e) => globalState.setVotefilterType(e.target.value)}
 									className="select insights__select"
 									name="divisionCategory"
 								>
@@ -401,9 +408,9 @@ const MpDetails = ({
 								<input
 									type="search"																		
 									placeholder="includes text"
-									className='input'
-									value={name}
-									onChange={(e) => setName(e.target.value)}
+									className='input'									
+									value={globalState.votefilter.title}
+									onChange={(e) => globalState.setVotefilterTitle(e.target.value)}									
 								/>								
 							</div>
 

@@ -5,6 +5,10 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from './ErrorPage';
 import './styles/index.css'
 
+import {enableMapSet} from "immer";
+
+enableMapSet();
+
 const logError = (error, info) => {
   console.log("Error is ", error );
   console.log("Info is ", info.componentStack );  
