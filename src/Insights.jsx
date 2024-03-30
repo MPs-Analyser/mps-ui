@@ -42,8 +42,6 @@ const columnHelper = createColumnHelper();
 
 const Insights = ({ onQueryDivision, onQueryMp }) => {
 
-  const globalState = useStore();
-
   const [data, setData] = useState([]);
   const [name, setName] = useState("");
   const [columns, setColumns] = useState([]);
@@ -164,15 +162,7 @@ const Insights = ({ onQueryDivision, onQueryMp }) => {
     <div className="insights">
 
       <div className="wrapper">
-
-
-        <h1 style={{ color: 'red' }}>Bears are {globalState.bears}</h1>
-
-        <button onClick={globalState.increasePopulation}>Increment1</button>
-        <button onClick={() => globalState.addBears(10)}>Increment2</button>
-
-
-
+      
         <div className="insights__query">
 
           <span className='fixedLabel'>Which</span>
