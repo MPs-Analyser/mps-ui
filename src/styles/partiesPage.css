@@ -14,6 +14,11 @@
     gap: 4px;
 }
 
+table tr :hover {
+    cursor: pointer;
+}
+
+
 @media (min-width: 1024px) {
     .partiesPage {
          padding-top: var(--height-nav); 

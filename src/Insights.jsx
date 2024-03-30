@@ -12,7 +12,7 @@ import { VOTING_CATEGORIES, EARLIEST_FROM_DATE } from "./config/constants";
 
 import ky from 'ky-universal';
 
-import useStore from './store';
+// import useStore from './store';
 
 import {
   createColumnHelper,

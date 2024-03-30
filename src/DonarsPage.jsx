@@ -27,7 +27,7 @@ const DonarsPage = ({ partyDonations, onQueryDonar }) => {
     }),
     columnHelper.accessor("donar", {
       cell: info => <i onClick={() => onQueryDonar(info.row.original.donar, info.row.original.totalDonationValue)}>{info.getValue()}</i>,
-      header: <span style={{ marginRight: 0 }}>Member Count</span>
+      header: <span style={{ marginRight: 0 }}>Donar</span>
     }),
     columnHelper.accessor('donatedCout', {
       cell: info => <i onClick={() => onQueryDonar(info.row.original.donar, info.row.original.totalDonationValue)}>{info.getValue()}</i>,
