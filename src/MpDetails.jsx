@@ -230,7 +230,7 @@ const MpDetails = ({
 	const onApplyFilter = async () => {
 		setFilterInProgress(true);
 		// onChangeSummaryDateRange(details?.value?.id, fromDate, toDate);
-		await onApplyGlobalFilter(details?.value?.id, globalState.votefilter.from, globalState.votefilter.to, globalState.votefilter.type, name);
+		await onApplyGlobalFilter(details?.value?.id, globalState.votefilter.from, globalState.votefilter.to, globalState.votefilter.type, globalState.votefilter.title);
 		// setFilterInProgress(false);
 	}
 
