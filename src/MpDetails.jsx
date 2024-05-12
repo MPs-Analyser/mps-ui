@@ -191,7 +191,7 @@ const MpDetails = ({
 		);
 
 		try {
-			const nameParam = name || "Any";
+			const nameParam = globalState.votefilter.title || "Any";
 			const response = await ky(
 				`${config.mpsApiUrl}votingDetailsNeo?id=${details?.value?.id}&type=${type}&fromDate=${globalState.votefilter.from}&toDate=${globalState.votefilter.to}&category=${globalState.votefilter.type}&name=${nameParam}`
 			).json();
